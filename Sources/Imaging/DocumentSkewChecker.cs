@@ -8,13 +8,14 @@
 // Alejandro Pirola, 2008
 // alejamp@gmail.com
 //
+using System;
+using System.Collections;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace AForge.Imaging
 {
-    using System;
-    using System.Collections;
-    using System.Drawing;
-    using System.Drawing.Imaging;
+
     
     /// <summary>
     /// Skew angle checker for scanned documents.
@@ -89,7 +90,7 @@ namespace AForge.Imaging
             get { return stepsPerDegree; }
             set
             {
-                stepsPerDegree = Math.Max( 1, Math.Min( 10, value ) );
+                stepsPerDegree = System.Math.Max( 1, System.Math.Min( 10, value ) );
                 needToInitialize = true;
             }
         }
@@ -113,7 +114,7 @@ namespace AForge.Imaging
             get { return maxSkewToDetect; }
             set
             {
-                maxSkewToDetect = Math.Max( 0, Math.Min( 45, value ) );
+                maxSkewToDetect = System.Math.Max( 0, System.Math.Min( 45, value ) );
                 needToInitialize = true;
             }
         }
@@ -158,7 +159,7 @@ namespace AForge.Imaging
         public int LocalPeakRadius
         {
             get { return localPeakRadius; }
-            set { localPeakRadius = Math.Max( 1, Math.Min( 10, value ) ); }
+            set { localPeakRadius = System.Math.Max( 1, System.Math.Min( 10, value ) ); }
         }
 
         /// <summary>
@@ -319,7 +320,7 @@ namespace AForge.Imaging
             int offset = image.Stride - rect.Width;
 
             // calculate Hough map's width
-            int halfHoughWidth = (int) Math.Sqrt( halfWidth * halfWidth + halfHeight * halfHeight );
+            int halfHoughWidth = (int)System.Math.Sqrt( halfWidth * halfWidth + halfHeight * halfHeight );
             int houghWidth = halfHoughWidth * 2;
 
             houghMap = new short[houghHeight, houghWidth];
@@ -396,7 +397,7 @@ namespace AForge.Imaging
         private HoughLine[] GetMostIntensiveLines( int count )
         {
             // lines count
-            int n = Math.Min( count, lines.Count );
+            int n = System.Math.Min( count, lines.Count );
 
             // result array
             HoughLine[] dst = new HoughLine[n];
@@ -483,7 +484,7 @@ namespace AForge.Imaging
                 needToInitialize = false;
 
                 houghHeight = (int) ( 2 * maxSkewToDetect * stepsPerDegree );
-                thetaStep = ( 2 * maxSkewToDetect * Math.PI / 180 ) / houghHeight;
+                thetaStep = ( 2 * maxSkewToDetect * System.Math.PI / 180 ) / houghHeight;
 
                 // precalculate Sine and Cosine values
                 sinMap = new double[houghHeight];
@@ -493,8 +494,8 @@ namespace AForge.Imaging
 
                 for ( int i = 0; i < houghHeight; i++ )
                 {
-                    sinMap[i] = Math.Sin( ( minTheta * Math.PI / 180 ) + ( i * thetaStep ) );
-                    cosMap[i] = Math.Cos( ( minTheta * Math.PI / 180 ) + ( i * thetaStep ) );
+                    sinMap[i] = System.Math.Sin( ( minTheta * System.Math.PI / 180 ) + ( i * thetaStep ) );
+                    cosMap[i] = System.Math.Cos( ( minTheta * System.Math.PI / 180 ) + ( i * thetaStep ) );
                 }
             }
         }

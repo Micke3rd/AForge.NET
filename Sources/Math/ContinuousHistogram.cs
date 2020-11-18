@@ -5,10 +5,12 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
+using System;
+using AForge;
+
 
 namespace AForge.Math
 {
-    using System;
 
     /// <summary>
     /// Histogram for continuous random values.
@@ -316,7 +318,7 @@ namespace AForge.Math
 
             if ( total != 0 )
             {
-                stdDev = (float) Math.Sqrt( sum / total );
+                stdDev = (float) System.Math.Sqrt( sum / total );
             }
 
             // calculate median

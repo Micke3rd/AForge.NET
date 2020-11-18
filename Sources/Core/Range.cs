@@ -5,10 +5,10 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
+using System;
 
 namespace AForge
 {
-    using System;
 
     /// <summary>
     /// Represents a range with minimum and maximum values, which are single precision numbers (floats).

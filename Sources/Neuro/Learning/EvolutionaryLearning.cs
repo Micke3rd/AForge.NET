@@ -5,13 +5,15 @@
 // Copyright © AForge.NET, 2007-2012
 // contacts@aforgenet.com
 //
+using System.Diagnostics;
+using AForge.Genetic;
+using AForge.Math.Random;
+using AForge;
+using System;
 
 namespace AForge.Neuro.Learning
 {
-    using System;
-    using System.Diagnostics;
-    using AForge.Genetic;
-    using AForge.Math.Random;
+
 
     /// <summary>
     /// Neural networks' evolutionary learning algorithm, which is based on Genetic Algorithms.
