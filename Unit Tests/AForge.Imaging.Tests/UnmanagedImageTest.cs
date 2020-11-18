@@ -206,7 +206,7 @@ namespace AForge.Imaging.Tests
         [TestCase( PixelFormat.Format16bppGrayScale )]
         [TestCase( PixelFormat.Format48bppRgb )]
         [TestCase( PixelFormat.Format64bppArgb )]
-        [TestCase( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
+        //[TestCase( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
         public void SetPixelTest( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
@@ -303,7 +303,7 @@ namespace AForge.Imaging.Tests
         [TestCase( PixelFormat.Format16bppGrayScale )]
         [TestCase( PixelFormat.Format48bppRgb )]
         [TestCase( PixelFormat.Format64bppArgb )]
-        [TestCase( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
+        //[TestCase( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
         public void SetPixelsTest( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
