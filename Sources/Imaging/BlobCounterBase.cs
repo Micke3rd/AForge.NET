@@ -5,14 +5,15 @@
 // Copyright © AForge.NET, 2005-2012
 // contacts@aforgenet.com
 //
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using AForge;
 
 namespace AForge.Imaging
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using AForge;
+
 
     /// <summary>
     /// Possible object orders.
@@ -1321,9 +1322,9 @@ namespace AForge.Imaging
                 blob.CenterOfGravity = new AForge.Point( (float) xc[j] / blobArea, (float) yc[j] / blobArea );
                 blob.ColorMean = Color.FromArgb( (byte) ( meanR[j] / blobArea ), (byte) ( meanG[j] / blobArea ), (byte) ( meanB[j] / blobArea ) );
                 blob.ColorStdDev = Color.FromArgb(
-                    (byte) ( Math.Sqrt( stdDevR[j] / blobArea - blob.ColorMean.R * blob.ColorMean.R ) ),
-                    (byte) ( Math.Sqrt( stdDevG[j] / blobArea - blob.ColorMean.G * blob.ColorMean.G ) ),
-                    (byte) ( Math.Sqrt( stdDevB[j] / blobArea - blob.ColorMean.B * blob.ColorMean.B ) ) );
+                    (byte) ( System.Math.Sqrt( stdDevR[j] / blobArea - blob.ColorMean.R * blob.ColorMean.R ) ),
+                    (byte) (System.Math.Sqrt( stdDevG[j] / blobArea - blob.ColorMean.G * blob.ColorMean.G ) ),
+                    (byte) (System.Math.Sqrt( stdDevB[j] / blobArea - blob.ColorMean.B * blob.ColorMean.B ) ) );
 
                 blobs.Add( blob );
             }

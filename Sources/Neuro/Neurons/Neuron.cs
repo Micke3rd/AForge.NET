@@ -8,7 +8,6 @@
 
 namespace AForge.Neuro
 {
-    using System;
     using AForge;
 
     /// <summary>
@@ -18,7 +17,7 @@ namespace AForge.Neuro
     /// <remarks>This is a base neuron class, which encapsulates such
     /// common properties, like neuron's input, output and weights.</remarks>
     /// 
-    [Serializable]
+    [System.Serializable]
     public abstract class Neuron
     {
         /// <summary>
@@ -125,7 +124,7 @@ namespace AForge.Neuro
         protected Neuron( int inputs )
         {
             // allocate weights
-            inputsCount = Math.Max( 1, inputs );
+            inputsCount = System.Math.Max( 1, inputs );
             weights = new double[inputsCount];
             // randomize the neuron
             Randomize( );

@@ -7,7 +7,6 @@
 
 namespace AForge.Imaging.Filters
 {
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -121,7 +120,7 @@ namespace AForge.Imaging.Filters
                 // for each pixel
                 for ( int x = startX; x < stopX; x++, ptr++ )
                 {
-                    *ptr = (byte) Math.Max( 0, Math.Min( 255, *ptr + generator.Next( ) ) );
+                    *ptr = (byte) System.Math.Max( 0, System.Math.Min( 255, *ptr + generator.Next( ) ) );
                 }
                 ptr += offset;
             }

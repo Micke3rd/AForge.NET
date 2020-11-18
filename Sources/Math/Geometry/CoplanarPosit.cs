@@ -5,12 +5,13 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
+using System;
+using AForge;
+using AForge.Math;
 
 namespace AForge.Math.Geometry
 {
-    using System;
-    using AForge;
-    using AForge.Math;
+    
 
     /// <summary>
     /// 3D pose estimation algorithm (coplanar case).

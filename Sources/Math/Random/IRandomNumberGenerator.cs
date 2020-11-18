@@ -5,10 +5,10 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
+using System;
 
 namespace AForge.Math.Random
 {
-    using System;
 
     /// <summary>
     /// Interface for random numbers generators.

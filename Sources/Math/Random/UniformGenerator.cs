@@ -8,9 +8,6 @@
 
 namespace AForge.Math.Random
 {
-    using System;
-    using AForge;
-
     /// <summary>
     /// Uniform random numbers generator.
     /// </summary>

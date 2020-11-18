@@ -4,15 +4,16 @@
 // Copyright © Andrew Kirillov, 2005-2008
 // andrew.kirillov@gmail.com
 //
+using System;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Text;
+using System.ComponentModel;
 
 namespace AForge.Imaging.Formats
 {
-    using System;
-    using System.IO;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.Text;
-    using System.ComponentModel;
+    
 
     /// <summary>
     /// Information about PNM image's frame.

@@ -8,7 +8,6 @@
 
 namespace AForge.Imaging
 {
-    using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
@@ -417,12 +416,12 @@ namespace AForge.Imaging
         {
             if ( maskFormat != PixelFormat.Format8bppIndexed )
             {
-                throw new ArgumentException( "Mask image must be 8 bpp grayscale image." );
+                throw new System.ArgumentException( "Mask image must be 8 bpp grayscale image." );
             }
 
             if ( ( maskSize.Width != sourceImageSize.Width ) || ( maskSize.Height != sourceImageSize.Height ) )
             {
-                throw new ArgumentException( "Mask must have the same size as the source image to get statistics for." );
+                throw new System.ArgumentException( "Mask must have the same size as the source image to get statistics for." );
             }
         }
     }

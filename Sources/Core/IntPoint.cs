@@ -5,11 +5,11 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
-
+using System;
+using System.ComponentModel;
 namespace AForge
 {
-    using System;
-    using System.ComponentModel;
+
 
     /// <summary>
     /// Structure for representing a pair of coordinates of integer type.
