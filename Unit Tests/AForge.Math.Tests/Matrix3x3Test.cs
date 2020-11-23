@@ -1,11 +1,11 @@
 ﻿using System;
 using AForge;
 using AForge.Math;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class Matrix3x3Test
     {
         private const float Epsilon = 0.000001f;
@@ -42,7 +42,7 @@ namespace AForge.Math.Tests
             a2.V22 = 1;
         }
 
-        [Test]
+        [TestMethod]
         public void ToArrayTest( )
         {
             Matrix3x3 matrix = new Matrix3x3( );
@@ -67,7 +67,7 @@ namespace AForge.Math.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public void CreateFromRowsTest( )
         {
             Vector3 row0 = new Vector3( 1, 2, 3 );
@@ -99,7 +99,7 @@ namespace AForge.Math.Tests
             );
         }
 
-        [Test]
+        [TestMethod]
         public void CreateFromColumnsTest( )
         {
             Vector3 column0 = new Vector3( 1, 4, 7 );
@@ -324,7 +324,7 @@ namespace AForge.Math.Tests
             Assert.AreEqual( true, ApproximateEquals( identity, Matrix3x3.Identity ) );
         }
 
-        [Test]
+        [TestMethod]
         public void AddMatricesTest( )
         {
             Matrix3x3 expectedResult = new Matrix3x3( );
@@ -346,7 +346,7 @@ namespace AForge.Math.Tests
             Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
-        [Test]
+        [TestMethod]
         public void SubtractMatricesTest( )
         {
             Matrix3x3 expectedResult = new Matrix3x3( );
@@ -368,7 +368,7 @@ namespace AForge.Math.Tests
             Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
-        [Test]
+        [TestMethod]
         public void MultiplyMatricesTest( )
         {
             Matrix3x3 expectedResult = new Matrix3x3( );

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using AForge;
 using AForge.Math.Metrics;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Metrics.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class MetricsTest
     {
         // test data
@@ -28,7 +28,7 @@ namespace AForge.Math.Metrics.Tests
         private double[] p5 = new double[] { 1, 3, 5, 6, 8, 9, 6, 4, 3, 2 };
         private double[] q5 = new double[] { 2, 5, 6, 6, 7, 7, 5, 3, 1, 1 };
 
-        [Test]
+        [TestMethod]
         public void CosineDistanceTest( )
         {
             CosineDistance dist = new CosineDistance( );
@@ -54,7 +54,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 0.031026, 0.00001 );
         }
 
-        [Test]
+        [TestMethod]
         public void CosineSimilarityTest( )
         {
             CosineSimilarity sim = new CosineSimilarity( );
@@ -80,7 +80,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 0.96897, 0.00001 );
         }
 
-        [Test]
+        [TestMethod]
         public void EuclideanDistanceTest( )
         {
             EuclideanDistance dist = new EuclideanDistance( );
@@ -106,7 +106,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 4.24264, 0.00001 );
         }
 
-        [Test]
+        [TestMethod]
         public void EuclideanSimilarityTest( )
         {
             EuclideanSimilarity sim = new EuclideanSimilarity( );
@@ -132,7 +132,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 0.19074, 0.00001 );
         }
 
-        [Test]
+        [TestMethod]
         public void HammingDistanceTest( )
         {
             HammingDistance dist = new HammingDistance( );
@@ -158,7 +158,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 9 );
         }
 
-        [Test]
+        [TestMethod]
         public void JaccardDistanceTest( )
         {
             JaccardDistance dist = new JaccardDistance( );
@@ -184,7 +184,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 0.9, 0.1 );
         }
 
-        [Test]
+        [TestMethod]
         public void ManhattanDistanceTest( )
         {
             ManhattanDistance dist = new ManhattanDistance( );
@@ -210,7 +210,7 @@ namespace AForge.Math.Metrics.Tests
             Assert.AreEqual( result, 12 );
         }
 
-        [Test]
+        [TestMethod]
         public void PearsonCorrelationTest( )
         {
             PearsonCorrelation sim = new PearsonCorrelation( );

@@ -1,11 +1,11 @@
 ﻿using System;
 using AForge;
 using AForge.Math;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class Matrix4x4Test
     {
         private const float Epsilon = 0.000001f;
@@ -58,7 +58,7 @@ namespace AForge.Math.Tests
             a2.V33 = 4;
         }
 
-        [Test]
+        [TestMethod]
         public void ToArrayTest( )
         {
             Matrix4x4 matrix = new Matrix4x4( );
@@ -91,7 +91,7 @@ namespace AForge.Math.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public void CreateFromRowsTest( )
         {
             Vector4 row0 = new Vector4( 1, 2, 3, 4 );
@@ -126,7 +126,7 @@ namespace AForge.Math.Tests
             );
         }
 
-        [Test]
+        [TestMethod]
         public void CreateFromColumnsTest( )
         {
             Vector4 column0 = new Vector4( 1, 5, 9, 13 );
@@ -308,7 +308,7 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        [Test]
+        [TestMethod]
         public void AddMatricesTest( )
         {
             Matrix4x4 expectedResult = new Matrix4x4( );
@@ -338,7 +338,7 @@ namespace AForge.Math.Tests
             Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
-        [Test]
+        [TestMethod]
         public void SubtractMatricesTest( )
         {
             Matrix4x4 expectedResult = new Matrix4x4( );
@@ -368,7 +368,7 @@ namespace AForge.Math.Tests
             Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
-        [Test]
+        [TestMethod]
         public void MultiplyMatricesTest( )
         {
             Matrix4x4 expectedResult = new Matrix4x4( );

@@ -1,11 +1,11 @@
 ﻿using System;
 using AForge;
 using AForge.Math;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class ToolsTest
     {
         

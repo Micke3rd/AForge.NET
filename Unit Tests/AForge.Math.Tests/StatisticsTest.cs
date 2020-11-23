@@ -1,14 +1,14 @@
 ﻿using System;
 using AForge;
 using AForge.Math;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class StatisticsTest
     {
-        [Test]
+        [TestMethod]
         public void ModeTest( )
         {
             int[] values = new int[] { 1, 2, 2, 3, 3, 3 };

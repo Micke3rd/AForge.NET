@@ -1,9 +1,9 @@
 ﻿using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Geometry.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class LineTest
     {
         private const float Error = 0.00001f;

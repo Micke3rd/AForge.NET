@@ -3,6 +3,10 @@
     
     <OutputType>Library</OutputType>
     
+    <AssemblyName>Core</AssemblyName>
+    
+    <RootNamespace>AForge</RootNamespace>
+    
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

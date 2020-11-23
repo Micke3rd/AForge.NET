@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using AForge;
 using AForge.Imaging;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Imaging.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class IntegralImageTest
     {
         private IntegralImage integralImage = null;
@@ -28,7 +28,7 @@ namespace AForge.Imaging.Tests
             integralImage = IntegralImage.FromBitmap( uImage );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 0, 0, 0, 0, 0u )]
         [TestCase( 0, 0, 1, 0, 1u )]
         [TestCase( 0, 0, 0, 1, 1u )]
@@ -43,7 +43,7 @@ namespace AForge.Imaging.Tests
             Assert.AreEqual( sum, expectedSum );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 0, 0, 0, 0, 0u )]
         [TestCase( 0, 0, 1, 0, 1u )]
         [TestCase( 0, 0, 0, 1, 1u )]
@@ -56,7 +56,7 @@ namespace AForge.Imaging.Tests
             Assert.AreEqual( sum, expectedSum );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 0, 0, 1, 2u )]
         [TestCase( 1, 1, 1, 4u )]
         [TestCase( 9, 9, 1, 2u )]
@@ -68,7 +68,7 @@ namespace AForge.Imaging.Tests
             Assert.AreEqual( sum, expectedSum );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 1, 1, 1, 4u )]
         [TestCase( 8, 8, 1, 4u )]
         [TestCase( 2, 1, 1, 5u )]
@@ -78,7 +78,7 @@ namespace AForge.Imaging.Tests
             Assert.AreEqual( sum, expectedSum );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 0, 0, 0, 0, 0 )]
         [TestCase( 0, 0, 1, 0, 0.5f )]
         [TestCase( 0, 0, 0, 1, 0.5f )]
@@ -94,7 +94,7 @@ namespace AForge.Imaging.Tests
             Assert.AreEqual( mean, expectedMean );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 1, 1, 1, 0 )]
         [TestCase( 1, 2, 1, 0 )]
         [TestCase( 2, 2, 1, 0 )]
@@ -109,7 +109,7 @@ namespace AForge.Imaging.Tests
             Assert.AreEqual( value, expectedValue );
         }
 
-        [Test]
+        [TestMethod]
         [TestCase( 1, 1, 1, 0 )]
         [TestCase( 1, 2, 1, 0 )]
         [TestCase( 2, 2, 1, 0 )]

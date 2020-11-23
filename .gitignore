@@ -168,3 +168,5 @@ Sources/Video.VFW/AForge.Video.VFW.xml
 Sources/Video.Ximea/AForge.Video.Ximea.xml
 Sources/Video/AForge.Video.xml
 Sources/Vision/AForge.Vision.xml
+
+.vs/

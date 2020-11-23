@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using AForge;
 using AForge.Math.Geometry;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Geometry.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class GrahamConvexHullTest
     {
         private List<IntPoint> pointsList0 = new List<IntPoint>( );
@@ -104,7 +104,7 @@ namespace AForge.Math.Geometry.Tests
             expectedHulls.Add( expectedHull8 );
         }
 
-        [Test]        
+        [TestMethod]        
         public void FindHullTest( )
         {
             GrahamConvexHull grahamHull = new GrahamConvexHull( );

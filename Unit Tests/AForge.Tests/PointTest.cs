@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class PointTest
     {
         [TestCase( 0, 0, 0 )]

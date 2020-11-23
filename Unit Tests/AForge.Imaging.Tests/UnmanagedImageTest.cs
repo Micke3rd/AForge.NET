@@ -4,14 +4,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using AForge;
 using AForge.Imaging;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Imaging.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class UnmanagedImageTest
     {
-        [Test]
+        [TestMethod]
         public void Collect8bppPixelValuesTest_Grayscale( )
         {
             // create grayscale image
@@ -71,7 +71,7 @@ namespace AForge.Imaging.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public void Collect8bppPixelValuesTest_RGB( )
         {
             // create grayscale image
@@ -147,7 +147,7 @@ namespace AForge.Imaging.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public void CollectActivePixelsTest( )
         {
             // create grayscale image
@@ -235,7 +235,7 @@ namespace AForge.Imaging.Tests
             Assert.IsTrue( pixels.Contains( new IntPoint( 160, 120 ) ) );
         }
 
-        [Test]
+        [TestMethod]
         public void SetGetPixelGrayscale( )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, PixelFormat.Format8bppIndexed );

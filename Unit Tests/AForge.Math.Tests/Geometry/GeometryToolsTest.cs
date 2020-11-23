@@ -1,11 +1,11 @@
 ﻿using System;
 using AForge;
 using AForge.Math.Geometry;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Geometry.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class GeometryToolsTest
     {
         

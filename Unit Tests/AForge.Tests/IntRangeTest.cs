@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class IntRangeTest
     {
         [TestCase( 0, 1, 1, 2, true )]

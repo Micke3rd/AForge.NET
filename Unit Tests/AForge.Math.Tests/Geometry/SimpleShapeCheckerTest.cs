@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using AForge;
 using AForge.Math.Geometry;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AForge.Math.Geometry.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class SimpleShapeCheckerTest
     {
         private SimpleShapeChecker shapeChecker = new SimpleShapeChecker( );
@@ -126,7 +126,7 @@ namespace AForge.Math.Geometry.Tests
             rectangledTriangle.Add( new IntPoint( 0, 50 ) );
         }
 
-        [Test]
+        [TestMethod]
         public void IsCircleTest( )
         {
             Assert.AreEqual( true, shapeChecker.IsCircle( idealCicle ) );
@@ -143,7 +143,7 @@ namespace AForge.Math.Geometry.Tests
             Assert.AreEqual( false, shapeChecker.IsCircle( rectangledTriangle ) );
         }
 
-        [Test]
+        [TestMethod]
         public void IsQuadrilateralTest( )
         {
             Assert.AreEqual( true, shapeChecker.IsQuadrilateral( square1 ) );
@@ -160,7 +160,7 @@ namespace AForge.Math.Geometry.Tests
             Assert.AreEqual( false, shapeChecker.IsQuadrilateral( rectangledTriangle ) );
         }
 
-        [Test]
+        [TestMethod]
         public void CheckQuadrilateralCornersTest( )
         {
             List<IntPoint> corners;
@@ -174,7 +174,7 @@ namespace AForge.Math.Geometry.Tests
             Assert.AreEqual( true, CompareShape( corners, square2Test ) );
         }
 
-        [Test]
+        [TestMethod]
         public void IsTriangleTest( )
         {
             Assert.AreEqual( true, shapeChecker.IsTriangle( triangle1 ) );
@@ -191,7 +191,7 @@ namespace AForge.Math.Geometry.Tests
             Assert.AreEqual( false, shapeChecker.IsTriangle( rectangle ) );
         }
 
-        [Test]
+        [TestMethod]
         public void IsConvexPolygon( )
         {
             List<IntPoint> corners;
@@ -218,7 +218,7 @@ namespace AForge.Math.Geometry.Tests
             Assert.AreEqual( false, shapeChecker.IsConvexPolygon( distorredCircle, out corners ) );
         }
 
-        [Test]
+        [TestMethod]
         public void CheckShapeTypeTest( )
         {
             Assert.AreEqual( ShapeType.Circle, shapeChecker.CheckShapeType( idealCicle ) );
