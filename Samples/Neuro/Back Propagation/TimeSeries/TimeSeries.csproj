@@ -4,6 +4,11 @@
     <OutputType>WinExe</OutputType><UseWindowsForms>true</UseWindowsForms>
     
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Sources\Controls\Controls.csproj" />
+    <ProjectReference Include="..\..\..\..\Sources\Core\Core.csproj" />
+    <ProjectReference Include="..\..\..\..\Sources\Neuro\Neuro.csproj" />
+  </ItemGroup>
 
 
 </Project>

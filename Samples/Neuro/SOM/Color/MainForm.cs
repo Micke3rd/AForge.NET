@@ -18,6 +18,7 @@ using System.Threading;
 using AForge;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
+using Range = AForge.Range;
 
 namespace Color
 {

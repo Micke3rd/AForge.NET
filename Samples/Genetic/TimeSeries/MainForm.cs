@@ -18,6 +18,7 @@ using System.Threading;
 using AForge;
 using AForge.Genetic;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace TimeSeries
 {

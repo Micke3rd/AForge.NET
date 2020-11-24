@@ -4,6 +4,10 @@
     <OutputType>WinExe</OutputType><UseWindowsForms>true</UseWindowsForms>
     
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Video.Ximea\Video.Ximea.csproj" />
+    <ProjectReference Include="..\..\..\Sources\Video\Video.csproj" />
+  </ItemGroup>
 
 
 </Project>

@@ -19,6 +19,7 @@ using AForge;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace TimeSeries
 {

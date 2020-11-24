@@ -113,13 +113,13 @@ namespace AForge.Math.Tests
             Assert.AreEqual( row3, matrix.GetRow( 3 ) );
 
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.ThrowsException<ArgumentException>( ( ) =>
             {
                 matrix.GetRow( -1 );
             }
             );
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.ThrowsException<ArgumentException>( ( ) =>
             {
                 matrix.GetRow( 4 );
             }
@@ -147,28 +147,20 @@ namespace AForge.Math.Tests
             Assert.AreEqual( column2, matrix.GetColumn( 2 ) );
             Assert.AreEqual( column3, matrix.GetColumn( 3 ) );
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.ThrowsException<ArgumentException>( ( ) =>
             {
                 matrix.GetColumn( -1 );
             }
             );
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.ThrowsException<ArgumentException>( ( ) =>
             {
                 matrix.GetColumn( 4 );
             }
             );
         }
 
-        
-        [TestCase( 0 )]
-        [TestCase( 30 )]
-        [TestCase( 45 )]
-        [TestCase( 60 )]
-        [TestCase( 90 )]
-        [TestCase( -30 )]
-        [TestCase( -90 )]
-        [TestCase( -180 )]
+        [DataTestMethod]        [DataRow( 0 )]        [DataRow( 30 )]        [DataRow( 45 )]        [DataRow( 60 )]        [DataRow( 90 )]        [DataRow( -30 )]        [DataRow( -90 )]        [DataRow( -180 )]
         public void CreateRotationYTest( float angle )
         {
             float radians = (float) ( angle * System.Math.PI / 180 );
@@ -188,15 +180,7 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        
-        [TestCase( 0 )]
-        [TestCase( 30 )]
-        [TestCase( 45 )]
-        [TestCase( 60 )]
-        [TestCase( 90 )]
-        [TestCase( -30 )]
-        [TestCase( -90 )]
-        [TestCase( -180 )]
+        [DataTestMethod]        [DataRow( 0 )]        [DataRow( 30 )]        [DataRow( 45 )]        [DataRow( 60 )]        [DataRow( 90 )]        [DataRow( -30 )]        [DataRow( -90 )]        [DataRow( -180 )]
         public void CreateRotationXTest( float angle )
         {
             float radians = (float) ( angle * System.Math.PI / 180 );
@@ -216,15 +200,7 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        
-        [TestCase( 0 )]
-        [TestCase( 30 )]
-        [TestCase( 45 )]
-        [TestCase( 60 )]
-        [TestCase( 90 )]
-        [TestCase( -30 )]
-        [TestCase( -90 )]
-        [TestCase( -180 )]
+        [DataTestMethod]        [DataRow( 0 )]        [DataRow( 30 )]        [DataRow( 45 )]        [DataRow( 60 )]        [DataRow( 90 )]        [DataRow( -30 )]        [DataRow( -90 )]        [DataRow( -180 )]
         public void CreateRotationZTest( float angle )
         {
             float radians = (float) ( angle * System.Math.PI / 180 );
@@ -244,15 +220,7 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        
-        [TestCase( 0, 0, 0 )]
-        [TestCase( 30, 45, 60 )]
-        [TestCase( 45, 60, 30 )]
-        [TestCase( 60, 30, 45 )]
-        [TestCase( 90, 90, 90 )]
-        [TestCase( -30, -60, -90 )]
-        [TestCase( -90, -135, -180 )]
-        [TestCase( -180, -30, -60 )]
+        [DataTestMethod]        [DataRow( 0, 0, 0 )]        [DataRow( 30, 45, 60 )]        [DataRow( 45, 60, 30 )]        [DataRow( 60, 30, 45 )]        [DataRow( 90, 90, 90 )]        [DataRow( -30, -60, -90 )]        [DataRow( -90, -135, -180 )]        [DataRow( -180, -30, -60 )]
         public void CreateFromYawPitchRollTest( float yaw, float pitch, float roll )
         {
             float radiansYaw   = (float) ( yaw   * System.Math.PI / 180 );
@@ -270,12 +238,7 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, rotationMatrix.ToArray( ) );
         }
 
-        
-        [TestCase( 0, 0, 0 )]
-        [TestCase( 30, 45, 60 )]
-        [TestCase( 45, 60, 30 )]
-        [TestCase( 60, 30, 45 )]
-        [TestCase( -30, -60, -90 )]
+        [DataTestMethod]        [DataRow( 0, 0, 0 )]        [DataRow( 30, 45, 60 )]        [DataRow( 45, 60, 30 )]        [DataRow( 60, 30, 45 )]        [DataRow( -30, -60, -90 )]
         public void ExtractYawPitchRollTest( float yaw, float pitch, float roll )
         {
             float radiansYaw   = (float) ( yaw   * System.Math.PI / 180 );
@@ -295,9 +258,7 @@ namespace AForge.Math.Tests
             Assert.AreEqual( radiansRoll,  extractedRoll,  Epsilon );
         }
 
-        
-        [TestCase( 1, 2, 3, 4 )]
-        [TestCase( -1, -2, -3, -4 )]
+        [DataTestMethod]        [DataRow( 1, 2, 3, 4 )]        [DataRow( -1, -2, -3, -4 )]
         public void CreateDiagonalTest( float v00, float v11, float v22, float v33 )
         {
             Vector4 diagonal = new Vector4( v00, v11, v22, v33 );

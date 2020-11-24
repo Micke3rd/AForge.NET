@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-using TeRKIceLib = TeRK;
+//using TeRKIceLib = TeRK;
 
 namespace AForge.Robotics.TeRK
 {

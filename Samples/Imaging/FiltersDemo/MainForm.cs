@@ -18,6 +18,8 @@ using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Imaging.Textures;
+using Range = AForge.Range;
+using System.Windows.Controls;
 
 namespace FiltersDemo
 {
@@ -26,49 +28,49 @@ namespace FiltersDemo
     /// </summary>
     public class MainForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.MenuItem fileItem;
-        private System.Windows.Forms.MenuItem openFileItem;
-        private System.Windows.Forms.MenuItem menuItem3;
-        private System.Windows.Forms.MenuItem exitFilrItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.PictureBox pictureBox;
+        private MenuItem fileItem;
+        private MenuItem openFileItem;
+        private MenuItem menuItem3;
+        private MenuItem exitFilrItem;
         private System.Windows.Forms.MainMenu mainMenu;
-        private System.Windows.Forms.MenuItem sizeItem;
-        private System.Windows.Forms.MenuItem normalSizeItem;
-        private System.Windows.Forms.MenuItem stretchedSizeItem;
-        private System.Windows.Forms.MenuItem centeredSizeItem;
-        private System.Windows.Forms.MenuItem filtersItem;
-        private System.Windows.Forms.MenuItem noneFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem sepiaFiltersItem;
-        private System.Windows.Forms.MenuItem invertFiltersItem;
-        private System.Windows.Forms.MenuItem rotateChannelFiltersItem;
-        private System.Windows.Forms.MenuItem grayscaleFiltersItem;
-        private System.Windows.Forms.MenuItem colorFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem hueModifierFiltersItem;
-        private System.Windows.Forms.MenuItem saturationAdjustingFiltersItem;
-        private System.Windows.Forms.MenuItem brightnessAdjustingFiltersItem;
-        private System.Windows.Forms.MenuItem contrastAdjustingFiltersItem;
-        private System.Windows.Forms.MenuItem hslFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.MenuItem yCbCrLinearFiltersItem;
-        private System.Windows.Forms.MenuItem yCbCrFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem5;
-        private System.Windows.Forms.MenuItem thresholdFiltersItem;
-        private System.Windows.Forms.MenuItem floydFiltersItem;
-        private System.Windows.Forms.MenuItem orderedDitheringFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem6;
-        private System.Windows.Forms.MenuItem convolutionFiltersItem;
-        private System.Windows.Forms.MenuItem sharpenFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem7;
-        private System.Windows.Forms.MenuItem differenceEdgesFiltersItem;
-        private System.Windows.Forms.MenuItem homogenityEdgesFiltersItem;
-        private System.Windows.Forms.MenuItem sobelEdgesFiltersItem;
-        private System.Windows.Forms.MenuItem rgbLinearFiltersItem;
-        private System.Windows.Forms.MenuItem menuItem8;
-        private System.Windows.Forms.MenuItem jitterFiltersItem;
-        private System.Windows.Forms.MenuItem oilFiltersItem;
+        private MenuItem sizeItem;
+        private MenuItem normalSizeItem;
+        private MenuItem stretchedSizeItem;
+        private MenuItem centeredSizeItem;
+        private MenuItem filtersItem;
+        private MenuItem noneFiltersItem;
+        private MenuItem menuItem1;
+        private MenuItem sepiaFiltersItem;
+        private MenuItem invertFiltersItem;
+        private MenuItem rotateChannelFiltersItem;
+        private MenuItem grayscaleFiltersItem;
+        private MenuItem colorFiltersItem;
+        private MenuItem menuItem2;
+        private MenuItem hueModifierFiltersItem;
+        private MenuItem saturationAdjustingFiltersItem;
+        private MenuItem brightnessAdjustingFiltersItem;
+        private MenuItem contrastAdjustingFiltersItem;
+        private MenuItem hslFiltersItem;
+        private MenuItem menuItem4;
+        private MenuItem yCbCrLinearFiltersItem;
+        private MenuItem yCbCrFiltersItem;
+        private MenuItem menuItem5;
+        private MenuItem thresholdFiltersItem;
+        private MenuItem floydFiltersItem;
+        private MenuItem orderedDitheringFiltersItem;
+        private MenuItem menuItem6;
+        private MenuItem convolutionFiltersItem;
+        private MenuItem sharpenFiltersItem;
+        private MenuItem menuItem7;
+        private MenuItem differenceEdgesFiltersItem;
+        private MenuItem homogenityEdgesFiltersItem;
+        private MenuItem sobelEdgesFiltersItem;
+        private MenuItem rgbLinearFiltersItem;
+        private MenuItem menuItem8;
+        private MenuItem jitterFiltersItem;
+        private MenuItem oilFiltersItem;
         private MenuItem gaussianFiltersItem;
         private MenuItem textureFiltersItem;
         private IContainer components;
@@ -112,48 +114,48 @@ namespace FiltersDemo
         {
             this.components = new System.ComponentModel.Container( );
             this.mainMenu = new System.Windows.Forms.MainMenu( this.components );
-            this.fileItem = new System.Windows.Forms.MenuItem( );
-            this.openFileItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem3 = new System.Windows.Forms.MenuItem( );
-            this.exitFilrItem = new System.Windows.Forms.MenuItem( );
-            this.filtersItem = new System.Windows.Forms.MenuItem( );
-            this.noneFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem1 = new System.Windows.Forms.MenuItem( );
-            this.grayscaleFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.sepiaFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.invertFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.rotateChannelFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.colorFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.rgbLinearFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem2 = new System.Windows.Forms.MenuItem( );
-            this.hueModifierFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.saturationAdjustingFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.brightnessAdjustingFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.contrastAdjustingFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.hslFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem4 = new System.Windows.Forms.MenuItem( );
-            this.yCbCrLinearFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.yCbCrFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem5 = new System.Windows.Forms.MenuItem( );
-            this.thresholdFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.floydFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.orderedDitheringFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem6 = new System.Windows.Forms.MenuItem( );
-            this.convolutionFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.sharpenFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.gaussianFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem7 = new System.Windows.Forms.MenuItem( );
-            this.differenceEdgesFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.homogenityEdgesFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.sobelEdgesFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.menuItem8 = new System.Windows.Forms.MenuItem( );
-            this.jitterFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.oilFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.textureFiltersItem = new System.Windows.Forms.MenuItem( );
-            this.sizeItem = new System.Windows.Forms.MenuItem( );
-            this.normalSizeItem = new System.Windows.Forms.MenuItem( );
-            this.stretchedSizeItem = new System.Windows.Forms.MenuItem( );
-            this.centeredSizeItem = new System.Windows.Forms.MenuItem( );
+            this.fileItem = new MenuItem( );
+            this.openFileItem = new MenuItem( );
+            this.menuItem3 = new MenuItem( );
+            this.exitFilrItem = new MenuItem( );
+            this.filtersItem = new MenuItem( );
+            this.noneFiltersItem = new MenuItem( );
+            this.menuItem1 = new MenuItem( );
+            this.grayscaleFiltersItem = new MenuItem( );
+            this.sepiaFiltersItem = new MenuItem( );
+            this.invertFiltersItem = new MenuItem( );
+            this.rotateChannelFiltersItem = new MenuItem( );
+            this.colorFiltersItem = new MenuItem( );
+            this.rgbLinearFiltersItem = new MenuItem( );
+            this.menuItem2 = new MenuItem( );
+            this.hueModifierFiltersItem = new MenuItem( );
+            this.saturationAdjustingFiltersItem = new MenuItem( );
+            this.brightnessAdjustingFiltersItem = new MenuItem( );
+            this.contrastAdjustingFiltersItem = new MenuItem( );
+            this.hslFiltersItem = new MenuItem( );
+            this.menuItem4 = new MenuItem( );
+            this.yCbCrLinearFiltersItem = new MenuItem( );
+            this.yCbCrFiltersItem = new MenuItem( );
+            this.menuItem5 = new MenuItem( );
+            this.thresholdFiltersItem = new MenuItem( );
+            this.floydFiltersItem = new MenuItem( );
+            this.orderedDitheringFiltersItem = new MenuItem( );
+            this.menuItem6 = new MenuItem( );
+            this.convolutionFiltersItem = new MenuItem( );
+            this.sharpenFiltersItem = new MenuItem( );
+            this.gaussianFiltersItem = new MenuItem( );
+            this.menuItem7 = new MenuItem( );
+            this.differenceEdgesFiltersItem = new MenuItem( );
+            this.homogenityEdgesFiltersItem = new MenuItem( );
+            this.sobelEdgesFiltersItem = new MenuItem( );
+            this.menuItem8 = new MenuItem( );
+            this.jitterFiltersItem = new MenuItem( );
+            this.oilFiltersItem = new MenuItem( );
+            this.textureFiltersItem = new MenuItem( );
+            this.sizeItem = new MenuItem( );
+            this.normalSizeItem = new MenuItem( );
+            this.stretchedSizeItem = new MenuItem( );
+            this.centeredSizeItem = new MenuItem( );
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog( );
             this.pictureBox = new System.Windows.Forms.PictureBox( );
             ( (System.ComponentModel.ISupportInitialize) ( this.pictureBox ) ).BeginInit( );
@@ -161,7 +163,7 @@ namespace FiltersDemo
             // 
             // mainMenu
             // 
-            this.mainMenu.MenuItems.AddRange( new System.Windows.Forms.MenuItem[] {
+            this.mainMenu.MenuItems.AddRange( new MenuItem[] {
             this.fileItem,
             this.filtersItem,
             this.sizeItem} );
@@ -169,7 +171,7 @@ namespace FiltersDemo
             // fileItem
             // 
             this.fileItem.Index = 0;
-            this.fileItem.MenuItems.AddRange( new System.Windows.Forms.MenuItem[] {
+            this.fileItem.MenuItems.AddRange( new MenuItem[] {
             this.openFileItem,
             this.menuItem3,
             this.exitFilrItem} );
@@ -180,7 +182,7 @@ namespace FiltersDemo
             this.openFileItem.Index = 0;
             this.openFileItem.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
             this.openFileItem.Text = "&Open";
-            this.openFileItem.Click += new System.EventHandler( this.openFileItem_Click );
+            this.openFileItem.Click += new System.Windows.RoutedEventHandler( this.openFileItem_Click );
             // 
             // menuItem3
             // 
@@ -191,13 +193,13 @@ namespace FiltersDemo
             // 
             this.exitFilrItem.Index = 2;
             this.exitFilrItem.Text = "E&xit";
-            this.exitFilrItem.Click += new System.EventHandler( this.exitFilrItem_Click );
+            this.exitFilrItem.Click += new System.Windows.RoutedEventHandler( this.exitFilrItem_Click );
             // 
             // filtersItem
             // 
             this.filtersItem.Enabled = false;
             this.filtersItem.Index = 1;
-            this.filtersItem.MenuItems.AddRange( new System.Windows.Forms.MenuItem[] {
+            this.filtersItem.MenuItems.AddRange( new MenuItem[] {
             this.noneFiltersItem,
             this.menuItem1,
             this.grayscaleFiltersItem,
@@ -237,7 +239,7 @@ namespace FiltersDemo
             // 
             this.noneFiltersItem.Index = 0;
             this.noneFiltersItem.Text = "&None";
-            this.noneFiltersItem.Click += new System.EventHandler( this.noneFiltersItem_Click );
+            this.noneFiltersItem.Click += new System.Windows.RoutedEventHandler( this.noneFiltersItem_Click );
             // 
             // menuItem1
             // 
@@ -248,37 +250,37 @@ namespace FiltersDemo
             // 
             this.grayscaleFiltersItem.Index = 2;
             this.grayscaleFiltersItem.Text = "&Grayscale";
-            this.grayscaleFiltersItem.Click += new System.EventHandler( this.grayscaleFiltersItem_Click );
+            this.grayscaleFiltersItem.Click += new System.Windows.RoutedEventHandler( this.grayscaleFiltersItem_Click );
             // 
             // sepiaFiltersItem
             // 
             this.sepiaFiltersItem.Index = 3;
             this.sepiaFiltersItem.Text = "&Sepia";
-            this.sepiaFiltersItem.Click += new System.EventHandler( this.sepiaFiltersItem_Click );
+            this.sepiaFiltersItem.Click += new System.Windows.RoutedEventHandler( this.sepiaFiltersItem_Click );
             // 
             // invertFiltersItem
             // 
             this.invertFiltersItem.Index = 4;
             this.invertFiltersItem.Text = "&Invert";
-            this.invertFiltersItem.Click += new System.EventHandler( this.invertFiltersItem_Click );
+            this.invertFiltersItem.Click += new System.Windows.RoutedEventHandler( this.invertFiltersItem_Click );
             // 
             // rotateChannelFiltersItem
             // 
             this.rotateChannelFiltersItem.Index = 5;
             this.rotateChannelFiltersItem.Text = "&Rotate channel";
-            this.rotateChannelFiltersItem.Click += new System.EventHandler( this.rotateChannelFiltersItem_Click );
+            this.rotateChannelFiltersItem.Click += new System.Windows.RoutedEventHandler( this.rotateChannelFiltersItem_Click );
             // 
             // colorFiltersItem
             // 
             this.colorFiltersItem.Index = 6;
             this.colorFiltersItem.Text = "Color filtering";
-            this.colorFiltersItem.Click += new System.EventHandler( this.colorFiltersItem_Click );
+            this.colorFiltersItem.Click += new System.Windows.RoutedEventHandler( this.colorFiltersItem_Click );
             // 
             // rgbLinearFiltersItem
             // 
             this.rgbLinearFiltersItem.Index = 7;
             this.rgbLinearFiltersItem.Text = "Levels linear correction";
-            this.rgbLinearFiltersItem.Click += new System.EventHandler( this.rgbLinearFiltersItem_Click );
+            this.rgbLinearFiltersItem.Click += new System.Windows.RoutedEventHandler( this.rgbLinearFiltersItem_Click );
             // 
             // menuItem2
             // 
@@ -289,31 +291,31 @@ namespace FiltersDemo
             // 
             this.hueModifierFiltersItem.Index = 9;
             this.hueModifierFiltersItem.Text = "Hue modifier";
-            this.hueModifierFiltersItem.Click += new System.EventHandler( this.hueModifierFiltersItem_Click );
+            this.hueModifierFiltersItem.Click += new System.Windows.RoutedEventHandler( this.hueModifierFiltersItem_Click );
             // 
             // saturationAdjustingFiltersItem
             // 
             this.saturationAdjustingFiltersItem.Index = 10;
             this.saturationAdjustingFiltersItem.Text = "Saturation adjusting";
-            this.saturationAdjustingFiltersItem.Click += new System.EventHandler( this.saturationAdjustingFiltersItem_Click );
+            this.saturationAdjustingFiltersItem.Click += new System.Windows.RoutedEventHandler( this.saturationAdjustingFiltersItem_Click );
             // 
             // brightnessAdjustingFiltersItem
             // 
             this.brightnessAdjustingFiltersItem.Index = 11;
             this.brightnessAdjustingFiltersItem.Text = "Brightness adjusting";
-            this.brightnessAdjustingFiltersItem.Click += new System.EventHandler( this.brightnessAdjustingFiltersItem_Click );
+            this.brightnessAdjustingFiltersItem.Click += new System.Windows.RoutedEventHandler( this.brightnessAdjustingFiltersItem_Click );
             // 
             // contrastAdjustingFiltersItem
             // 
             this.contrastAdjustingFiltersItem.Index = 12;
             this.contrastAdjustingFiltersItem.Text = "Contrast adjusting";
-            this.contrastAdjustingFiltersItem.Click += new System.EventHandler( this.contrastAdjustingFiltersItem_Click );
+            this.contrastAdjustingFiltersItem.Click += new System.Windows.RoutedEventHandler( this.contrastAdjustingFiltersItem_Click );
             // 
             // hslFiltersItem
             // 
             this.hslFiltersItem.Index = 13;
             this.hslFiltersItem.Text = "HSL filtering";
-            this.hslFiltersItem.Click += new System.EventHandler( this.hslFiltersItem_Click );
+            this.hslFiltersItem.Click += new System.Windows.RoutedEventHandler( this.hslFiltersItem_Click );
             // 
             // menuItem4
             // 
@@ -324,13 +326,13 @@ namespace FiltersDemo
             // 
             this.yCbCrLinearFiltersItem.Index = 15;
             this.yCbCrLinearFiltersItem.Text = "YCbCr linear correction";
-            this.yCbCrLinearFiltersItem.Click += new System.EventHandler( this.yCbCrLinearFiltersItem_Click );
+            this.yCbCrLinearFiltersItem.Click += new System.Windows.RoutedEventHandler( this.yCbCrLinearFiltersItem_Click );
             // 
             // yCbCrFiltersItem
             // 
             this.yCbCrFiltersItem.Index = 16;
             this.yCbCrFiltersItem.Text = "YCbCr filtering";
-            this.yCbCrFiltersItem.Click += new System.EventHandler( this.yCbCrFiltersItem_Click );
+            this.yCbCrFiltersItem.Click += new System.Windows.RoutedEventHandler( this.yCbCrFiltersItem_Click );
             // 
             // menuItem5
             // 
@@ -341,19 +343,19 @@ namespace FiltersDemo
             // 
             this.thresholdFiltersItem.Index = 18;
             this.thresholdFiltersItem.Text = "Threshold &binarization";
-            this.thresholdFiltersItem.Click += new System.EventHandler( this.thresholdFiltersItem_Click );
+            this.thresholdFiltersItem.Click += new System.Windows.RoutedEventHandler( this.thresholdFiltersItem_Click );
             // 
             // floydFiltersItem
             // 
             this.floydFiltersItem.Index = 19;
             this.floydFiltersItem.Text = "Floyd-Steinberg dithering";
-            this.floydFiltersItem.Click += new System.EventHandler( this.floydFiltersItem_Click );
+            this.floydFiltersItem.Click += new System.Windows.RoutedEventHandler( this.floydFiltersItem_Click );
             // 
             // orderedDitheringFiltersItem
             // 
             this.orderedDitheringFiltersItem.Index = 20;
             this.orderedDitheringFiltersItem.Text = "Ordered dithering";
-            this.orderedDitheringFiltersItem.Click += new System.EventHandler( this.orderedDitheringFiltersItem_Click );
+            this.orderedDitheringFiltersItem.Click += new System.Windows.RoutedEventHandler( this.orderedDitheringFiltersItem_Click );
             // 
             // menuItem6
             // 
@@ -364,19 +366,19 @@ namespace FiltersDemo
             // 
             this.convolutionFiltersItem.Index = 22;
             this.convolutionFiltersItem.Text = "Convolution";
-            this.convolutionFiltersItem.Click += new System.EventHandler( this.convolutionFiltersItem_Click );
+            this.convolutionFiltersItem.Click += new System.Windows.RoutedEventHandler( this.convolutionFiltersItem_Click );
             // 
             // sharpenFiltersItem
             // 
             this.sharpenFiltersItem.Index = 23;
             this.sharpenFiltersItem.Text = "Sharpen";
-            this.sharpenFiltersItem.Click += new System.EventHandler( this.sharpenFiltersItem_Click );
+            this.sharpenFiltersItem.Click += new System.Windows.RoutedEventHandler( this.sharpenFiltersItem_Click );
             // 
             // gaussianFiltersItem
             // 
             this.gaussianFiltersItem.Index = 24;
             this.gaussianFiltersItem.Text = "Gaussian blur";
-            this.gaussianFiltersItem.Click += new System.EventHandler( this.gaussianFiltersItem_Click );
+            this.gaussianFiltersItem.Click += new System.Windows.RoutedEventHandler( this.gaussianFiltersItem_Click );
             // 
             // menuItem7
             // 
@@ -387,19 +389,19 @@ namespace FiltersDemo
             // 
             this.differenceEdgesFiltersItem.Index = 26;
             this.differenceEdgesFiltersItem.Text = "Difference edge detector";
-            this.differenceEdgesFiltersItem.Click += new System.EventHandler( this.differenceEdgesFiltersItem_Click );
+            this.differenceEdgesFiltersItem.Click += new System.Windows.RoutedEventHandler( this.differenceEdgesFiltersItem_Click );
             // 
             // homogenityEdgesFiltersItem
             // 
             this.homogenityEdgesFiltersItem.Index = 27;
             this.homogenityEdgesFiltersItem.Text = "Homogenity edge detector";
-            this.homogenityEdgesFiltersItem.Click += new System.EventHandler( this.homogenityEdgesFiltersItem_Click );
+            this.homogenityEdgesFiltersItem.Click += new System.Windows.RoutedEventHandler( this.homogenityEdgesFiltersItem_Click );
             // 
             // sobelEdgesFiltersItem
             // 
             this.sobelEdgesFiltersItem.Index = 28;
             this.sobelEdgesFiltersItem.Text = "Sobel edge detector";
-            this.sobelEdgesFiltersItem.Click += new System.EventHandler( this.sobelEdgesFiltersItem_Click );
+            this.sobelEdgesFiltersItem.Click += new System.Windows.RoutedEventHandler( this.sobelEdgesFiltersItem_Click );
             // 
             // menuItem8
             // 
@@ -410,47 +412,47 @@ namespace FiltersDemo
             // 
             this.jitterFiltersItem.Index = 30;
             this.jitterFiltersItem.Text = "Jitter";
-            this.jitterFiltersItem.Click += new System.EventHandler( this.jitterFiltersItem_Click );
+            this.jitterFiltersItem.Click += new System.Windows.RoutedEventHandler( this.jitterFiltersItem_Click );
             // 
             // oilFiltersItem
             // 
             this.oilFiltersItem.Index = 31;
             this.oilFiltersItem.Text = "Oil Painting";
-            this.oilFiltersItem.Click += new System.EventHandler( this.oilFiltersItem_Click );
+            this.oilFiltersItem.Click += new System.Windows.RoutedEventHandler( this.oilFiltersItem_Click );
             // 
             // textureFiltersItem
             // 
             this.textureFiltersItem.Index = 32;
             this.textureFiltersItem.Text = "Texture";
-            this.textureFiltersItem.Click += new System.EventHandler( this.textureFiltersItem_Click );
+            this.textureFiltersItem.Click += new System.Windows.RoutedEventHandler( this.textureFiltersItem_Click );
             // 
             // sizeItem
             // 
             this.sizeItem.Index = 2;
-            this.sizeItem.MenuItems.AddRange( new System.Windows.Forms.MenuItem[] {
+            this.sizeItem.MenuItems.AddRange( new MenuItem[] {
             this.normalSizeItem,
             this.stretchedSizeItem,
             this.centeredSizeItem} );
             this.sizeItem.Text = "&Size mode";
-            this.sizeItem.Popup += new System.EventHandler( this.sizeItem_Popup );
+            this.sizeItem.Popup += new System.Windows.RoutedEventHandler( this.sizeItem_Popup );
             // 
             // normalSizeItem
             // 
             this.normalSizeItem.Index = 0;
             this.normalSizeItem.Text = "&Normal";
-            this.normalSizeItem.Click += new System.EventHandler( this.normalSizeItem_Click );
+            this.normalSizeItem.Click += new System.Windows.RoutedEventHandler( this.normalSizeItem_Click );
             // 
             // stretchedSizeItem
             // 
             this.stretchedSizeItem.Index = 1;
             this.stretchedSizeItem.Text = "&Stretched";
-            this.stretchedSizeItem.Click += new System.EventHandler( this.stretchedSizeItem_Click );
+            this.stretchedSizeItem.Click += new System.Windows.RoutedEventHandler( this.stretchedSizeItem_Click );
             // 
             // centeredSizeItem
             // 
             this.centeredSizeItem.Index = 2;
             this.centeredSizeItem.Text = "&Centered";
-            this.centeredSizeItem.Click += new System.EventHandler( this.centeredSizeItem_Click );
+            this.centeredSizeItem.Click += new System.Windows.RoutedEventHandler( this.centeredSizeItem_Click );
             // 
             // openFileDialog
             // 
@@ -586,7 +588,7 @@ namespace FiltersDemo
                 filteredImage = null;
             }
             // uncheck all menu items
-            foreach ( MenuItem item in filtersItem.MenuItems )
+            foreach ( var item in filtersItem.MenuItems )
                 item.Checked = false;
         }
 

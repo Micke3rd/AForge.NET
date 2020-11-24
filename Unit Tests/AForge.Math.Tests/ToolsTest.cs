@@ -8,25 +8,25 @@ namespace AForge.Math.Tests
     [TestClass]
     public class ToolsTest
     {
-        
-        [TestCase( 0, false )]
-        [TestCase( 1, true )]
-        [TestCase( 2, true )]
-        [TestCase( 3, false )]
-        [TestCase( 4, true )]
-        [TestCase( 8, true )]
-        [TestCase( 0x80, true )]
-        [TestCase( 0x81, false )]
-        [TestCase( 0x8000, true )]
-        [TestCase( 0x8001, false )]
-        [TestCase( 0x40000000, true )]
-        [TestCase( 0x3FFFFFFF, false )]
-        [TestCase( -1, false )]
-        [TestCase( -8, false )]
-        [TestCase( int.MinValue, false )]
-        public void IsPowerOf2Test( int valueToTest, bool expectedResult )
+        [DataTestMethod]
+        [DataRow(0, false)]
+        [DataRow(1, true)]
+        [DataRow(2, true)]
+        [DataRow(3, false)]
+        [DataRow(4, true)]
+        [DataRow(8, true)]
+        [DataRow(0x80, true)]
+        [DataRow(0x81, false)]
+        [DataRow(0x8000, true)]
+        [DataRow(0x8001, false)]
+        [DataRow(0x40000000, true)]
+        [DataRow(0x3FFFFFFF, false)]
+        [DataRow(-1, false)]
+        [DataRow(-8, false)]
+        [DataRow(int.MinValue, false)]
+        public void IsPowerOf2Test(int valueToTest, bool expectedResult)
         {
-            Assert.AreEqual( expectedResult, Tools.IsPowerOf2( valueToTest ) );
+            Assert.AreEqual(expectedResult, Tools.IsPowerOf2(valueToTest));
         }
     }
 }

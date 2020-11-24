@@ -10,5 +10,9 @@
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Core\Core.csproj" />
+  </ItemGroup>
   
 </Project>

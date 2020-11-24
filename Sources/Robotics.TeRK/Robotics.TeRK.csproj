@@ -4,6 +4,10 @@
     <OutputType>Library</OutputType>
     
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Video\Video.csproj" />
+  </ItemGroup>
 
 
 </Project>
