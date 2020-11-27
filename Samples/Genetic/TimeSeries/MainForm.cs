@@ -6,18 +6,14 @@
 // contacts@aforgenet.com
 //
 
+using AForge;
+using AForge.Controls;
+using AForge.Genetic;
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
 using System.IO;
 using System.Threading;
-
-using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace TimeSeries
@@ -68,8 +64,8 @@ namespace TimeSeries
 		private System.Windows.Forms.Button moreSettingsButton;
 		private System.Windows.Forms.ToolTip toolTip;
 
-		private double[]	data = null;
-		private double[,]	dataToShow = null;
+		private double[] data = null;
+		private double[,] dataToShow = null;
 
 		private int populationSize = 100;
 		private int iterations = 1000;
@@ -84,11 +80,11 @@ namespace TimeSeries
 		private Thread workerThread = null;
 		private volatile bool needToStop = false;
 
-		private double[,]	windowDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
-		private double[,]	predictionDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
-		
+		private double[,] windowDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
+		private double[,] predictionDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
+
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -96,30 +92,30 @@ namespace TimeSeries
 			InitializeComponent();
 
 			//
-			chart.AddDataSeries( "data", Color.Red, Chart.SeriesType.Dots, 5 );
-			chart.AddDataSeries( "solution", Color.Blue, Chart.SeriesType.Line, 1 );
-			chart.AddDataSeries( "window", Color.LightGray, Chart.SeriesType.Line, 1, false );
-			chart.AddDataSeries( "prediction", Color.Gray, Chart.SeriesType.Line, 1, false );
+			chart.AddDataSeries("data", Color.Red, Chart.SeriesType.Dots, 5);
+			chart.AddDataSeries("solution", Color.Blue, Chart.SeriesType.Line, 1);
+			chart.AddDataSeries("window", Color.LightGray, Chart.SeriesType.Line, 1, false);
+			chart.AddDataSeries("prediction", Color.Gray, Chart.SeriesType.Line, 1, false);
 
-			selectionBox.SelectedIndex		= selectionMethod;
-			functionsSetBox.SelectedIndex	= functionsSet;
-			geneticMethodBox.SelectedIndex	= geneticMethod;
-			UpdateSettings( );
+			selectionBox.SelectedIndex = selectionMethod;
+			functionsSetBox.SelectedIndex = functionsSet;
+			geneticMethodBox.SelectedIndex = geneticMethod;
+			UpdateSettings();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if (components != null) 
+				if (components != null)
 				{
 					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -269,7 +265,7 @@ namespace TimeSeries
 			// 
 			// moreSettingsButton
 			// 
-			this.moreSettingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(204)));
+			this.moreSettingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
 			this.moreSettingsButton.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.moreSettingsButton.Location = new System.Drawing.Point(10, 220);
 			this.moreSettingsButton.Name = "moreSettingsButton";
@@ -281,7 +277,7 @@ namespace TimeSeries
 			// 
 			// label10
 			// 
-			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.label10.Location = new System.Drawing.Point(125, 220);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(58, 14);
@@ -561,86 +557,86 @@ namespace TimeSeries
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
-        private delegate void AddSubItemCallback( System.Windows.Forms.ListView control, int item, string subitemText );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
+		private delegate void AddSubItemCallback(System.Windows.Forms.ListView control, int item, string subitemText);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
 
-        // Thread safe adding of subitem to list control
-        private void AddSubItem( System.Windows.Forms.ListView control, int item, string subitemText )
-        {
-            if ( control.InvokeRequired )
-            {
-                AddSubItemCallback d = new AddSubItemCallback( AddSubItem );
-                Invoke( d, new object[] { control, item, subitemText } );
-            }
-            else
-            {
-                control.Items[item].SubItems.Add( subitemText );
-            }
-        }
+		// Thread safe adding of subitem to list control
+		private void AddSubItem(System.Windows.Forms.ListView control, int item, string subitemText)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new AddSubItemCallback(AddSubItem);
+				Invoke(d, new object[] { control, item, subitemText });
+			}
+			else
+			{
+				control.Items[item].SubItems.Add(subitemText);
+			}
+		}
 
-        // On main form closing
+		// On main form closing
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			populationSizeBox.Text	= populationSize.ToString( );
-			iterationsBox.Text		= iterations.ToString( );
-			windowSizeBox.Text		= windowSize.ToString( );
-			predictionSizeBox.Text	= predictionSize.ToString( );
+			populationSizeBox.Text = populationSize.ToString();
+			iterationsBox.Text = iterations.ToString();
+			windowSizeBox.Text = windowSize.ToString();
+			predictionSizeBox.Text = predictionSize.ToString();
 		}
 
 		// Load data
 		private void loadDataButton_Click(object sender, System.EventArgs e)
 		{
 			// show file selection dialog
-			if ( openFileDialog.ShowDialog( ) == DialogResult.OK )
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				StreamReader reader = null;
 				// read maximum 50 points
-				double[] tempData = new double[50];
+				var tempData = new double[50];
 
 				try
 				{
 					// open selected file
-					reader = File.OpenText( openFileDialog.FileName );
-					string	str = null;
-					int		i = 0;
+					reader = File.OpenText(openFileDialog.FileName);
+					string str = null;
+					var i = 0;
 
 					// read the data
-					while ( ( i < 50 ) && ( ( str = reader.ReadLine( ) ) != null ) )
+					while ((i < 50) && ((str = reader.ReadLine()) != null))
 					{
 						// parse the value
-						tempData[i] = double.Parse( str );
+						tempData[i] = double.Parse(str);
 
 						i++;
 					}
@@ -648,8 +644,8 @@ namespace TimeSeries
 					// allocate and set data
 					data = new double[i];
 					dataToShow = new double[i, 2];
-					Array.Copy( tempData, 0, data, 0, i );
-					for ( int j = 0; j < i; j++ )
+					Array.Copy(tempData, 0, data, 0, i);
+					for (var j = 0; j < i; j++)
 					{
 						dataToShow[j, 0] = j;
 						dataToShow[j, 1] = data[j];
@@ -657,165 +653,165 @@ namespace TimeSeries
 				}
 				catch (Exception)
 				{
-					MessageBox.Show( "Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show("Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				finally
 				{
 					// close file
-					if ( reader != null )
-						reader.Close( );
+					if (reader != null)
+						reader.Close();
 				}
 
 				// update list and chart
-				UpdateDataListView( );
-				chart.RangeX = new Range( 0, data.Length - 1 );
-				chart.UpdateDataSeries( "data", dataToShow );
-				chart.UpdateDataSeries( "solution", null );
+				UpdateDataListView();
+				chart.RangeX = new Range(0, data.Length - 1);
+				chart.UpdateDataSeries("data", dataToShow);
+				chart.UpdateDataSeries("solution", null);
 				// set delimiters
-				UpdateDelimiters( );
+				UpdateDelimiters();
 				// enable "Start" button
 				startButton.Enabled = true;
 			}
 		}
 
 		// Update delimiters on the chart
-		private void UpdateDelimiters( )
+		private void UpdateDelimiters()
 		{
 			// window delimiter
 			windowDelimiter[0, 0] = windowDelimiter[1, 0] = windowSize;
 			windowDelimiter[0, 1] = chart.RangeY.Min;
 			windowDelimiter[1, 1] = chart.RangeY.Max;
-			chart.UpdateDataSeries( "window", windowDelimiter );
+			chart.UpdateDataSeries("window", windowDelimiter);
 			// prediction delimiter
 			predictionDelimiter[0, 0] = predictionDelimiter[1, 0] = data.Length - 1 - predictionSize;
 			predictionDelimiter[0, 1] = chart.RangeY.Min;
 			predictionDelimiter[1, 1] = chart.RangeY.Max;
-			chart.UpdateDataSeries( "prediction", predictionDelimiter );
+			chart.UpdateDataSeries("prediction", predictionDelimiter);
 		}
 
 		// Update data in list view
-		private void UpdateDataListView( )
+		private void UpdateDataListView()
 		{
 			// remove all current records
-			dataList.Items.Clear( );
+			dataList.Items.Clear();
 			// add new records
-			for ( int i = 0, n = data.GetLength( 0 ); i < n; i++ )
+			for (int i = 0, n = data.GetLength(0); i < n; i++)
 			{
-				dataList.Items.Add( data[i].ToString( ) );
+				dataList.Items.Add(data[i].ToString());
 			}
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
-        {
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-
-                loadDataButton.Enabled = enable;
-                populationSizeBox.Enabled = enable;
-                iterationsBox.Enabled = enable;
-                selectionBox.Enabled = enable;
-                functionsSetBox.Enabled = enable;
-                geneticMethodBox.Enabled = enable;
-                windowSizeBox.Enabled = enable;
-                predictionSizeBox.Enabled = enable;
-
-                moreSettingsButton.Enabled = enable;
-
-                startButton.Enabled = enable;
-                stopButton.Enabled = !enable;
-            }
-		}
-		
-		// On window size changed
-		private void windowSizeBox_TextChanged( object sender, System.EventArgs e )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-			UpdateWindowSize( );
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+
+				loadDataButton.Enabled = enable;
+				populationSizeBox.Enabled = enable;
+				iterationsBox.Enabled = enable;
+				selectionBox.Enabled = enable;
+				functionsSetBox.Enabled = enable;
+				geneticMethodBox.Enabled = enable;
+				windowSizeBox.Enabled = enable;
+				predictionSizeBox.Enabled = enable;
+
+				moreSettingsButton.Enabled = enable;
+
+				startButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
+		}
+
+		// On window size changed
+		private void windowSizeBox_TextChanged(object sender, System.EventArgs e)
+		{
+			UpdateWindowSize();
 		}
 
 		// On prediction changed
-		private void predictionSizeBox_TextChanged( object sender, System.EventArgs e )
+		private void predictionSizeBox_TextChanged(object sender, System.EventArgs e)
 		{
-			UpdatePredictionSize( );		
+			UpdatePredictionSize();
 		}
 
 		// Update window size
-		private void UpdateWindowSize( )
+		private void UpdateWindowSize()
 		{
-			if ( data != null )
+			if (data != null)
 			{
 				// get new window size value
 				try
 				{
-					windowSize =System.Math.Max( 1,System.Math.Min( 15, int.Parse( windowSizeBox.Text ) ) );
+					windowSize = System.Math.Max(1, System.Math.Min(15, int.Parse(windowSizeBox.Text)));
 				}
 				catch
 				{
 					windowSize = 5;
 				}
 				// check if we have too few data
-				if ( windowSize >= data.Length )
+				if (windowSize >= data.Length)
 					windowSize = 1;
 				// update delimiters
-				UpdateDelimiters( );
+				UpdateDelimiters();
 			}
 		}
 
 		// Update prediction size
-		private void UpdatePredictionSize( )
+		private void UpdatePredictionSize()
 		{
-			if ( data != null )
+			if (data != null)
 			{
 				// get new prediction size value
 				try
 				{
-					predictionSize =System.Math.Max( 1,System.Math.Min( 10, int.Parse( predictionSizeBox.Text ) ) );
+					predictionSize = System.Math.Max(1, System.Math.Min(10, int.Parse(predictionSizeBox.Text)));
 				}
 				catch
 				{
 					predictionSize = 1;
 				}
 				// check if we have too few data
-				if ( data.Length - predictionSize - 1 < windowSize )
+				if (data.Length - predictionSize - 1 < windowSize)
 					predictionSize = 1;
 				// update delimiters
-				UpdateDelimiters( );
+				UpdateDelimiters();
 			}
 		}
 
 		// Clear current solution
-		private void ClearSolution( )
+		private void ClearSolution()
 		{
 			// remove solution form chart
-			chart.UpdateDataSeries( "solution", null );
+			chart.UpdateDataSeries("solution", null);
 			// remove it from solution box
 			solutionBox.Text = string.Empty;
 			// remove it from data list view
-			for ( int i = 0, n = dataList.Items.Count; i < n; i++ )
+			for (int i = 0, n = dataList.Items.Count; i < n; i++)
 			{
-				if ( dataList.Items[i].SubItems.Count > 1 )
-					dataList.Items[i].SubItems.RemoveAt( 1 );
+				if (dataList.Items[i].SubItems.Count > 1)
+					dataList.Items[i].SubItems.RemoveAt(1);
 			}
 		}
 
 		// On button "Start"
-		private void startButton_Click( object sender, System.EventArgs e )
+		private void startButton_Click(object sender, System.EventArgs e)
 		{
-			ClearSolution( );
+			ClearSolution();
 
 			// get population size
 			try
 			{
-				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize = System.Math.Max(10, System.Math.Min(100, int.Parse(populationSizeBox.Text)));
 			}
 			catch
 			{
@@ -824,123 +820,123 @@ namespace TimeSeries
 			// iterations
 			try
 			{
-				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations = System.Math.Max(0, int.Parse(iterationsBox.Text));
 			}
 			catch
 			{
 				iterations = 100;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
-			selectionMethod	= selectionBox.SelectedIndex;
-			functionsSet	= functionsSetBox.SelectedIndex;
-			geneticMethod	= geneticMethodBox.SelectedIndex;
-		
+			selectionMethod = selectionBox.SelectedIndex;
+			functionsSet = functionsSetBox.SelectedIndex;
+			geneticMethod = geneticMethodBox.SelectedIndex;
+
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On button "Stop"
-		private void stopButton_Click( object sender, System.EventArgs e )
+		private void stopButton_Click(object sender, System.EventArgs e)
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
-            workerThread = null;
+			while (!workerThread.Join(100))
+				Application.DoEvents();
+			workerThread = null;
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// constants
-			double[] constants = new double[10] { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23 };
+			var constants = new double[10] { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23 };
 			// create fitness function
-			TimeSeriesPredictionFitness fitness = new TimeSeriesPredictionFitness(
-				data, windowSize, predictionSize, constants );
+			var fitness = new TimeSeriesPredictionFitness(
+				data, windowSize, predictionSize, constants);
 			// create gene function
-			IGPGene gene = ( functionsSet == 0 ) ?
-				(IGPGene) new SimpleGeneFunction( windowSize + constants.Length ) :
-				(IGPGene) new ExtendedGeneFunction( windowSize + constants.Length );
+			var gene = (functionsSet == 0) ?
+				 new SimpleGeneFunction(windowSize + constants.Length) :
+				(IGPGene)new ExtendedGeneFunction(windowSize + constants.Length);
 			// create population
-			Population population = new Population( populationSize,
-				( geneticMethod == 0 ) ?
-				(IChromosome) new GPTreeChromosome( gene ) :
-				(IChromosome) new GEPChromosome( gene, headLength ),
+			var population = new Population(populationSize,
+				(geneticMethod == 0) ?
+				 new GPTreeChromosome(gene) :
+				(IChromosome)new GEPChromosome(gene, headLength),
 				fitness,
-				( selectionMethod == 0 ) ? (ISelectionMethod) new EliteSelection( ) :
-				( selectionMethod == 1 ) ? (ISelectionMethod) new RankSelection( ) :
-				(ISelectionMethod) new RouletteWheelSelection( )
+				(selectionMethod == 0) ? new EliteSelection() :
+				(selectionMethod == 1) ? new RankSelection() :
+				(ISelectionMethod)new RouletteWheelSelection()
 				);
 			// iterations
-			int i = 1;
+			var i = 1;
 			// solution array
-			int			solutionSize = data.Length - windowSize;
-			double[,]	solution = new double[solutionSize, 2];
-			double[]	input = new double[windowSize + constants.Length];
+			var solutionSize = data.Length - windowSize;
+			var solution = new double[solutionSize, 2];
+			var input = new double[windowSize + constants.Length];
 
 			// calculate X values to be used with solution function
-			for ( int j = 0; j < solutionSize; j++ )
+			for (var j = 0; j < solutionSize; j++)
 			{
 				solution[j, 0] = j + windowSize;
 			}
 			// prepare input
-			Array.Copy( constants, 0, input, windowSize, constants.Length );
+			Array.Copy(constants, 0, input, windowSize, constants.Length);
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
 				// run one epoch of genetic algorithm
-				population.RunEpoch( );
+				population.RunEpoch();
 
 				try
 				{
 					// get best solution
-					string bestFunction = population.BestChromosome.ToString( );
+					var bestFunction = population.BestChromosome.ToString();
 
 					// calculate best function and prediction error
-					double learningError = 0.0;
-					double predictionError = 0.0;
+					var learningError = 0.0;
+					var predictionError = 0.0;
 					// go through all the data
-					for ( int j = 0, n = data.Length - windowSize; j < n; j++ )
+					for (int j = 0, n = data.Length - windowSize; j < n; j++)
 					{
 						// put values from current window as variables
-						for ( int k = 0, b = j + windowSize - 1; k < windowSize; k++ )
+						for (int k = 0, b = j + windowSize - 1; k < windowSize; k++)
 						{
 							input[k] = data[b - k];
 						}
 
 						// evalue the function
-						solution[j, 1] = PolishExpression.Evaluate( bestFunction, input );
+						solution[j, 1] = PolishExpression.Evaluate(bestFunction, input);
 
 						// calculate prediction error
-						if ( j >= n - predictionSize )
+						if (j >= n - predictionSize)
 						{
-							predictionError += Math.Abs( solution[j, 1] - data[windowSize + j] );
+							predictionError += Math.Abs(solution[j, 1] - data[windowSize + j]);
 						}
 						else
 						{
-							learningError += Math.Abs( solution[j, 1] - data[windowSize + j] );
+							learningError += Math.Abs(solution[j, 1] - data[windowSize + j]);
 						}
 					}
 					// update solution on the chart
-					chart.UpdateDataSeries( "solution", solution );
-				
+					chart.UpdateDataSeries("solution", solution);
+
 					// set current iteration's info
-                    SetText( currentIterationBox, i.ToString( ) );
-                    SetText( currentLearningErrorBox, learningError.ToString( "F3" ) );
-                    SetText( currentPredictionErrorBox, predictionError.ToString( "F3" ) );
+					SetText(currentIterationBox, i.ToString());
+					SetText(currentLearningErrorBox, learningError.ToString("F3"));
+					SetText(currentPredictionErrorBox, predictionError.ToString("F3"));
 				}
 				catch
 				{
 					// remove any solutions from chart in case of any errors
-					chart.UpdateDataSeries( "solution", null );
+					chart.UpdateDataSeries("solution", null);
 				}
 
 
@@ -948,33 +944,35 @@ namespace TimeSeries
 				i++;
 
 				//
-				if ( ( iterations != 0 ) && ( i > iterations ) )
+				if ((iterations != 0) && (i > iterations))
 					break;
 			}
 
 			// show solution
-            SetText( solutionBox, population.BestChromosome.ToString( ) );
-			for ( int j = windowSize, k = 0, n = data.Length; j < n; j++, k++ )
+			SetText(solutionBox, population.BestChromosome.ToString());
+			for (int j = windowSize, k = 0, n = data.Length; j < n; j++, k++)
 			{
-                AddSubItem( dataList, j, solution[k, 1].ToString( ) );
+				AddSubItem(dataList, j, solution[k, 1].ToString());
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 
 		// On "More settings" button click
-		private void moreSettingsButton_Click( object sender, System.EventArgs e )
+		private void moreSettingsButton_Click(object sender, System.EventArgs e)
 		{
-			ExSettingsDialog settingsDlg = new ExSettingsDialog( );
+			var settingsDlg = new ExSettingsDialog
+			{
 
-			// init the dialog
-			settingsDlg.MaxInitialTreeLevel	= GPTreeChromosome.MaxInitialLevel;
-			settingsDlg.MaxTreeLevel		= GPTreeChromosome.MaxLevel;
-			settingsDlg.HeadLength			= headLength;
+				// init the dialog
+				MaxInitialTreeLevel = GPTreeChromosome.MaxInitialLevel,
+				MaxTreeLevel = GPTreeChromosome.MaxLevel,
+				HeadLength = headLength
+			};
 
 			// show the dialog
-			if ( settingsDlg.ShowDialog( ) == DialogResult.OK )
+			if (settingsDlg.ShowDialog() == DialogResult.OK)
 			{
 				GPTreeChromosome.MaxInitialLevel = settingsDlg.MaxInitialTreeLevel;
 				GPTreeChromosome.MaxLevel = settingsDlg.MaxTreeLevel;

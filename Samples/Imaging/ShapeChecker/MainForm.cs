@@ -6,233 +6,232 @@
 // contacts@aforgenet.com
 //
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
-using System.Reflection;
-
 using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace ShapeChecker
 {
-    public partial class MainForm : Form
-    {
-        public MainForm( )
-        {
-            InitializeComponent( );
-        }
+	public partial class MainForm : Form
+	{
+		public MainForm()
+		{
+			InitializeComponent();
+		}
 
-        // Exit from application
-        private void exitToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            this.Close( );
-        }
+		// Exit from application
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 
-        // On loading of the form
-        private void MainForm_Load( object sender, EventArgs e )
-        {
-            LoadDemo( "coins.jpg" );
-        }
+		// On loading of the form
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			LoadDemo("coins.jpg");
+		}
 
-        // Open file
-        private void openToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            if ( openFileDialog.ShowDialog( ) == DialogResult.OK )
-            {
-                try
-                {
-                    ProcessImage( (Bitmap) Bitmap.FromFile( openFileDialog.FileName ) );
-                }
-                catch
-                {
-                    MessageBox.Show( "Failed loading selected image file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
-                }
-            }
-        }
+		// Open file
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				try
+				{
+					ProcessImage((Bitmap)Bitmap.FromFile(openFileDialog.FileName));
+				}
+				catch
+				{
+					MessageBox.Show("Failed loading selected image file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
 
-        // Load first demo image
-        private void loadDemoImage1ToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            LoadDemo( "coins.jpg" );
-        }
+		// Load first demo image
+		private void loadDemoImage1ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LoadDemo("coins.jpg");
+		}
 
-        // Load second demo image
-        private void loadDemoImage2ToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            LoadDemo( "demo.png" );
-        }
+		// Load second demo image
+		private void loadDemoImage2ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LoadDemo("demo.png");
+		}
 
-        // Load third demo image
-        private void loadDemoImage3ToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            LoadDemo( "demo1.png" );
-        }
+		// Load third demo image
+		private void loadDemoImage3ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LoadDemo("demo1.png");
+		}
 
-        // Load fourth demo image
-        private void loadDemoImage4ToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            LoadDemo( "demo2.png" );
-        }
+		// Load fourth demo image
+		private void loadDemoImage4ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LoadDemo("demo2.png");
+		}
 
-        // Load one of the embedded demo image
-        private void LoadDemo( string embeddedFileName )
-        {
-            // load arrow bitmap
-            Assembly assembly = this.GetType( ).Assembly;
-            Bitmap image = new Bitmap( assembly.GetManifestResourceStream( "ShapeChecker." + embeddedFileName ) );
-            ProcessImage( image );
-        }
+		// Load one of the embedded demo image
+		private void LoadDemo(string embeddedFileName)
+		{
+			// load arrow bitmap
+			var assembly = this.GetType().Assembly;
+			var image = new Bitmap(assembly.GetManifestResourceStream("ShapeChecker." + embeddedFileName));
+			ProcessImage(image);
+		}
 
-        // Process image
-        private void ProcessImage( Bitmap bitmap )
-        {
-            // lock image
-            BitmapData bitmapData = bitmap.LockBits(
-                new Rectangle( 0, 0, bitmap.Width, bitmap.Height ),
-                ImageLockMode.ReadWrite, bitmap.PixelFormat );
+		// Process image
+		private void ProcessImage(Bitmap bitmap)
+		{
+			// lock image
+			var bitmapData = bitmap.LockBits(
+				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+				ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
-            // step 1 - turn background to black
-            ColorFiltering colorFilter = new ColorFiltering( );
+			// step 1 - turn background to black
+			var colorFilter = new ColorFiltering
+			{
+				Red = new IntRange(0, 64),
+				Green = new IntRange(0, 64),
+				Blue = new IntRange(0, 64),
+				FillOutsideRange = false
+			};
 
-            colorFilter.Red   = new IntRange( 0, 64 );
-            colorFilter.Green = new IntRange( 0, 64 );
-            colorFilter.Blue  = new IntRange( 0, 64 );
-            colorFilter.FillOutsideRange = false;
+			colorFilter.ApplyInPlace(bitmapData);
 
-            colorFilter.ApplyInPlace( bitmapData );
+			// step 2 - locating objects
+			var blobCounter = new BlobCounter
+			{
+				FilterBlobs = true,
+				MinHeight = 5,
+				MinWidth = 5
+			};
 
-            // step 2 - locating objects
-            BlobCounter blobCounter = new BlobCounter( );
+			blobCounter.ProcessImage(bitmapData);
+			var blobs = blobCounter.GetObjectsInformation();
+			bitmap.UnlockBits(bitmapData);
 
-            blobCounter.FilterBlobs = true;
-            blobCounter.MinHeight = 5;
-            blobCounter.MinWidth = 5;
+			// step 3 - check objects' type and highlight
+			var shapeChecker = new SimpleShapeChecker();
 
-            blobCounter.ProcessImage( bitmapData );
-            Blob[] blobs = blobCounter.GetObjectsInformation( );
-            bitmap.UnlockBits( bitmapData );
+			var g = Graphics.FromImage(bitmap);
+			var yellowPen = new Pen(Color.Yellow, 2); // circles
+			var redPen = new Pen(Color.Red, 2);       // quadrilateral
+			var brownPen = new Pen(Color.Brown, 2);   // quadrilateral with known sub-type
+			var greenPen = new Pen(Color.Green, 2);   // known triangle
+			var bluePen = new Pen(Color.Blue, 2);     // triangle
 
-            // step 3 - check objects' type and highlight
-            SimpleShapeChecker shapeChecker = new SimpleShapeChecker( );
+			for (int i = 0, n = blobs.Length; i < n; i++)
+			{
+				var edgePoints = blobCounter.GetBlobsEdgePoints(blobs[i]);
 
-            Graphics g = Graphics.FromImage( bitmap );
-            Pen yellowPen = new Pen( Color.Yellow, 2 ); // circles
-            Pen redPen = new Pen( Color.Red, 2 );       // quadrilateral
-            Pen brownPen = new Pen( Color.Brown, 2 );   // quadrilateral with known sub-type
-            Pen greenPen = new Pen( Color.Green, 2 );   // known triangle
-            Pen bluePen = new Pen( Color.Blue, 2 );     // triangle
+				AForge.Point center;
+				float radius;
 
-            for ( int i = 0, n = blobs.Length; i < n; i++ )
-            {
-                List<IntPoint> edgePoints = blobCounter.GetBlobsEdgePoints( blobs[i] );
+				// is circle ?
+				if (shapeChecker.IsCircle(edgePoints, out center, out radius))
+				{
+					g.DrawEllipse(yellowPen,
+						(float)(center.X - radius), (float)(center.Y - radius),
+						(float)(radius * 2), (float)(radius * 2));
+				}
+				else
+				{
+					List<IntPoint> corners;
 
-                AForge.Point center;
-                float radius;
+					// is triangle or quadrilateral
+					if (shapeChecker.IsConvexPolygon(edgePoints, out corners))
+					{
+						// get sub-type
+						var subType = shapeChecker.CheckPolygonSubType(corners);
 
-                // is circle ?
-                if ( shapeChecker.IsCircle( edgePoints, out center, out radius ) )
-                {
-                    g.DrawEllipse( yellowPen,
-                        (float) ( center.X - radius ), (float) ( center.Y - radius ),
-                        (float) ( radius * 2 ), (float) ( radius * 2 ) );
-                }
-                else
-                {
-                    List<IntPoint> corners;
+						Pen pen;
 
-                    // is triangle or quadrilateral
-                    if ( shapeChecker.IsConvexPolygon( edgePoints, out corners ) )
-                    {
-                        // get sub-type
-                        PolygonSubType subType = shapeChecker.CheckPolygonSubType( corners );
+						if (subType == PolygonSubType.Unknown)
+						{
+							pen = (corners.Count == 4) ? redPen : bluePen;
+						}
+						else
+						{
+							pen = (corners.Count == 4) ? brownPen : greenPen;
+						}
 
-                        Pen pen;
+						g.DrawPolygon(pen, ToPointsArray(corners));
+					}
+				}
+			}
 
-                        if ( subType == PolygonSubType.Unknown )
-                        {
-                            pen = ( corners.Count == 4 ) ? redPen : bluePen;
-                        }
-                        else
-                        {
-                            pen = ( corners.Count == 4 ) ? brownPen : greenPen;
-                        }
+			yellowPen.Dispose();
+			redPen.Dispose();
+			greenPen.Dispose();
+			bluePen.Dispose();
+			brownPen.Dispose();
+			g.Dispose();
 
-                        g.DrawPolygon( pen, ToPointsArray( corners ) );
-                    }
-                }
-            }
+			// put new image to clipboard
+			Clipboard.SetDataObject(bitmap);
+			// and to picture box
+			pictureBox.Image = bitmap;
 
-            yellowPen.Dispose( );
-            redPen.Dispose( );
-            greenPen.Dispose( );
-            bluePen.Dispose( );
-            brownPen.Dispose( );
-            g.Dispose( );
+			UpdatePictureBoxPosition();
+		}
 
-            // put new image to clipboard
-            Clipboard.SetDataObject( bitmap );
-            // and to picture box
-            pictureBox.Image = bitmap;
+		// Size of main panel has changed
+		private void splitContainer_Panel2_Resize(object sender, EventArgs e)
+		{
+			UpdatePictureBoxPosition();
+		}
 
-            UpdatePictureBoxPosition( );
-        }
+		// Update size and position of picture box control
+		private void UpdatePictureBoxPosition()
+		{
+			int imageWidth;
+			int imageHeight;
 
-        // Size of main panel has changed
-        private void splitContainer_Panel2_Resize( object sender, EventArgs e )
-        {
-            UpdatePictureBoxPosition( );
-        }
+			if (pictureBox.Image == null)
+			{
+				imageWidth = 320;
+				imageHeight = 240;
+			}
+			else
+			{
+				imageWidth = pictureBox.Image.Width;
+				imageHeight = pictureBox.Image.Height;
+			}
 
-        // Update size and position of picture box control
-        private void UpdatePictureBoxPosition( )
-        {
-            int imageWidth;
-            int imageHeight;
+			var rc = splitContainer.Panel2.ClientRectangle;
 
-            if ( pictureBox.Image == null )
-            {
-                imageWidth  = 320;
-                imageHeight = 240;
-            }
-            else
-            {
-                imageWidth  = pictureBox.Image.Width;
-                imageHeight = pictureBox.Image.Height;
-            }
+			pictureBox.SuspendLayout();
+			pictureBox.Location = new System.Drawing.Point((rc.Width - imageWidth - 2) / 2, (rc.Height - imageHeight - 2) / 2);
+			pictureBox.Size = new Size(imageWidth + 2, imageHeight + 2);
+			pictureBox.ResumeLayout();
+		}
 
-            Rectangle rc = splitContainer.Panel2.ClientRectangle;
+		// Conver list of AForge.NET's points to array of .NET points
+		private System.Drawing.Point[] ToPointsArray(List<IntPoint> points)
+		{
+			var array = new System.Drawing.Point[points.Count];
 
-            pictureBox.SuspendLayout( );
-            pictureBox.Location = new System.Drawing.Point( ( rc.Width - imageWidth - 2 ) / 2, ( rc.Height - imageHeight - 2 ) / 2 );
-            pictureBox.Size = new Size( imageWidth + 2, imageHeight + 2 );
-            pictureBox.ResumeLayout( );
-        }
+			for (int i = 0, n = points.Count; i < n; i++)
+			{
+				array[i] = new System.Drawing.Point(points[i].X, points[i].Y);
+			}
 
-        // Conver list of AForge.NET's points to array of .NET points
-        private System.Drawing.Point[] ToPointsArray( List<IntPoint> points )
-        {
-            System.Drawing.Point[] array = new System.Drawing.Point[points.Count];
+			return array;
+		}
 
-            for ( int i = 0, n = points.Count; i < n; i++ )
-            {
-                array[i] = new System.Drawing.Point( points[i].X, points[i].Y );
-            }
+		// Show about form
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var form = new AboutForm();
 
-            return array;
-        }
-
-        // Show about form
-        private void aboutToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            AboutForm form = new AboutForm( );
-
-            form.ShowDialog( );
-        }
-    }
+			form.ShowDialog();
+		}
+	}
 }

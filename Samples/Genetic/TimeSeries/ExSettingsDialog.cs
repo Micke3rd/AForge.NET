@@ -4,12 +4,6 @@
 // Copyright © Andrew Kirillov, 2006-2009
 // andrew.kirillov@aforgenet.com
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-
 namespace TimeSeries
 {
 	/// <summary>
@@ -57,7 +51,7 @@ namespace TimeSeries
 
 
 		// Constructor
-		public ExSettingsDialog( )
+		public ExSettingsDialog()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -68,16 +62,16 @@ namespace TimeSeries
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if(components != null)
+				if (components != null)
 				{
 					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -224,9 +218,9 @@ namespace TimeSeries
 		// On form load
 		private void ExSettingsDialog_Load(object sender, System.EventArgs e)
 		{
-			maxInitialLevelBox.Text	= maxInitialTreeLevel.ToString( );
-			maxLevelBox.Text		= maxTreeLevel.ToString( );
-			headLengthBox.Text		= headLength.ToString( );
+			maxInitialLevelBox.Text = maxInitialTreeLevel.ToString();
+			maxLevelBox.Text = maxTreeLevel.ToString();
+			headLengthBox.Text = headLength.ToString();
 		}
 
 		// On "Ok" button click
@@ -235,7 +229,7 @@ namespace TimeSeries
 			// max initial tree level
 			try
 			{
-				maxInitialTreeLevel =System.Math.Max( 1,System.Math.Min( 7, int.Parse( maxInitialLevelBox.Text ) ) );
+				maxInitialTreeLevel = System.Math.Max(1, System.Math.Min(7, int.Parse(maxInitialLevelBox.Text)));
 			}
 			catch
 			{
@@ -244,7 +238,7 @@ namespace TimeSeries
 			// max tree level
 			try
 			{
-				maxTreeLevel =System.Math.Max( 2,System.Math.Min( 9, int.Parse( maxLevelBox.Text ) ) );
+				maxTreeLevel = System.Math.Max(2, System.Math.Min(9, int.Parse(maxLevelBox.Text)));
 			}
 			catch
 			{
@@ -253,7 +247,7 @@ namespace TimeSeries
 			// head length
 			try
 			{
-				headLength =System.Math.Max( 3,System.Math.Min( 50, int.Parse( headLengthBox.Text ) ) );
+				headLength = System.Math.Max(3, System.Math.Min(50, int.Parse(headLengthBox.Text)));
 			}
 			catch
 			{

@@ -6,18 +6,14 @@
 // contacts@aforgenet.com
 //
 
+using AForge;
+using AForge.Controls;
+using AForge.Genetic;
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
 using System.IO;
 using System.Threading;
-
-using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace Approximation
@@ -69,8 +65,8 @@ namespace Approximation
 		private int functionsSet = 0;
 		private int geneticMethod = 0;
 
-		private Thread	workerThread = null;
-        private volatile bool needToStop = false;
+		private Thread workerThread = null;
+		private volatile bool needToStop = false;
 
 		// Constructor
 		public MainForm()
@@ -81,28 +77,28 @@ namespace Approximation
 			InitializeComponent();
 
 			//
-			chart.AddDataSeries( "data", Color.Red, Chart.SeriesType.Dots, 5 );
-			chart.AddDataSeries( "solution", Color.Blue, Chart.SeriesType.Line, 1 );
+			chart.AddDataSeries("data", Color.Red, Chart.SeriesType.Dots, 5);
+			chart.AddDataSeries("solution", Color.Blue, Chart.SeriesType.Line, 1);
 
-			selectionBox.SelectedIndex		= selectionMethod;
-			functionsSetBox.SelectedIndex	= functionsSet;
-			geneticMethodBox.SelectedIndex	= geneticMethod;
-			UpdateSettings( );
+			selectionBox.SelectedIndex = selectionMethod;
+			functionsSetBox.SelectedIndex = functionsSet;
+			geneticMethodBox.SelectedIndex = geneticMethod;
+			UpdateSettings();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if (components != null) 
+				if (components != null)
 				{
 					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -270,7 +266,7 @@ namespace Approximation
 			// 
 			// label4
 			// 
-			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(204)));
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
 			this.label4.Location = new System.Drawing.Point(125, 175);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(56, 15);
@@ -444,81 +440,81 @@ namespace Approximation
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main() 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
 
 		// On main form closing
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			populationSizeBox.Text		= populationSize.ToString( );
-			iterationsBox.Text			= iterations.ToString( );
+			populationSizeBox.Text = populationSize.ToString();
+			iterationsBox.Text = iterations.ToString();
 		}
 
 		// Load data
 		private void loadDataButton_Click(object sender, System.EventArgs e)
 		{
 			// show file selection dialog
-			if ( openFileDialog.ShowDialog( ) == DialogResult.OK )
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				StreamReader reader = null;
 				// read maximum 50 points
-                float[,] tempData = new float[50, 2];
-                float minX = float.MaxValue;
-                float maxX = float.MinValue;
+				var tempData = new float[50, 2];
+				var minX = float.MaxValue;
+				var maxX = float.MinValue;
 
 				try
 				{
 					// open selected file
-					reader = File.OpenText( openFileDialog.FileName );
-					string	str = null;
-					int		i = 0;
+					reader = File.OpenText(openFileDialog.FileName);
+					string str = null;
+					var i = 0;
 
 					// read the data
-					while ( ( i < 50 ) && ( ( str = reader.ReadLine( ) ) != null ) )
+					while ((i < 50) && ((str = reader.ReadLine()) != null))
 					{
-						string[] strs = str.Split( ';' );
-						if ( strs.Length == 1 )
-							strs = str.Split( ',' );
+						var strs = str.Split(';');
+						if (strs.Length == 1)
+							strs = str.Split(',');
 						// parse X
-						tempData[i, 0] = float.Parse( strs[0] );
-						tempData[i, 1] = float.Parse( strs[1] );
+						tempData[i, 0] = float.Parse(strs[0]);
+						tempData[i, 1] = float.Parse(strs[1]);
 
 						// search for min value
-						if ( tempData[i, 0] < minX )
+						if (tempData[i, 0] < minX)
 							minX = tempData[i, 0];
 						// search for max value
-						if ( tempData[i, 0] > maxX )
+						if (tempData[i, 0] > maxX)
 							maxX = tempData[i, 0];
 
 						i++;
@@ -526,68 +522,68 @@ namespace Approximation
 
 					// allocate and set data
 					data = new double[i, 2];
-					Array.Copy( tempData, 0, data, 0, i * 2 );
+					Array.Copy(tempData, 0, data, 0, i * 2);
 				}
 				catch (Exception)
 				{
-					MessageBox.Show( "Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show("Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				finally
 				{
 					// close file
-					if ( reader != null )
-						reader.Close( );
+					if (reader != null)
+						reader.Close();
 				}
 
 				// update list and chart
-				UpdateDataListView( );
-				chart.RangeX = new Range( minX, maxX );
-				chart.UpdateDataSeries( "data", data );
-				chart.UpdateDataSeries( "solution", null );
+				UpdateDataListView();
+				chart.RangeX = new Range(minX, maxX);
+				chart.UpdateDataSeries("data", data);
+				chart.UpdateDataSeries("solution", null);
 				// enable "Start" button
 				startButton.Enabled = true;
 			}
 		}
 
 		// Update data in list view
-		private void UpdateDataListView( )
+		private void UpdateDataListView()
 		{
 			// remove all current records
-			dataList.Items.Clear( );
+			dataList.Items.Clear();
 			// add new records
-			for ( int i = 0, n = data.GetLength( 0 ); i < n; i++ )
+			for (int i = 0, n = data.GetLength(0); i < n; i++)
 			{
-				dataList.Items.Add( data[i, 0].ToString( ) );
-				dataList.Items[i].SubItems.Add( data[i, 1].ToString( ) );
+				dataList.Items.Add(data[i, 0].ToString());
+				dataList.Items[i].SubItems.Add(data[i, 1].ToString());
 			}
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-                loadDataButton.Enabled      = enable;
-                populationSizeBox.Enabled   = enable;
-                iterationsBox.Enabled       = enable;
-                selectionBox.Enabled        = enable;
-                functionsSetBox.Enabled     = enable;
-                geneticMethodBox.Enabled    = enable;
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				loadDataButton.Enabled = enable;
+				populationSizeBox.Enabled = enable;
+				iterationsBox.Enabled = enable;
+				selectionBox.Enabled = enable;
+				functionsSetBox.Enabled = enable;
+				geneticMethodBox.Enabled = enable;
 
-                startButton.Enabled         = enable;
-                stopButton.Enabled          = !enable;
-            }
- 		}
-		
+				startButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
+		}
+
 		// On button "Start"
 		private void startButton_Click(object sender, System.EventArgs e)
 		{
@@ -596,7 +592,7 @@ namespace Approximation
 			// get population size
 			try
 			{
-				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize = System.Math.Max(10, System.Math.Min(100, int.Parse(populationSizeBox.Text)));
 			}
 			catch
 			{
@@ -605,119 +601,119 @@ namespace Approximation
 			// iterations
 			try
 			{
-				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations = System.Math.Max(0, int.Parse(iterationsBox.Text));
 			}
 			catch
 			{
 				iterations = 100;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
-			selectionMethod	= selectionBox.SelectedIndex;
-			functionsSet	= functionsSetBox.SelectedIndex;
-			geneticMethod	= geneticMethodBox.SelectedIndex;
-		
+			selectionMethod = selectionBox.SelectedIndex;
+			functionsSet = functionsSetBox.SelectedIndex;
+			geneticMethod = geneticMethodBox.SelectedIndex;
+
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-            
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+
+			workerThread.Start();
 		}
 
 		// On button "Stop"
-		private void stopButton_Click( object sender, System.EventArgs e )
+		private void stopButton_Click(object sender, System.EventArgs e)
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
+			while (!workerThread.Join(100))
+				Application.DoEvents();
 			workerThread = null;
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// create fitness function
-			SymbolicRegressionFitness fitness = new SymbolicRegressionFitness( data, new double[] { 1, 2, 3, 5, 7 } );
+			var fitness = new SymbolicRegressionFitness(data, new double[] { 1, 2, 3, 5, 7 });
 			// create gene function
-			IGPGene gene = ( functionsSet == 0 ) ?
-				(IGPGene) new SimpleGeneFunction( 6 ) :
-				(IGPGene) new ExtendedGeneFunction( 6 );
+			var gene = (functionsSet == 0) ?
+				 new SimpleGeneFunction(6) :
+				(IGPGene)new ExtendedGeneFunction(6);
 			// create population
-			Population population = new Population( populationSize,
-				( geneticMethod == 0 ) ?
-					(IChromosome) new GPTreeChromosome( gene ) :
-					(IChromosome) new GEPChromosome( gene, 15 ),
+			var population = new Population(populationSize,
+				(geneticMethod == 0) ?
+					 new GPTreeChromosome(gene) :
+					(IChromosome)new GEPChromosome(gene, 15),
 				fitness,
-				( selectionMethod == 0 ) ? (ISelectionMethod) new EliteSelection( ) :
-				( selectionMethod == 1 ) ? (ISelectionMethod) new RankSelection( ) :
-										   (ISelectionMethod) new RouletteWheelSelection( )
+				(selectionMethod == 0) ? new EliteSelection() :
+				(selectionMethod == 1) ? new RankSelection() :
+										   (ISelectionMethod)new RouletteWheelSelection()
 				);
 			// iterations
-			int i = 1;
+			var i = 1;
 			// solution array
-			double[,]	solution = new double[50, 2];
-			double[]	input = new double[6] { 0, 1, 2, 3, 5, 7 };
+			var solution = new double[50, 2];
+			var input = new double[6] { 0, 1, 2, 3, 5, 7 };
 
 			// calculate X values to be used with solution function
-			for ( int j = 0; j < 50; j++ )
+			for (var j = 0; j < 50; j++)
 			{
-				solution[j, 0] = chart.RangeX.Min + (double) j * chart.RangeX.Length / 49;
+				solution[j, 0] = chart.RangeX.Min + (double)j * chart.RangeX.Length / 49;
 			}
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
 				// run one epoch of genetic algorithm
-				population.RunEpoch( );
+				population.RunEpoch();
 
 				try
 				{
 					// get best solution
-					string bestFunction = population.BestChromosome.ToString( );
+					var bestFunction = population.BestChromosome.ToString();
 
 					// calculate best function
-					for ( int j = 0; j < 50; j++ )
+					for (var j = 0; j < 50; j++)
 					{
 						input[0] = solution[j, 0];
-						solution[j, 1] = PolishExpression.Evaluate( bestFunction, input );
+						solution[j, 1] = PolishExpression.Evaluate(bestFunction, input);
 					}
-					chart.UpdateDataSeries( "solution", solution );
+					chart.UpdateDataSeries("solution", solution);
 					// calculate error
-					double error = 0.0;
-					for ( int j = 0, k = data.GetLength( 0 ); j < k; j++ )
+					var error = 0.0;
+					for (int j = 0, k = data.GetLength(0); j < k; j++)
 					{
 						input[0] = data[j, 0];
-						error += Math.Abs( data[j, 1] - PolishExpression.Evaluate( bestFunction, input ) );
+						error += Math.Abs(data[j, 1] - PolishExpression.Evaluate(bestFunction, input));
 					}
 
 					// set current iteration's info
-                    SetText( currentIterationBox, i.ToString( ) );
-                    SetText( currentErrorBox, error.ToString( "F3" ) );
+					SetText(currentIterationBox, i.ToString());
+					SetText(currentErrorBox, error.ToString("F3"));
 				}
 				catch
 				{
 					// remove any solutions from chart in case of any errors
-					chart.UpdateDataSeries( "solution", null );
+					chart.UpdateDataSeries("solution", null);
 				}
 
 				// increase current iteration
 				i++;
 
 				//
-				if ( ( iterations != 0 ) && ( i > iterations ) )
+				if ((iterations != 0) && (i > iterations))
 					break;
 			}
 
 			// show solution
-            SetText( solutionBox, population.BestChromosome.ToString( ) );
+			SetText(solutionBox, population.BestChromosome.ToString());
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 	}
 }

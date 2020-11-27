@@ -6,17 +6,12 @@
 // contacts@aforgenet.com
 //
 
+using AForge.Controls;
+using AForge.Genetic;
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
 using System.Threading;
-
-using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace Optimization1D
@@ -57,7 +52,7 @@ namespace Optimization1D
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.TextBox currentValueBox;
 
-		private UserFunction userFunction = new UserFunction( );
+		private UserFunction userFunction = new UserFunction();
 		private int populationSize = 40;
 		private int chromosomeLength = 32;
 		private int iterations = 100;
@@ -69,39 +64,39 @@ namespace Optimization1D
 		private volatile bool needToStop = false;
 
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
 			//
-			InitializeComponent( );
+			InitializeComponent();
 
 			// add data series to chart
-			chart.AddDataSeries( "function", Color.Red, Chart.SeriesType.Line, 1 );
-			chart.AddDataSeries( "solution", Color.Blue, Chart.SeriesType.Dots, 5 );
-			UpdateChart( );
+			chart.AddDataSeries("function", Color.Red, Chart.SeriesType.Line, 1);
+			chart.AddDataSeries("solution", Color.Blue, Chart.SeriesType.Dots, 5);
+			UpdateChart();
 
 			// update controls
-			minXBox.Text = userFunction.Range.Min.ToString( );
-			maxXBox.Text = userFunction.Range.Max.ToString( );
+			minXBox.Text = userFunction.Range.Min.ToString();
+			maxXBox.Text = userFunction.Range.Max.ToString();
 			selectionBox.SelectedIndex = selectionMethod;
 			modeBox.SelectedIndex = optimizationMode;
-			UpdateSettings( );
+			UpdateSettings();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if (components != null) 
+				if (components != null)
 				{
 					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -259,7 +254,7 @@ namespace Optimization1D
 			// 
 			// label6
 			// 
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.label6.Location = new System.Drawing.Point(125, 175);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(56, 16);
@@ -412,57 +407,57 @@ namespace Optimization1D
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
-        
-        // On main form closing
-		private void MainForm_Closing( object sender, System.ComponentModel.CancelEventArgs e )
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
+
+		// On main form closing
+		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			populationSizeBox.Text		= populationSize.ToString( );
-			chromosomeLengthBox.Text	= chromosomeLength.ToString( );
-			iterationsBox.Text			= iterations.ToString( );
+			populationSizeBox.Text = populationSize.ToString();
+			chromosomeLengthBox.Text = chromosomeLength.ToString();
+			iterationsBox.Text = iterations.ToString();
 		}
-		
+
 		// Update chart
-		private void UpdateChart( )
+		private void UpdateChart()
 		{
 			// update chart range
 			chart.RangeX = userFunction.Range;
 
 			double[,] data = null;
 
-			if ( chart.RangeX.Length > 0 )
+			if (chart.RangeX.Length > 0)
 			{
 				// prepare data
 				data = new double[501, 2];
@@ -470,15 +465,15 @@ namespace Optimization1D
 				double minX = userFunction.Range.Min;
 				double length = userFunction.Range.Length;
 
-				for ( int i = 0; i <= 500; i++ )
+				for (var i = 0; i <= 500; i++)
 				{
 					data[i, 0] = minX + length * i / 500;
-					data[i, 1] = userFunction.OptimizationFunction( data[i, 0] );
+					data[i, 1] = userFunction.OptimizationFunction(data[i, 0]);
 				}
 			}
 
 			// update chart series
-			chart.UpdateDataSeries( "function", data );
+			chart.UpdateDataSeries("function", data);
 		}
 
 		// Update min value
@@ -486,8 +481,8 @@ namespace Optimization1D
 		{
 			try
 			{
-				userFunction.Range = new Range( float.Parse( minXBox.Text ), userFunction.Range.Max );
-				UpdateChart( );
+				userFunction.Range = new Range(float.Parse(minXBox.Text), userFunction.Range.Max);
+				UpdateChart();
 			}
 			catch
 			{
@@ -499,40 +494,40 @@ namespace Optimization1D
 		{
 			try
 			{
-				userFunction.Range = new Range( userFunction.Range.Min, float.Parse( maxXBox.Text ) );
-				UpdateChart( );
+				userFunction.Range = new Range(userFunction.Range.Min, float.Parse(maxXBox.Text));
+				UpdateChart();
 			}
 			catch
 			{
 			}
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-		private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-                minXBox.Enabled = enable;
-                maxXBox.Enabled = enable;
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				minXBox.Enabled = enable;
+				maxXBox.Enabled = enable;
 
-                populationSizeBox.Enabled = enable;
-                chromosomeLengthBox.Enabled = enable;
-                iterationsBox.Enabled = enable;
-                selectionBox.Enabled = enable;
-                modeBox.Enabled = enable;
-                onlyBestCheck.Enabled = enable;
+				populationSizeBox.Enabled = enable;
+				chromosomeLengthBox.Enabled = enable;
+				iterationsBox.Enabled = enable;
+				selectionBox.Enabled = enable;
+				modeBox.Enabled = enable;
+				onlyBestCheck.Enabled = enable;
 
-                startButton.Enabled = enable;
-                stopButton.Enabled = !enable;
-            }
+				startButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
 		}
 
 		// On "Start" button click
@@ -541,7 +536,7 @@ namespace Optimization1D
 			// get population size
 			try
 			{
-				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize = System.Math.Max(10, System.Math.Min(100, int.Parse(populationSizeBox.Text)));
 			}
 			catch
 			{
@@ -550,7 +545,7 @@ namespace Optimization1D
 			// get chromosome length
 			try
 			{
-				chromosomeLength =System.Math.Max( 8,System.Math.Min( 64, int.Parse( chromosomeLengthBox.Text ) ) );
+				chromosomeLength = System.Math.Max(8, System.Math.Min(64, int.Parse(chromosomeLengthBox.Text)));
 			}
 			catch
 			{
@@ -559,26 +554,26 @@ namespace Optimization1D
 			// iterations
 			try
 			{
-				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations = System.Math.Max(0, int.Parse(iterationsBox.Text));
 			}
 			catch
 			{
 				iterations = 100;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
 			selectionMethod = selectionBox.SelectedIndex;
 			optimizationMode = modeBox.SelectedIndex;
 			showOnlyBest = onlyBestCheck.Checked;
 
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On "Stop" button click
@@ -586,80 +581,80 @@ namespace Optimization1D
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
-            workerThread = null;
+			while (!workerThread.Join(100))
+				Application.DoEvents();
+			workerThread = null;
 		}
 
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// create population
-			Population population = new Population( populationSize,
-				new BinaryChromosome( chromosomeLength ),
+			var population = new Population(populationSize,
+				new BinaryChromosome(chromosomeLength),
 				userFunction,
-				( selectionMethod == 0 ) ? (ISelectionMethod) new EliteSelection( ) :
-				( selectionMethod == 1 ) ? (ISelectionMethod) new RankSelection( ) :
-										   (ISelectionMethod) new RouletteWheelSelection( )
+				(selectionMethod == 0) ? new EliteSelection() :
+				(selectionMethod == 1) ? new RankSelection() :
+										   (ISelectionMethod)new RouletteWheelSelection()
 				);
 			// set optimization mode
-			userFunction.Mode = ( optimizationMode == 0 ) ?
+			userFunction.Mode = (optimizationMode == 0) ?
 				OptimizationFunction1D.Modes.Maximization :
 				OptimizationFunction1D.Modes.Minimization;
 			// iterations
-			int i = 1;
+			var i = 1;
 			// solution
-			double[,] data = new double[(showOnlyBest) ? 1 : populationSize, 2];
+			var data = new double[(showOnlyBest) ? 1 : populationSize, 2];
 
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
 				// run one epoch of genetic algorithm
-				population.RunEpoch( );
+				population.RunEpoch();
 
 				// show current solution
-				if ( showOnlyBest )
+				if (showOnlyBest)
 				{
-					data[0, 0] = userFunction.Translate( population.BestChromosome );
-					data[0, 1] = userFunction.OptimizationFunction( data[0, 0] );
+					data[0, 0] = userFunction.Translate(population.BestChromosome);
+					data[0, 1] = userFunction.OptimizationFunction(data[0, 0]);
 				}
 				else
 				{
-					for ( int j = 0; j < populationSize; j++ )
+					for (var j = 0; j < populationSize; j++)
 					{
-						data[j, 0] = userFunction.Translate( population[j] );
-						data[j, 1] = userFunction.OptimizationFunction( data[j, 0] );
+						data[j, 0] = userFunction.Translate(population[j]);
+						data[j, 1] = userFunction.OptimizationFunction(data[j, 0]);
 					}
 				}
-				chart.UpdateDataSeries( "solution", data );
+				chart.UpdateDataSeries("solution", data);
 
 				// set current iteration's info
-                SetText( currentIterationBox, i.ToString( ) );
-                SetText( currentValueBox, userFunction.Translate( population.BestChromosome ).ToString( "F3" ) );
+				SetText(currentIterationBox, i.ToString());
+				SetText(currentValueBox, userFunction.Translate(population.BestChromosome).ToString("F3"));
 
 				// increase current iteration
 				i++;
 
 				//
-				if ( ( iterations != 0 ) && ( i > iterations ) )
+				if ((iterations != 0) && (i > iterations))
 					break;
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 	}
 
 	// Function to optimize
 	public class UserFunction : OptimizationFunction1D
 	{
-		public UserFunction( ) : base( new Range( 0, 255 ) ) { }
+		public UserFunction() : base(new Range(0, 255)) { }
 
-		public override double OptimizationFunction( double x )
+		public override double OptimizationFunction(double x)
 		{
-			return System.Math.Cos( x / 23 ) * System.Math.Sin( x / 50 ) + 2;
+			return System.Math.Cos(x / 23) * System.Math.Sin(x / 50) + 2;
 		}
 	}
 }

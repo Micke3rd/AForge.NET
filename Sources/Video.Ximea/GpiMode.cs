@@ -8,26 +8,24 @@
 
 namespace AForge.Video.Ximea
 {
-    using System;
+	/// <summary>
+	/// XIMEA camera's GPI port modes.
+	/// </summary>
+	public enum GpiMode : int
+	{
+		/// <summary>
+		/// Input is off.
+		/// </summary>
+		Off = 0,
 
-    /// <summary>
-    /// XIMEA camera's GPI port modes.
-    /// </summary>
-    public enum GpiMode : int
-    {
-        /// <summary>
-        /// Input is off.
-        /// </summary>
-        Off = 0,
+		/// <summary>
+		/// Trigger input.
+		/// </summary>
+		Trigger = 1,
 
-        /// <summary>
-        /// Trigger input.
-        /// </summary>
-        Trigger = 1,
-
-        /// <summary>
-        /// External signal input.
-        /// </summary>
-        ExternalEvent = 2
-    }
+		/// <summary>
+		/// External signal input.
+		/// </summary>
+		ExternalEvent = 2
+	}
 }

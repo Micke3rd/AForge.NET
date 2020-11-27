@@ -6,24 +6,19 @@
 // contacts@aforgenet.com
 //
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-using System.Threading;
-
-using AForge;
+using AForge.Controls;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
-using AForge.Controls;
+using System;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace TSP
 {
 	/// <summary>
-    /// Summary description for MainForm.
+	/// Summary description for MainForm.
 	/// </summary>
 	public class MainForm : System.Windows.Forms.Form
 	{
@@ -52,50 +47,50 @@ namespace TSP
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		private int citiesCount		= 10;
-		private int neurons			= 20;
-		private int	iterations		= 500;
-		private double learningRate	= 0.5;
+		private int citiesCount = 10;
+		private int neurons = 20;
+		private int iterations = 500;
+		private double learningRate = 0.5;
 		private double learningRadius = 0.5;
 
-		private double[,]	map = null;
-		private Random		rand = new Random();
+		private double[,] map = null;
+		private Random rand = new Random();
 
 		private Thread workerThread = null;
-        private volatile bool needToStop = false;
+		private volatile bool needToStop = false;
 
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
 			//
-			InitializeComponent( );
+			InitializeComponent();
 
 			// initialize chart
-			chart.AddDataSeries( "cities", Color.Red, Chart.SeriesType.Dots, 5, false );
-			chart.AddDataSeries( "path", Color.Blue, Chart.SeriesType.Line, 1, false );
-			chart.RangeX = new Range( 0, 1000 );
-			chart.RangeY = new Range( 0, 1000 );
+			chart.AddDataSeries("cities", Color.Red, Chart.SeriesType.Dots, 5, false);
+			chart.AddDataSeries("path", Color.Blue, Chart.SeriesType.Line, 1, false);
+			chart.RangeX = new Range(0, 1000);
+			chart.RangeY = new Range(0, 1000);
 
 			//
-			UpdateSettings( );
-			GenerateMap( );
+			UpdateSettings();
+			GenerateMap();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if ( components != null ) 
+				if (components != null)
 				{
-					components.Dispose( );
+					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -127,7 +122,7 @@ namespace TSP
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
-			this.chart = new AForge.Controls.Chart( );
+			this.chart = new AForge.Controls.Chart();
 			// 
 			// groupBox1
 			// 
@@ -333,68 +328,68 @@ namespace TSP
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
 
-        // On main form closing
+		// On main form closing
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			citiesCountBox.Text	= citiesCount.ToString( );
-			neuronsBox.Text		= neurons.ToString( );
-			iterationsBox.Text	= iterations.ToString( );
-			rateBox.Text		= learningRate.ToString( );
-			radiusBox.Text		= learningRadius.ToString( );
+			citiesCountBox.Text = citiesCount.ToString();
+			neuronsBox.Text = neurons.ToString();
+			iterationsBox.Text = iterations.ToString();
+			rateBox.Text = learningRate.ToString();
+			radiusBox.Text = learningRadius.ToString();
 		}
 
 		// Generate new map for the Traivaling Salesman problem
-		private void GenerateMap( )
+		private void GenerateMap()
 		{
-			Random rand = new Random( (int) DateTime.Now.Ticks );
+			var rand = new Random((int)DateTime.Now.Ticks);
 
 			// create coordinates array
 			map = new double[citiesCount, 2];
 
-			for ( int i = 0; i < citiesCount; i++ )
+			for (var i = 0; i < citiesCount; i++)
 			{
-				map[i, 0] = rand.Next( 1001 );
-				map[i, 1] = rand.Next( 1001 );
+				map[i, 0] = rand.Next(1001);
+				map[i, 1] = rand.Next(1001);
 			}
 
 			// set the map
-			chart.UpdateDataSeries( "cities", map );
+			chart.UpdateDataSeries("cities", map);
 			// erase path if it is
-			chart.UpdateDataSeries( "path", null );
+			chart.UpdateDataSeries("path", null);
 		}
 
 		// On "Generate" button click - generate map
@@ -403,41 +398,41 @@ namespace TSP
 			// get cities count
 			try
 			{
-				citiesCount =System.Math.Max( 5,System.Math.Min( 50, int.Parse( citiesCountBox.Text ) ) );
+				citiesCount = System.Math.Max(5, System.Math.Min(50, int.Parse(citiesCountBox.Text)));
 			}
 			catch
 			{
 				citiesCount = 20;
 			}
-			citiesCountBox.Text = citiesCount.ToString( );
+			citiesCountBox.Text = citiesCount.ToString();
 
 			// regenerate map
-			GenerateMap( );
+			GenerateMap();
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-			    neuronsBox.Enabled		= enable;
-			    iterationsBox.Enabled	= enable;
-			    rateBox.Enabled			= enable;
-			    radiusBox.Enabled		= enable;
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				neuronsBox.Enabled = enable;
+				iterationsBox.Enabled = enable;
+				rateBox.Enabled = enable;
+				radiusBox.Enabled = enable;
 
-			    startButton.Enabled			= enable;
-			    generateMapButton.Enabled	= enable;
-			    stopButton.Enabled			= !enable;
-		    }
-        }
+				startButton.Enabled = enable;
+				generateMapButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
+		}
 
 		// On "Start" button click
 		private void startButton_Click(object sender, System.EventArgs e)
@@ -445,7 +440,7 @@ namespace TSP
 			// get network size
 			try
 			{
-				neurons =System.Math.Max( 5,System.Math.Min( 50, int.Parse( neuronsBox.Text ) ) );
+				neurons = System.Math.Max(5, System.Math.Min(50, int.Parse(neuronsBox.Text)));
 			}
 			catch
 			{
@@ -454,7 +449,7 @@ namespace TSP
 			// get iterations count
 			try
 			{
-				iterations =System.Math.Max( 10,System.Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
+				iterations = System.Math.Max(10, System.Math.Min(1000000, int.Parse(iterationsBox.Text)));
 			}
 			catch
 			{
@@ -463,7 +458,7 @@ namespace TSP
 			// get learning rate
 			try
 			{
-				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
+				learningRate = System.Math.Max(0.00001, System.Math.Min(1.0, double.Parse(rateBox.Text)));
 			}
 			catch
 			{
@@ -472,22 +467,22 @@ namespace TSP
 			// get learning radius
 			try
 			{
-				learningRadius =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( radiusBox.Text ) ) );
+				learningRadius = System.Math.Max(0.00001, System.Math.Min(1.0, double.Parse(radiusBox.Text)));
 			}
 			catch
 			{
 				learningRadius = 0.5;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On "Stop" button click
@@ -495,52 +490,52 @@ namespace TSP
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
-            workerThread = null;
+			while (!workerThread.Join(100))
+				Application.DoEvents();
+			workerThread = null;
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// set random generators range
-			Neuron.RandRange = new Range( 0, 1000 );
+			Neuron.RandRange = new Range(0, 1000);
 
 			// create network
-			DistanceNetwork network = new DistanceNetwork( 2, neurons );
+			var network = new DistanceNetwork(2, neurons);
 
 			// create learning algorithm
-			ElasticNetworkLearning	trainer = new ElasticNetworkLearning( network );
+			var trainer = new ElasticNetworkLearning(network);
 
-			double	fixedLearningRate = learningRate / 20;
-			double	driftingLearningRate = fixedLearningRate * 19;
+			var fixedLearningRate = learningRate / 20;
+			var driftingLearningRate = fixedLearningRate * 19;
 
 			// path
-			double[,] path = new double[neurons + 1, 2];
+			var path = new double[neurons + 1, 2];
 
 			// input
-			double[] input = new double[2];
+			var input = new double[2];
 
 			// iterations
-			int i = 0;
+			var i = 0;
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
 				// update learning speed & radius
-				trainer.LearningRate = driftingLearningRate * ( iterations - i ) / iterations + fixedLearningRate;
-				trainer.LearningRadius = learningRadius * ( iterations - i ) / iterations;
+				trainer.LearningRate = driftingLearningRate * (iterations - i) / iterations + fixedLearningRate;
+				trainer.LearningRadius = learningRadius * (iterations - i) / iterations;
 
 				// set network input
-				int currentCity = rand.Next( citiesCount );
+				var currentCity = rand.Next(citiesCount);
 				input[0] = map[currentCity, 0];
 				input[1] = map[currentCity, 1];
 
 				// run one training iteration
-				trainer.Run( input );
+				trainer.Run(input);
 
 				// show current path
-				for ( int j = 0; j < neurons; j++ )
+				for (var j = 0; j < neurons; j++)
 				{
 					path[j, 0] = network.Layers[0].Neurons[j].Weights[0];
 					path[j, 1] = network.Layers[0].Neurons[j].Weights[1];
@@ -548,21 +543,21 @@ namespace TSP
 				path[neurons, 0] = network.Layers[0].Neurons[0].Weights[0];
 				path[neurons, 1] = network.Layers[0].Neurons[0].Weights[1];
 
-				chart.UpdateDataSeries( "path", path );
+				chart.UpdateDataSeries("path", path);
 
 				// increase current iteration
 				i++;
 
 				// set current iteration's info
-                SetText( currentIterationBox, i.ToString( ) );
+				SetText(currentIterationBox, i.ToString());
 
 				// stop ?
-				if ( i >= iterations )
+				if (i >= iterations)
 					break;
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 	}
 }

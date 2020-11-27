@@ -6,23 +6,18 @@
 // contacts@aforgenet.com
 //
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-using System.Threading;
-
-using AForge;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
+using System;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace SOMOrganizing
 {
 	/// <summary>
-    /// Summary description for MainForm.
+	/// Summary description for MainForm.
 	/// </summary>
 	public class MainForm : System.Windows.Forms.Form
 	{
@@ -55,47 +50,47 @@ namespace SOMOrganizing
 		private System.ComponentModel.Container components = null;
 
 
-		private const int	groupRadius = 20;
-		private const int	pointsCount = 100;
-		private int[,]		points = new int[pointsCount, 2];	// x, y
-		private double[][]	trainingSet = new double[pointsCount][];
-		private int[,,]		map;
+		private const int groupRadius = 20;
+		private const int pointsCount = 100;
+		private int[,] points = new int[pointsCount, 2];    // x, y
+		private double[][] trainingSet = new double[pointsCount][];
+		private int[,,] map;
 
-		private int			networkSize		= 15;
-		private int			iterations		= 500;
-		private double		learningRate	= 0.3;
-		private int			learningRadius	= 3;
+		private int networkSize = 15;
+		private int iterations = 500;
+		private double learningRate = 0.3;
+		private int learningRadius = 3;
 
-		private Random		rand = new Random( );
-		private Thread		workerThread = null;
-        private volatile bool needToStop = false;
+		private Random rand = new Random();
+		private Thread workerThread = null;
+		private volatile bool needToStop = false;
 
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
 			//
-			InitializeComponent( );
+			InitializeComponent();
 
 			//
-			GeneratePoints( );
-			UpdateSettings( );
+			GeneratePoints();
+			UpdateSettings();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if ( components != null ) 
+				if (components != null)
 				{
-					components.Dispose( );
+					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -376,76 +371,76 @@ namespace SOMOrganizing
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
-        
-        // On main form closing
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
+
+		// On main form closing
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			sizeBox.Text		= networkSize.ToString( );
-			iterationsBox.Text	= iterations.ToString( );
-			rateBox.Text		= learningRate.ToString( );
-			radiusBox.Text		= learningRadius.ToString( );
+			sizeBox.Text = networkSize.ToString();
+			iterationsBox.Text = iterations.ToString();
+			rateBox.Text = learningRate.ToString();
+			radiusBox.Text = learningRadius.ToString();
 		}
 
 		// On "Generate" button click
 		private void generateButton_Click(object sender, System.EventArgs e)
 		{
-			GeneratePoints( );
+			GeneratePoints();
 		}
 
 		// Generate point
-		private void GeneratePoints( )
+		private void GeneratePoints()
 		{
-			int width	= pointsPanel.ClientRectangle.Width;
-			int height	= pointsPanel.ClientRectangle.Height;
-			int diameter = groupRadius * 2;
+			var width = pointsPanel.ClientRectangle.Width;
+			var height = pointsPanel.ClientRectangle.Height;
+			var diameter = groupRadius * 2;
 
 			// generate groups of ten points
-			for ( int i = 0; i < pointsCount; )
+			for (var i = 0; i < pointsCount;)
 			{
-				int cx = rand.Next( width );
-				int cy = rand.Next( height );
+				var cx = rand.Next(width);
+				var cy = rand.Next(height);
 
 				// generate group
-				for ( int j = 0 ; ( i < pointsCount ) && ( j < 10 ); )
+				for (var j = 0; (i < pointsCount) && (j < 10);)
 				{
-					int x = cx + rand.Next( diameter ) - groupRadius;
-					int y = cy + rand.Next( diameter ) - groupRadius;
+					var x = cx + rand.Next(diameter) - groupRadius;
+					var y = cy + rand.Next(diameter) - groupRadius;
 
 					// check if wee are not out
-					if ( ( x < 0 ) || ( y < 0 ) || ( x >= width ) || ( y >= height ) )
+					if ((x < 0) || (y < 0) || (x >= width) || (y >= height))
 					{
 						continue;
 					}
@@ -460,139 +455,139 @@ namespace SOMOrganizing
 			}
 
 			map = null;
-			pointsPanel.Invalidate( );
-			mapPanel.Invalidate( );
+			pointsPanel.Invalidate();
+			mapPanel.Invalidate();
 		}
 
 		// Paint points
-		private void pointsPanel_Paint( object sender, System.Windows.Forms.PaintEventArgs e )
+		private void pointsPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
-			Graphics g = e.Graphics;
+			var g = e.Graphics;
 
-			using ( Brush brush = new SolidBrush( Color.Blue ) )
+			using (Brush brush = new SolidBrush(Color.Blue))
 			{
 				// draw all points
-				for ( int i = 0, n = points.GetLength( 0 ); i < n; i++ )
+				for (int i = 0, n = points.GetLength(0); i < n; i++)
 				{
-					g.FillEllipse( brush, points[i, 0] - 2, points[i, 1] - 2, 5, 5 );
+					g.FillEllipse(brush, points[i, 0] - 2, points[i, 1] - 2, 5, 5);
 				}
 			}
 		}
 
 		// Paint map
-		private void mapPanel_Paint( object sender, System.Windows.Forms.PaintEventArgs e )
+		private void mapPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
-			Graphics g = e.Graphics;
+			var g = e.Graphics;
 
-			if ( map != null )
+			if (map != null)
 			{
 				//
-				bool showConnections = showConnectionsCheck.Checked;
-				bool showInactive = showInactiveCheck.Checked;
+				var showConnections = showConnectionsCheck.Checked;
+				var showInactive = showInactiveCheck.Checked;
 
 				// pens and brushes
-				Brush brush = new SolidBrush( Color.Blue );
-				Brush brushGray = new SolidBrush( Color.FromArgb( 192, 192, 192 ) );
-				Pen pen = new Pen( Color.Blue, 1 );
-				Pen penGray = new Pen( Color.FromArgb( 192, 192, 192 ), 1 );
+				Brush brush = new SolidBrush(Color.Blue);
+				Brush brushGray = new SolidBrush(Color.FromArgb(192, 192, 192));
+				var pen = new Pen(Color.Blue, 1);
+				var penGray = new Pen(Color.FromArgb(192, 192, 192), 1);
 
 				// lock
-				Monitor.Enter( this );
+				Monitor.Enter(this);
 
-				if ( showConnections )
+				if (showConnections)
 				{
 					// draw connections
-					for ( int i = 0, n = map.GetLength( 0 ); i < n; i++ )
+					for (int i = 0, n = map.GetLength(0); i < n; i++)
 					{
-						for ( int j = 0, k = map.GetLength( 1 ); j < k; j++ )
+						for (int j = 0, k = map.GetLength(1); j < k; j++)
 						{
-							if ( ( !showInactive ) && ( map[i, j, 2] == 0 ) )
+							if ((!showInactive) && (map[i, j, 2] == 0))
 								continue;
 
 							// left
-							if ( ( i > 0 ) && ( ( showInactive ) || ( map[i - 1, j, 2] == 1 ) ) )
+							if ((i > 0) && ((showInactive) || (map[i - 1, j, 2] == 1)))
 							{
-								g.DrawLine( ( ( map[i, j, 2] == 0 ) || ( map[i - 1, j, 2] == 0 ) ) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i - 1, j, 0], map[i - 1, j, 1] );
+								g.DrawLine(((map[i, j, 2] == 0) || (map[i - 1, j, 2] == 0)) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i - 1, j, 0], map[i - 1, j, 1]);
 							}
 
 							// right
-							if ( ( i < n - 1 ) && ( ( showInactive ) || ( map[i + 1, j, 2] == 1 ) ) )
+							if ((i < n - 1) && ((showInactive) || (map[i + 1, j, 2] == 1)))
 							{
-								g.DrawLine( ( ( map[i, j, 2] == 0 ) || ( map[i + 1, j, 2] == 0 ) ) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i + 1, j, 0], map[i + 1, j, 1] );
+								g.DrawLine(((map[i, j, 2] == 0) || (map[i + 1, j, 2] == 0)) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i + 1, j, 0], map[i + 1, j, 1]);
 							}
 
 							// top
-							if ( ( j > 0 ) && ( ( showInactive ) || ( map[i, j - 1, 2] == 1 ) ) )
+							if ((j > 0) && ((showInactive) || (map[i, j - 1, 2] == 1)))
 							{
-								g.DrawLine( ( ( map[i, j, 2] == 0 ) || ( map[i, j - 1, 2] == 0 ) ) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i, j - 1, 0], map[i, j - 1, 1] );
+								g.DrawLine(((map[i, j, 2] == 0) || (map[i, j - 1, 2] == 0)) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i, j - 1, 0], map[i, j - 1, 1]);
 							}
 
 							// bottom
-							if ( ( j < k - 1 ) && ( ( showInactive ) || ( map[i, j + 1, 2] == 1 ) ) )
+							if ((j < k - 1) && ((showInactive) || (map[i, j + 1, 2] == 1)))
 							{
-								g.DrawLine( ( ( map[i, j, 2] == 0 ) || ( map[i, j + 1, 2] == 0 ) ) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i, j + 1, 0], map[i, j + 1, 1] );
+								g.DrawLine(((map[i, j, 2] == 0) || (map[i, j + 1, 2] == 0)) ? penGray : pen, map[i, j, 0], map[i, j, 1], map[i, j + 1, 0], map[i, j + 1, 1]);
 							}
 						}
 					}
 				}
 
 				// draw the map
-				for ( int i = 0, n = map.GetLength( 0 ); i < n; i++ )
+				for (int i = 0, n = map.GetLength(0); i < n; i++)
 				{
-					for ( int j = 0, k = map.GetLength( 1 ); j < k; j++ )
+					for (int j = 0, k = map.GetLength(1); j < k; j++)
 					{
-						if ( ( !showInactive ) && ( map[i, j, 2] == 0 ) )
+						if ((!showInactive) && (map[i, j, 2] == 0))
 							continue;
 
 						// draw the point
-						g.FillEllipse( ( map[i, j, 2] == 0 ) ? brushGray : brush, map[i, j, 0] - 2, map[i, j, 1] - 2, 5, 5 );
+						g.FillEllipse((map[i, j, 2] == 0) ? brushGray : brush, map[i, j, 0] - 2, map[i, j, 1] - 2, 5, 5);
 					}
 				}
 
 				// unlock
-				Monitor.Exit( this );
+				Monitor.Exit(this);
 
-				brush.Dispose( );
-				brushGray.Dispose( );
-				pen.Dispose( );
-				penGray.Dispose( );
+				brush.Dispose();
+				brushGray.Dispose();
+				pen.Dispose();
+				penGray.Dispose();
 			}
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-                sizeBox.Enabled         = enable;
-                iterationsBox.Enabled   = enable;
-                rateBox.Enabled         = enable;
-                radiusBox.Enabled       = enable;
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				sizeBox.Enabled = enable;
+				iterationsBox.Enabled = enable;
+				rateBox.Enabled = enable;
+				radiusBox.Enabled = enable;
 
-                startButton.Enabled     = enable;
-                generateButton.Enabled  = enable;
-                stopButton.Enabled      = !enable;
-            }
+				startButton.Enabled = enable;
+				generateButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
 		}
 
 		// Show/hide connections on map
 		private void showConnectionsCheck_CheckedChanged(object sender, System.EventArgs e)
 		{
-			mapPanel.Invalidate( );
+			mapPanel.Invalidate();
 		}
 
 		// Show/hide inactive neurons on map
 		private void showInactiveCheck_CheckedChanged(object sender, System.EventArgs e)
 		{
-			mapPanel.Invalidate( );
+			mapPanel.Invalidate();
 		}
 
 		// On "Start" button click
@@ -601,7 +596,7 @@ namespace SOMOrganizing
 			// get network size
 			try
 			{
-				networkSize =System.Math.Max( 5,System.Math.Min( 50, int.Parse( sizeBox.Text ) ) );
+				networkSize = System.Math.Max(5, System.Math.Min(50, int.Parse(sizeBox.Text)));
 			}
 			catch
 			{
@@ -610,7 +605,7 @@ namespace SOMOrganizing
 			// get iterations count
 			try
 			{
-				iterations =System.Math.Max( 10,System.Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
+				iterations = System.Math.Max(10, System.Math.Min(1000000, int.Parse(iterationsBox.Text)));
 			}
 			catch
 			{
@@ -619,7 +614,7 @@ namespace SOMOrganizing
 			// get learning rate
 			try
 			{
-				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
+				learningRate = System.Math.Max(0.00001, System.Math.Min(1.0, double.Parse(rateBox.Text)));
 			}
 			catch
 			{
@@ -628,29 +623,29 @@ namespace SOMOrganizing
 			// get radius
 			try
 			{
-				learningRadius =System.Math.Max( 1,System.Math.Min( 30, int.Parse( radiusBox.Text ) ) );
+				learningRadius = System.Math.Max(1, System.Math.Min(30, int.Parse(radiusBox.Text)));
 			}
 			catch
 			{
 				learningRadius = 3;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// generate training set
-			for ( int i = 0; i < pointsCount; i++ )
+			for (var i = 0; i < pointsCount; i++)
 			{
 				// create new training sample
 				trainingSet[i] = new double[2] { points[i, 0], points[i, 1] };
 			}
-		
+
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On "Stop" button click
@@ -658,95 +653,95 @@ namespace SOMOrganizing
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
-            workerThread = null;
+			while (!workerThread.Join(100))
+				Application.DoEvents();
+			workerThread = null;
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// set random generators range
-			Neuron.RandRange = new Range( 0,System.Math.Max( pointsPanel.ClientRectangle.Width, pointsPanel.ClientRectangle.Height ) );
+			Neuron.RandRange = new Range(0, System.Math.Max(pointsPanel.ClientRectangle.Width, pointsPanel.ClientRectangle.Height));
 
 			// create network
-			DistanceNetwork network = new DistanceNetwork( 2, networkSize * networkSize );
+			var network = new DistanceNetwork(2, networkSize * networkSize);
 
 			// create learning algorithm
-			SOMLearning	trainer = new SOMLearning( network, networkSize, networkSize );
+			var trainer = new SOMLearning(network, networkSize, networkSize);
 
 			// create map
 			map = new int[networkSize, networkSize, 3];
 
-			double	fixedLearningRate = learningRate / 10;
-			double	driftingLearningRate = fixedLearningRate * 9;
+			var fixedLearningRate = learningRate / 10;
+			var driftingLearningRate = fixedLearningRate * 9;
 
 			// iterations
-			int i = 0;
+			var i = 0;
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
-				trainer.LearningRate = driftingLearningRate * ( iterations - i ) / iterations + fixedLearningRate;
-				trainer.LearningRadius = (double) learningRadius * ( iterations - i ) / iterations;
+				trainer.LearningRate = driftingLearningRate * (iterations - i) / iterations + fixedLearningRate;
+				trainer.LearningRadius = (double)learningRadius * (iterations - i) / iterations;
 
 				// run training epoch
-				trainer.RunEpoch( trainingSet );
+				trainer.RunEpoch(trainingSet);
 
 				// update map
-				UpdateMap( network );
+				UpdateMap(network);
 
 				// increase current iteration
 				i++;
 
 				// set current iteration's info
-                SetText( currentIterationBox, i.ToString( ) );
+				SetText(currentIterationBox, i.ToString());
 
 				// stop ?
-				if ( i >= iterations )
+				if (i >= iterations)
 					break;
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 
 		// Update map
-		private void UpdateMap( DistanceNetwork network )
+		private void UpdateMap(DistanceNetwork network)
 		{
 			// get first layer
-			Layer layer = network.Layers[0];
+			var layer = network.Layers[0];
 
 			// lock
-			Monitor.Enter( this );
+			Monitor.Enter(this);
 
 			// run through all neurons
-			for ( int i = 0; i < layer.Neurons.Length; i++ )
+			for (var i = 0; i < layer.Neurons.Length; i++)
 			{
-				Neuron neuron = layer.Neurons[i];
+				var neuron = layer.Neurons[i];
 
-				int x = i % networkSize;
-				int y = i / networkSize;
+				var x = i % networkSize;
+				var y = i / networkSize;
 
-				map[y, x, 0] = (int) neuron.Weights[0];
-                map[y, x, 1] = (int) neuron.Weights[1];
+				map[y, x, 0] = (int)neuron.Weights[0];
+				map[y, x, 1] = (int)neuron.Weights[1];
 				map[y, x, 2] = 0;
 			}
 
 			// collect active neurons
-			for ( int i = 0; i < pointsCount; i++ )
+			for (var i = 0; i < pointsCount; i++)
 			{
-				network.Compute( trainingSet[i] );
-				int w = network.GetWinner( );
+				network.Compute(trainingSet[i]);
+				var w = network.GetWinner();
 
 				map[w / networkSize, w % networkSize, 2] = 1;
 			}
 
 			// unlock
-			Monitor.Exit( this );
+			Monitor.Exit(this);
 
 			//
-			mapPanel.Invalidate( );
+			mapPanel.Invalidate();
 		}
 	}
 }

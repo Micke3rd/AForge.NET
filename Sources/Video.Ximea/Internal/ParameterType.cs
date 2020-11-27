@@ -6,14 +6,12 @@
 // contacts@aforgenet.com
 //
 
-using System;
-
 namespace AForge.Video.Ximea.Internal
 {
-    internal enum ParameterType
-    {
-        Integer = 0,
-        Float = 1,
-        String = 2
-    }
+	internal enum ParameterType
+	{
+		Integer = 0,
+		Float = 1,
+		String = 2
+	}
 }

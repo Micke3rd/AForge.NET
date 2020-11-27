@@ -6,19 +6,15 @@
 // contacts@aforgenet.com
 //
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-using System.IO;
-using System.Threading;
-
-using AForge;
+using AForge.Controls;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
-using AForge.Controls;
+using System;
+using System.Collections;
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace Classifier
@@ -54,50 +50,50 @@ namespace Classifier
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		private int			samples = 0;
-		private int			variables = 0;
-		private double[,]	data = null;
-		private int[]		classes = null;
+		private int samples = 0;
+		private int variables = 0;
+		private double[,] data = null;
+		private int[] classes = null;
 
-		private double		learningRate = 0.1;
-		private bool		saveStatisticsToFiles = false;
+		private double learningRate = 0.1;
+		private bool saveStatisticsToFiles = false;
 
 		private Thread workerThread = null;
-        private volatile bool needToStop = false;
+		private volatile bool needToStop = false;
 
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
 			//
-			InitializeComponent( );
+			InitializeComponent();
 
 			// initialize charts
-			chart.AddDataSeries( "class1", Color.Red, Chart.SeriesType.Dots, 5 );
-			chart.AddDataSeries( "class2", Color.Blue, Chart.SeriesType.Dots, 5 );
-			chart.AddDataSeries( "classifier", Color.Gray, Chart.SeriesType.Line, 1, false );
+			chart.AddDataSeries("class1", Color.Red, Chart.SeriesType.Dots, 5);
+			chart.AddDataSeries("class2", Color.Blue, Chart.SeriesType.Dots, 5);
+			chart.AddDataSeries("classifier", Color.Gray, Chart.SeriesType.Line, 1, false);
 
-			errorChart.AddDataSeries( "error", Color.Red, Chart.SeriesType.ConnectedDots, 3, false );
+			errorChart.AddDataSeries("error", Color.Red, Chart.SeriesType.ConnectedDots, 3, false);
 
 			// update some controls
 			saveFilesCheck.Checked = saveStatisticsToFiles;
-			UpdateSettings( );
+			UpdateSettings();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if (components != null) 
+				if (components != null)
 				{
 					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -347,145 +343,145 @@ namespace Classifier
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
-        private delegate void ClearListCallback( System.Windows.Forms.ListView control );
-        private delegate ListViewItem AddListItemCallback( System.Windows.Forms.ListView control, string itemText );
-        private delegate void AddListSubitemCallback( ListViewItem item, string subItemText );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
+		private delegate void ClearListCallback(System.Windows.Forms.ListView control);
+		private delegate ListViewItem AddListItemCallback(System.Windows.Forms.ListView control, string itemText);
+		private delegate void AddListSubitemCallback(ListViewItem item, string subItemText);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
 
-        // Thread safe clearing of list view
-        private void ClearList( System.Windows.Forms.ListView control )
-        {
-            if ( control.InvokeRequired )
-            {
-                ClearListCallback d = new ClearListCallback( ClearList );
-                Invoke( d, new object[] { control } );
-            }
-            else
-            {
-                control.Items.Clear( );
-            }
-        }
+		// Thread safe clearing of list view
+		private void ClearList(System.Windows.Forms.ListView control)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new ClearListCallback(ClearList);
+				Invoke(d, new object[] { control });
+			}
+			else
+			{
+				control.Items.Clear();
+			}
+		}
 
-        // Thread safe adding of item to list control
-        private ListViewItem AddListItem( System.Windows.Forms.ListView control, string itemText )
-        {
-            ListViewItem item = null;
+		// Thread safe adding of item to list control
+		private ListViewItem AddListItem(System.Windows.Forms.ListView control, string itemText)
+		{
+			ListViewItem item = null;
 
-            if ( control.InvokeRequired )
-            {
-                AddListItemCallback d = new AddListItemCallback( AddListItem );
-                item = (ListViewItem) Invoke( d, new object[] { control, itemText } );
-            }
-            else
-            {
-                item = control.Items.Add( itemText );
-            }
+			if (control.InvokeRequired)
+			{
+				var d = new AddListItemCallback(AddListItem);
+				item = (ListViewItem)Invoke(d, new object[] { control, itemText });
+			}
+			else
+			{
+				item = control.Items.Add(itemText);
+			}
 
-            return item;
-        }
+			return item;
+		}
 
-        // Thread safe adding of subitem to list control
-        private void AddListSubitem( ListViewItem item, string subItemText )
-        {
-            if ( this.InvokeRequired )
-            {
-                AddListSubitemCallback d = new AddListSubitemCallback( AddListSubitem );
-                Invoke( d, new object[] { item, subItemText } );
-            }
-            else
-            {
-                item.SubItems.Add( subItemText );
-            }
-        }
+		// Thread safe adding of subitem to list control
+		private void AddListSubitem(ListViewItem item, string subItemText)
+		{
+			if (this.InvokeRequired)
+			{
+				var d = new AddListSubitemCallback(AddListSubitem);
+				Invoke(d, new object[] { item, subItemText });
+			}
+			else
+			{
+				item.SubItems.Add(subItemText);
+			}
+		}
 
-        // On main form closing
+		// On main form closing
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// On "Load" button click - load data
-		private void loadButton_Click( object sender, System.EventArgs e )
+		private void loadButton_Click(object sender, System.EventArgs e)
 		{
 			// data file format:
 			// X1, X2, ... Xn, class (0|1)
 
 			// show file selection dialog
-			if ( openFileDialog.ShowDialog( ) == DialogResult.OK )
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				StreamReader reader = null;
 
 				// temp buffers (for 50 samples only)
-                float[,]	tempData = null;
-				int[]		tempClasses = new int[50];
+				float[,] tempData = null;
+				var tempClasses = new int[50];
 
 				// min and max X values
-                float minX = float.MaxValue;
-                float maxX = float.MinValue;
+				var minX = float.MaxValue;
+				var maxX = float.MinValue;
 
 				// samples count
 				samples = 0;
 
 				try
 				{
-					string	str = null;
+					string str = null;
 
 					// open selected file
-					reader = File.OpenText( openFileDialog.FileName );
+					reader = File.OpenText(openFileDialog.FileName);
 
 					// read the data
-					while ( ( samples < 50 ) && ( ( str = reader.ReadLine( ) ) != null ) )
+					while ((samples < 50) && ((str = reader.ReadLine()) != null))
 					{
 						// split the string
-						string[] strs = str.Split( ';' );
-						if ( strs.Length == 1 )
-							strs = str.Split( ',' );
+						var strs = str.Split(';');
+						if (strs.Length == 1)
+							strs = str.Split(',');
 
 						// allocate data array
-						if ( samples == 0 )
+						if (samples == 0)
 						{
 							variables = strs.Length - 1;
-                            tempData = new float[50, variables];
+							tempData = new float[50, variables];
 						}
 
 						// parse data
-						for ( int j = 0; j < variables; j++ )
+						for (var j = 0; j < variables; j++)
 						{
-                            tempData[samples, j] = float.Parse( strs[j] );
+							tempData[samples, j] = float.Parse(strs[j]);
 						}
-						tempClasses[samples] = int.Parse( strs[variables] );
+						tempClasses[samples] = int.Parse(strs[variables]);
 
 						// search for min value
-						if ( tempData[samples, 0] < minX )
+						if (tempData[samples, 0] < minX)
 							minX = tempData[samples, 0];
-                        // search for max value
-						if ( tempData[samples, 0] > maxX )
+						// search for max value
+						if (tempData[samples, 0] > maxX)
 							maxX = tempData[samples, 0];
 
 						samples++;
@@ -493,35 +489,35 @@ namespace Classifier
 
 					// allocate and set data
 					data = new double[samples, variables];
-					Array.Copy( tempData, 0, data, 0, samples * variables );
+					Array.Copy(tempData, 0, data, 0, samples * variables);
 					classes = new int[samples];
-					Array.Copy( tempClasses, 0, classes, 0, samples );
+					Array.Copy(tempClasses, 0, classes, 0, samples);
 
 					// clear current result
-					ClearCurrentSolution( );
+					ClearCurrentSolution();
 				}
-				catch ( Exception )
+				catch (Exception)
 				{
-					MessageBox.Show( "Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show("Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				finally
 				{
 					// close file
-					if ( reader != null )
-						reader.Close( );
+					if (reader != null)
+						reader.Close();
 				}
 
 				// update list and chart
-				UpdateDataListView( );
+				UpdateDataListView();
 
 				// show chart or not
-				bool showChart = ( variables == 2 );
+				var showChart = (variables == 2);
 
-				if ( showChart )
+				if (showChart)
 				{
-					chart.RangeX = new Range( minX, maxX );
-                    ShowTrainingData( );
+					chart.RangeX = new Range(minX, maxX);
+					ShowTrainingData();
 				}
 
 				chart.Visible = showChart;
@@ -533,62 +529,62 @@ namespace Classifier
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			learningRateBox.Text = learningRate.ToString( );
+			learningRateBox.Text = learningRate.ToString();
 		}
 
 		// Update data in list view
-		private void UpdateDataListView( )
+		private void UpdateDataListView()
 		{
 			// remove all curent data and columns
-			dataList.Items.Clear( );
-			dataList.Columns.Clear( );
+			dataList.Items.Clear();
+			dataList.Columns.Clear();
 
 			// add columns
-			for ( int i = 0, n = variables; i < n; i++ )
+			for (int i = 0, n = variables; i < n; i++)
 			{
-				dataList.Columns.Add( string.Format( "X{0}", i + 1 ),
-					50, HorizontalAlignment.Left );
+				dataList.Columns.Add(string.Format("X{0}", i + 1),
+					50, HorizontalAlignment.Left);
 			}
-			dataList.Columns.Add( "Class", 50, HorizontalAlignment.Left );
+			dataList.Columns.Add("Class", 50, HorizontalAlignment.Left);
 
 			// add items
-			for ( int i = 0; i < samples; i++ )
+			for (var i = 0; i < samples; i++)
 			{
-				dataList.Items.Add( data[i, 0].ToString( ) );
+				dataList.Items.Add(data[i, 0].ToString());
 
-				for ( int j = 1; j < variables; j++ )
+				for (var j = 1; j < variables; j++)
 				{
-					dataList.Items[i].SubItems.Add( data[i, j].ToString( ) );
+					dataList.Items[i].SubItems.Add(data[i, j].ToString());
 				}
-				dataList.Items[i].SubItems.Add( classes[i].ToString( ) );
+				dataList.Items[i].SubItems.Add(classes[i].ToString());
 			}
 		}
 
 		// Show training data on chart
-		private void ShowTrainingData( )
+		private void ShowTrainingData()
 		{
-			int class1Size = 0;
-			int class2Size = 0;
+			var class1Size = 0;
+			var class2Size = 0;
 
 			// calculate number of samples in each class
-			for ( int i = 0, n = samples; i < n; i++ )
+			for (int i = 0, n = samples; i < n; i++)
 			{
-				if ( classes[i] == 0 )
+				if (classes[i] == 0)
 					class1Size++;
 				else
 					class2Size++;
 			}
 
 			// allocate classes arrays
-			double[,] class1 = new double[class1Size, 2];
-			double[,] class2 = new double[class2Size, 2];
+			var class1 = new double[class1Size, 2];
+			var class2 = new double[class2Size, 2];
 
 			// fill classes arrays
-			for ( int i = 0, c1 = 0, c2 = 0; i < samples; i++ )
+			for (int i = 0, c1 = 0, c2 = 0; i < samples; i++)
 			{
-				if ( classes[i] == 0 )
+				if (classes[i] == 0)
 				{
 					// class 1
 					class1[c1, 0] = data[i, 0];
@@ -605,37 +601,37 @@ namespace Classifier
 			}
 
 			// updata chart control
-			chart.UpdateDataSeries( "class1", class1 );
-			chart.UpdateDataSeries( "class2", class2 );
+			chart.UpdateDataSeries("class1", class1);
+			chart.UpdateDataSeries("class2", class2);
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-			    learningRateBox.Enabled	= enable;
-			    loadButton.Enabled		= enable;
-			    startButton.Enabled		= enable;
-			    saveFilesCheck.Enabled	= enable;
-			    stopButton.Enabled		= !enable;
-		    }
-        }
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				learningRateBox.Enabled = enable;
+				loadButton.Enabled = enable;
+				startButton.Enabled = enable;
+				saveFilesCheck.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
+		}
 
 		// Clear current solution
-		private void ClearCurrentSolution( )
+		private void ClearCurrentSolution()
 		{
-			chart.UpdateDataSeries( "classifier", null );
-			errorChart.UpdateDataSeries( "error", null );
-			weightsList.Items.Clear( );
+			chart.UpdateDataSeries("classifier", null);
+			errorChart.UpdateDataSeries("error", null);
+			weightsList.Items.Clear();
 		}
 
 		// On button "Start" - start learning procedure
@@ -644,7 +640,7 @@ namespace Classifier
 			// get learning rate
 			try
 			{
-				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
+				learningRate = System.Math.Max(0.00001, System.Math.Min(1, double.Parse(learningRateBox.Text)));
 			}
 			catch
 			{
@@ -653,15 +649,15 @@ namespace Classifier
 			saveStatisticsToFiles = saveFilesCheck.Checked;
 
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
 			// disable all settings controls
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On button "Stop" - stop learning procedure
@@ -669,40 +665,42 @@ namespace Classifier
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
-            workerThread = null;
+			while (!workerThread.Join(100))
+				Application.DoEvents();
+			workerThread = null;
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// prepare learning data
-			double[][] input = new double[samples][];
-			double[][] output = new double[samples][];
+			var input = new double[samples][];
+			var output = new double[samples][];
 
-			for ( int i = 0; i < samples; i++ )
+			for (var i = 0; i < samples; i++)
 			{
 				input[i] = new double[variables];
 				output[i] = new double[1];
 
 				// copy input
-				for ( int j = 0; j < variables; j++ )
+				for (var j = 0; j < variables; j++)
 					input[i][j] = data[i, j];
 				// copy output
 				output[i][0] = classes[i];
 			}
 
 			// create perceptron
-			ActivationNetwork	network = new ActivationNetwork( new ThresholdFunction( ), variables, 1 );
-			ActivationNeuron	neuron = network.Layers[0].Neurons[0] as ActivationNeuron;
+			var network = new ActivationNetwork(new ThresholdFunction(), variables, 1);
+			var neuron = network.Layers[0].Neurons[0] as ActivationNeuron;
 			// create teacher
-			PerceptronLearning teacher = new PerceptronLearning( network );
-			// set learning rate
-			teacher.LearningRate = learningRate;
+			var teacher = new PerceptronLearning(network)
+			{
+				// set learning rate
+				LearningRate = learningRate
+			};
 
 			// iterations
-			int iteration = 1;
+			var iteration = 1;
 
 			// statistic files
 			StreamWriter errorsFile = null;
@@ -711,103 +709,103 @@ namespace Classifier
 			try
 			{
 				// check if we need to save statistics to files
-				if ( saveStatisticsToFiles )
+				if (saveStatisticsToFiles)
 				{
 					// open files
-					errorsFile	= File.CreateText( "errors.csv" );
-					weightsFile	= File.CreateText( "weights.csv" );
+					errorsFile = File.CreateText("errors.csv");
+					weightsFile = File.CreateText("weights.csv");
 				}
 
 				// erros list
-				ArrayList errorsList = new ArrayList( );
+				var errorsList = new ArrayList();
 
 				// loop
-				while ( !needToStop )
+				while (!needToStop)
 				{
 					// save current weights
-					if ( weightsFile != null )
+					if (weightsFile != null)
 					{
-						for ( int i = 0; i < variables; i++ )
+						for (var i = 0; i < variables; i++)
 						{
-							weightsFile.Write( neuron.Weights[i] + "," );
+							weightsFile.Write(neuron.Weights[i] + ",");
 						}
-						weightsFile.WriteLine( neuron.Threshold );
+						weightsFile.WriteLine(neuron.Threshold);
 					}
 
 					// run epoch of learning procedure
-					double error = teacher.RunEpoch( input, output );
-					errorsList.Add( error );
+					var error = teacher.RunEpoch(input, output);
+					errorsList.Add(error);
 
 					// show current iteration
-                    SetText( iterationsBox, iteration.ToString( ) );
+					SetText(iterationsBox, iteration.ToString());
 
 					// save current error
-					if ( errorsFile != null )
+					if (errorsFile != null)
 					{
-						errorsFile.WriteLine( error );
-					}				
+						errorsFile.WriteLine(error);
+					}
 
 					// show classifier in the case of 2 dimensional data
-					if ( ( neuron.InputsCount == 2 ) && ( neuron.Weights[1] != 0 ) )
+					if ((neuron.InputsCount == 2) && (neuron.Weights[1] != 0))
 					{
-						double k = - neuron.Weights[0] / neuron.Weights[1];
-						double b = - neuron.Threshold / neuron.Weights[1];
+						var k = -neuron.Weights[0] / neuron.Weights[1];
+						var b = -neuron.Threshold / neuron.Weights[1];
 
-						double[,] classifier = new double[2, 2] {
+						var classifier = new double[2, 2] {
 							{ chart.RangeX.Min, chart.RangeX.Min * k + b },
 							{ chart.RangeX.Max, chart.RangeX.Max * k + b }
 																};
-                        // update chart
-						chart.UpdateDataSeries( "classifier", classifier );
+						// update chart
+						chart.UpdateDataSeries("classifier", classifier);
 					}
 
 					// stop if no error
-					if ( error == 0 )
+					if (error == 0)
 						break;
 
 					iteration++;
 				}
 
 				// show perceptron's weights
-                ListViewItem item = null;
-                
-                ClearList( weightsList );
-				for ( int i = 0; i < variables; i++ )
+				ListViewItem item = null;
+
+				ClearList(weightsList);
+				for (var i = 0; i < variables; i++)
 				{
-                    item = AddListItem( weightsList, string.Format( "Weight {0}", i + 1 ) );
-                    AddListSubitem( item, neuron.Weights[i].ToString( "F6" ) );
+					item = AddListItem(weightsList, string.Format("Weight {0}", i + 1));
+					AddListSubitem(item, neuron.Weights[i].ToString("F6"));
 				}
-                item = AddListItem( weightsList, "Threshold" );
-                AddListSubitem( item, neuron.Threshold.ToString( "F6" ) );
+				item = AddListItem(weightsList, "Threshold");
+				AddListSubitem(item, neuron.Threshold.ToString("F6"));
 
 				// show error's dynamics
-				double[,] errors = new double[errorsList.Count, 2];
+				var errors = new double[errorsList.Count, 2];
 
-				for ( int i = 0, n = errorsList.Count; i < n; i++ )
+				for (int i = 0, n = errorsList.Count; i < n; i++)
 				{
 					errors[i, 0] = i;
-					errors[i, 1] = (double) errorsList[i];
+					errors[i, 1] = (double)errorsList[i];
 				}
 
-				errorChart.RangeX = new Range( 0, errorsList.Count - 1 );
-				errorChart.RangeY = new Range( 0, samples );
-				errorChart.UpdateDataSeries( "error", errors );
+				errorChart.RangeX = new Range(0, errorsList.Count - 1);
+				errorChart.RangeY = new Range(0, samples);
+				errorChart.UpdateDataSeries("error", errors);
 			}
-			catch ( IOException )
+			catch (IOException)
 			{
-				MessageBox.Show( "Failed writing file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				MessageBox.Show("Failed writing file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			finally
 			{
 				// close files
-				if ( errorsFile != null )
-					errorsFile.Close( );
-				if ( weightsFile != null )
-					weightsFile.Close( );
+				if (errorsFile != null)
+					errorsFile.Close();
+				if (weightsFile != null)
+					weightsFile.Close();
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 	}
 }

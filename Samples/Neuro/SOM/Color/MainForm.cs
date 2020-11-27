@@ -6,18 +6,13 @@
 // contacts@aforgenet.com
 //
 
+using AForge.Neuro;
+using AForge.Neuro.Learning;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
 using System.Threading;
-
-using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace Color
@@ -47,49 +42,49 @@ namespace Color
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		private DistanceNetwork	network;
-		private Bitmap			mapBitmap;
-		private Random			rand = new Random();
+		private DistanceNetwork network;
+		private Bitmap mapBitmap;
+		private Random rand = new Random();
 
-		private int				iterations = 5000;
-		private double			learningRate = 0.1;
-		private double			radius = 15;
+		private int iterations = 5000;
+		private double learningRate = 0.1;
+		private double radius = 15;
 
 		private Thread workerThread = null;
-        private volatile bool needToStop = false;
+		private volatile bool needToStop = false;
 
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
 			//
-			InitializeComponent( );
+			InitializeComponent();
 
 			// Create network
-			network = new DistanceNetwork( 3, 100 * 100 );
+			network = new DistanceNetwork(3, 100 * 100);
 
 			// Create map bitmap
-			mapBitmap = new Bitmap( 200, 200, PixelFormat.Format24bppRgb );
+			mapBitmap = new Bitmap(200, 200, PixelFormat.Format24bppRgb);
 
 			//
-			RandomizeNetwork( );
-			UpdateSettings( );
+			RandomizeNetwork();
+			UpdateSettings();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if ( components != null ) 
+				if (components != null)
 				{
-					components.Dispose( );
+					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -281,101 +276,101 @@ namespace Color
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
 
-        // On main form closing
+		// On main form closing
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-            }
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			iterationsBox.Text	= iterations.ToString( );
-			rateBox.Text		= learningRate.ToString( );
-			radiusBox.Text		= radius.ToString( );
+			iterationsBox.Text = iterations.ToString();
+			rateBox.Text = learningRate.ToString();
+			radiusBox.Text = radius.ToString();
 		}
 
 		// On "Rundomize" button clicked
 		private void randomizeButton_Click(object sender, System.EventArgs e)
 		{
-			RandomizeNetwork( );
+			RandomizeNetwork();
 		}
 
 		// Radnomize weights of network
-		private void RandomizeNetwork( )
+		private void RandomizeNetwork()
 		{
-			Neuron.RandRange = new Range( 0, 255 );
+			Neuron.RandRange = new Range(0, 255);
 
 			// randomize net
-			network.Randomize( );
+			network.Randomize();
 
 			// update map
-			UpdateMap( );
+			UpdateMap();
 		}
 
 		// Update map from network weights
-		private void UpdateMap( )
+		private void UpdateMap()
 		{
 			// lock
-			Monitor.Enter( this );
+			Monitor.Enter(this);
 
 			// lock bitmap
-			BitmapData mapData = mapBitmap.LockBits( new Rectangle( 0, 0 , 200, 200 ),
-				ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb );
+			var mapData = mapBitmap.LockBits(new Rectangle(0, 0, 200, 200),
+				ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
-			int stride = mapData.Stride;
-			int offset = stride - 200 * 3;
-			Layer layer = network.Layers[0];
+			var stride = mapData.Stride;
+			var offset = stride - 200 * 3;
+			var layer = network.Layers[0];
 
 			unsafe
 			{
-				byte* ptr = (byte*) mapData.Scan0;
+				var ptr = (byte*)mapData.Scan0;
 
 				// for all rows
-				for ( int y = 0, i = 0; y < 100; y++ )
+				for (int y = 0, i = 0; y < 100; y++)
 				{
 					// for all pixels
-					for ( int x = 0; x < 100; x++, i++, ptr += 6 )
+					for (var x = 0; x < 100; x++, i++, ptr += 6)
 					{
-						Neuron neuron = layer.Neurons[i];
+						var neuron = layer.Neurons[i];
 
 						// red
-						ptr[2] = ptr[2 + 3] = ptr[2 + stride] = ptr[2 + 3 + stride]	=
-							(byte)System.Math.Max( 0,System.Math.Min( 255, neuron.Weights[0] ) );
+						ptr[2] = ptr[2 + 3] = ptr[2 + stride] = ptr[2 + 3 + stride] =
+							(byte)System.Math.Max(0, System.Math.Min(255, neuron.Weights[0]));
 						// green
-						ptr[1] = ptr[1 + 3] = ptr[1 + stride] = ptr[1 + 3 + stride]	=
-                            (byte)System.Math.Max( 0,System.Math.Min( 255, neuron.Weights[1] ) );
+						ptr[1] = ptr[1 + 3] = ptr[1 + stride] = ptr[1 + 3 + stride] =
+							(byte)System.Math.Max(0, System.Math.Min(255, neuron.Weights[1]));
 						// blue
-						ptr[0] = ptr[0 + 3] = ptr[0 + stride] = ptr[0 + 3 + stride]	=
-                            (byte)System.Math.Max( 0,System.Math.Min( 255, neuron.Weights[2] ) );
+						ptr[0] = ptr[0 + 3] = ptr[0 + stride] = ptr[0 + 3 + stride] =
+							(byte)System.Math.Max(0, System.Math.Min(255, neuron.Weights[2]));
 					}
 
 					ptr += offset;
@@ -384,51 +379,51 @@ namespace Color
 			}
 
 			// unlock image
-			mapBitmap.UnlockBits( mapData );
+			mapBitmap.UnlockBits(mapData);
 
 			// unlock
-			Monitor.Exit( this );
+			Monitor.Exit(this);
 
 			// invalidate maps panel
-			mapPanel.Invalidate( );
+			mapPanel.Invalidate();
 		}
 
 		// Paint map
 		private void mapPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
-			Graphics g = e.Graphics;
+			var g = e.Graphics;
 
 			// lock
-			Monitor.Enter( this );
+			Monitor.Enter(this);
 
 			// drat image
-			g.DrawImage( mapBitmap, 0, 0, 200, 200 );
+			g.DrawImage(mapBitmap, 0, 0, 200, 200);
 
 			// unlock
-			Monitor.Exit( this );
+			Monitor.Exit(this);
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-			    iterationsBox.Enabled	= enable;
-			    rateBox.Enabled			= enable;
-			    radiusBox.Enabled		= enable;
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				iterationsBox.Enabled = enable;
+				rateBox.Enabled = enable;
+				radiusBox.Enabled = enable;
 
-			    startButton.Enabled		= enable;
-			    randomizeButton.Enabled	= enable;
-			    stopButton.Enabled		= !enable;
-            }
+				startButton.Enabled = enable;
+				randomizeButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
 		}
 
 		// On "Start" button click
@@ -437,7 +432,7 @@ namespace Color
 			// get iterations count
 			try
 			{
-				iterations =System.Math.Max( 10,System.Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
+				iterations = System.Math.Max(10, System.Math.Min(1000000, int.Parse(iterationsBox.Text)));
 			}
 			catch
 			{
@@ -446,7 +441,7 @@ namespace Color
 			// get learning rate
 			try
 			{
-				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
+				learningRate = System.Math.Max(0.00001, System.Math.Min(1.0, double.Parse(rateBox.Text)));
 			}
 			catch
 			{
@@ -455,22 +450,22 @@ namespace Color
 			// get radius
 			try
 			{
-				radius =System.Math.Max( 5,System.Math.Min( 75, int.Parse( radiusBox.Text ) ) );
+				radius = System.Math.Max(5, System.Math.Min(75, int.Parse(radiusBox.Text)));
 			}
 			catch
 			{
 				radius = 15;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On "Stop" button click
@@ -478,57 +473,57 @@ namespace Color
 		{
 			// stop worker thread
 			needToStop = true;
-            while ( !workerThread.Join( 100 ) )
-                Application.DoEvents( );
-            workerThread = null;
+			while (!workerThread.Join(100))
+				Application.DoEvents();
+			workerThread = null;
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// create learning algorithm
-			SOMLearning	trainer = new SOMLearning( network );
+			var trainer = new SOMLearning(network);
 
 			// input
-			double[] input = new double[3];
+			var input = new double[3];
 
-			double	fixedLearningRate = learningRate / 10;
-			double	driftingLearningRate = fixedLearningRate * 9;
+			var fixedLearningRate = learningRate / 10;
+			var driftingLearningRate = fixedLearningRate * 9;
 
 			// iterations
-			int i = 0;
+			var i = 0;
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
-				trainer.LearningRate = driftingLearningRate * ( iterations - i ) / iterations + fixedLearningRate;
-				trainer.LearningRadius = (double) radius * ( iterations - i ) / iterations;
+				trainer.LearningRate = driftingLearningRate * (iterations - i) / iterations + fixedLearningRate;
+				trainer.LearningRadius = radius * (iterations - i) / iterations;
 
-				input[0] = rand.Next( 256 );
-				input[1] = rand.Next( 256 );
-				input[2] = rand.Next( 256 );
+				input[0] = rand.Next(256);
+				input[1] = rand.Next(256);
+				input[2] = rand.Next(256);
 
-				trainer.Run( input );
+				trainer.Run(input);
 
 				// update map once per 50 iterations
-				if ( ( i % 10 ) == 9 )
+				if ((i % 10) == 9)
 				{
-					UpdateMap( );
+					UpdateMap();
 				}
 
 				// increase current iteration
 				i++;
 
 				// set current iteration's info
-                SetText( currentIterationBox, i.ToString( ) );
+				SetText(currentIterationBox, i.ToString());
 
 				// stop ?
-				if ( i >= iterations )
+				if (i >= iterations)
 					break;
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 	}
 }

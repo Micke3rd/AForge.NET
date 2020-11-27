@@ -6,17 +6,12 @@
 // contacts@aforgenet.com
 //
 
+using AForge.Controls;
+using AForge.Genetic;
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
 using System.Threading;
-
-using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using System.Windows.Forms;
 using Range = AForge.Range;
 
 namespace TSP
@@ -58,13 +53,13 @@ namespace TSP
 		private int selectionMethod = 0;
 		private bool greedyCrossover = true;
 
-		private double[,]	map = null;
+		private double[,] map = null;
 
 		private Thread workerThread = null;
 		private volatile bool needToStop = false;
 
 		// Constructor
-		public MainForm( )
+		public MainForm()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -72,31 +67,31 @@ namespace TSP
 			InitializeComponent();
 
 			// set up map control
-			mapControl.RangeX = new Range( 0, 1000 );
-			mapControl.RangeY = new Range( 0, 1000 );
-			mapControl.AddDataSeries( "map", Color.Red, Chart.SeriesType.Dots, 5, false );
-			mapControl.AddDataSeries( "path", Color.Blue, Chart.SeriesType.Line, 1, false );
+			mapControl.RangeX = new Range(0, 1000);
+			mapControl.RangeY = new Range(0, 1000);
+			mapControl.AddDataSeries("map", Color.Red, Chart.SeriesType.Dots, 5, false);
+			mapControl.AddDataSeries("path", Color.Blue, Chart.SeriesType.Line, 1, false);
 
 			//
 			selectionBox.SelectedIndex = selectionMethod;
 			greedyCrossoverBox.Checked = greedyCrossover;
-			UpdateSettings( );
-			GenerateMap( );
+			UpdateSettings();
+			GenerateMap();
 		}
 
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		protected override void Dispose( bool disposing )
+		protected override void Dispose(bool disposing)
 		{
-			if( disposing )
+			if (disposing)
 			{
-				if (components != null) 
+				if (components != null)
 				{
 					components.Dispose();
 				}
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -204,7 +199,7 @@ namespace TSP
 			// 
 			// label5
 			// 
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.label5.Location = new System.Drawing.Point(125, 200);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(58, 15);
@@ -353,109 +348,109 @@ namespace TSP
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main( ) 
+		static void Main()
 		{
-			Application.Run( new MainForm( ) );
+			Application.Run(new MainForm());
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback( System.Windows.Forms.Control control, string text );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
-        // Thread safe updating of control's text property
-        private void SetText( System.Windows.Forms.Control control, string text )
-        {
-            if ( control.InvokeRequired )
-            {
-                SetTextCallback d = new SetTextCallback( SetText );
-                Invoke( d, new object[] { control, text } );
-            }
-            else
-            {
-                control.Text = text;
-            }
-        }
+		// Thread safe updating of control's text property
+		private void SetText(System.Windows.Forms.Control control, string text)
+		{
+			if (control.InvokeRequired)
+			{
+				var d = new SetTextCallback(SetText);
+				Invoke(d, new object[] { control, text });
+			}
+			else
+			{
+				control.Text = text;
+			}
+		}
 
-        // On main form closing
-		private void MainForm_Closing( object sender, System.ComponentModel.CancelEventArgs e )
+		// On main form closing
+		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// check if worker thread is running
-			if ( ( workerThread != null ) && ( workerThread.IsAlive ) )
+			if ((workerThread != null) && (workerThread.IsAlive))
 			{
 				needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
+				while (!workerThread.Join(100))
+					Application.DoEvents();
 			}
 		}
 
 		// Update settings controls
-		private void UpdateSettings( )
+		private void UpdateSettings()
 		{
-			citiesCountBox.Text		= citiesCount.ToString( );
-			populationSizeBox.Text	= populationSize.ToString( );
-			iterationsBox.Text		= iterations.ToString( );
+			citiesCountBox.Text = citiesCount.ToString();
+			populationSizeBox.Text = populationSize.ToString();
+			iterationsBox.Text = iterations.ToString();
 		}
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback( bool enable );
+		// Delegates to enable async calls for setting controls properties
+		private delegate void EnableCallback(bool enable);
 
-        // Enable/disale controls (safe for threading)
-        private void EnableControls( bool enable )
+		// Enable/disale controls (safe for threading)
+		private void EnableControls(bool enable)
 		{
-            if ( InvokeRequired )
-            {
-                EnableCallback d = new EnableCallback( EnableControls );
-                Invoke( d, new object[] { enable } );
-            }
-            else
-            {
-                citiesCountBox.Enabled      = enable;
-                populationSizeBox.Enabled   = enable;
-                iterationsBox.Enabled       = enable;
-                selectionBox.Enabled        = enable;
+			if (InvokeRequired)
+			{
+				var d = new EnableCallback(EnableControls);
+				Invoke(d, new object[] { enable });
+			}
+			else
+			{
+				citiesCountBox.Enabled = enable;
+				populationSizeBox.Enabled = enable;
+				iterationsBox.Enabled = enable;
+				selectionBox.Enabled = enable;
 
-                generateMapButton.Enabled   = enable;
+				generateMapButton.Enabled = enable;
 
-                startButton.Enabled = enable;
-                stopButton.Enabled  = !enable;
-            }
+				startButton.Enabled = enable;
+				stopButton.Enabled = !enable;
+			}
 		}
 
 		// Generate new map for the Traivaling Salesman problem
-		private void GenerateMap( )
+		private void GenerateMap()
 		{
-			Random rand = new Random( (int) DateTime.Now.Ticks );
+			var rand = new Random((int)DateTime.Now.Ticks);
 
 			// create coordinates array
 			map = new double[citiesCount, 2];
 
-			for ( int i = 0; i < citiesCount; i++ )
+			for (var i = 0; i < citiesCount; i++)
 			{
-				map[i, 0] = rand.Next( 1001 );
-				map[i, 1] = rand.Next( 1001 );
+				map[i, 0] = rand.Next(1001);
+				map[i, 1] = rand.Next(1001);
 			}
 
 			// set the map
-			mapControl.UpdateDataSeries( "map", map );
+			mapControl.UpdateDataSeries("map", map);
 			// erase path if it is
-			mapControl.UpdateDataSeries( "path", null );
+			mapControl.UpdateDataSeries("path", null);
 		}
 
 		// On "Generate" button click - generate map
-		private void generateMapButton_Click( object sender, System.EventArgs e )
+		private void generateMapButton_Click(object sender, System.EventArgs e)
 		{
 			// get cities count
 			try
 			{
-				citiesCount =System.Math.Max( 5,System.Math.Min( 50, int.Parse( citiesCountBox.Text ) ) );
+				citiesCount = System.Math.Max(5, System.Math.Min(50, int.Parse(citiesCountBox.Text)));
 			}
 			catch
 			{
 				citiesCount = 20;
 			}
-			citiesCountBox.Text = citiesCount.ToString( );
+			citiesCountBox.Text = citiesCount.ToString();
 
 			// regenerate map
-			GenerateMap( );
+			GenerateMap();
 		}
 
 		// On "Start" button click
@@ -464,7 +459,7 @@ namespace TSP
 			// get population size
 			try
 			{
-				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize = System.Math.Max(10, System.Math.Min(100, int.Parse(populationSizeBox.Text)));
 			}
 			catch
 			{
@@ -473,69 +468,69 @@ namespace TSP
 			// iterations
 			try
 			{
-				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations = System.Math.Max(0, int.Parse(iterationsBox.Text));
 			}
 			catch
 			{
 				iterations = 100;
 			}
 			// update settings controls
-			UpdateSettings( );
+			UpdateSettings();
 
 			selectionMethod = selectionBox.SelectedIndex;
 			greedyCrossover = greedyCrossoverBox.Checked;
 
 			// disable all settings controls except "Stop" button
-			EnableControls( false );
+			EnableControls(false);
 
 			// run worker thread
 			needToStop = false;
-			workerThread = new Thread( new ThreadStart( SearchSolution ) );
-			workerThread.Start( );
+			workerThread = new Thread(new ThreadStart(SearchSolution));
+			workerThread.Start();
 		}
 
 		// On "Stop" button click
-		private void stopButton_Click( object sender, System.EventArgs e )
+		private void stopButton_Click(object sender, System.EventArgs e)
 		{
 			// stop worker thread
-            if ( workerThread != null )
-            {
-                needToStop = true;
-                while ( !workerThread.Join( 100 ) )
-                    Application.DoEvents( );
-                workerThread = null;
-            }
+			if (workerThread != null)
+			{
+				needToStop = true;
+				while (!workerThread.Join(100))
+					Application.DoEvents();
+				workerThread = null;
+			}
 		}
 
 		// Worker thread
-		void SearchSolution( )
+		void SearchSolution()
 		{
 			// create fitness function
-			TSPFitnessFunction fitnessFunction = new TSPFitnessFunction( map );
+			var fitnessFunction = new TSPFitnessFunction(map);
 			// create population
-			Population population = new Population( populationSize,
-				( greedyCrossover ) ? new TSPChromosome( map ) : new PermutationChromosome( citiesCount ),
+			var population = new Population(populationSize,
+				(greedyCrossover) ? new TSPChromosome(map) : new PermutationChromosome(citiesCount),
 				fitnessFunction,
-				( selectionMethod == 0 ) ? (ISelectionMethod) new EliteSelection( ) :
-				( selectionMethod == 1 ) ? (ISelectionMethod) new RankSelection( ) :
-				(ISelectionMethod) new RouletteWheelSelection( )
+				(selectionMethod == 0) ? new EliteSelection() :
+				(selectionMethod == 1) ? new RankSelection() :
+				(ISelectionMethod)new RouletteWheelSelection()
 				);
 			// iterations
-			int i = 1;
+			var i = 1;
 
 			// path
-			double[,] path = new double[citiesCount + 1, 2];
+			var path = new double[citiesCount + 1, 2];
 
 			// loop
-			while ( !needToStop )
+			while (!needToStop)
 			{
 				// run one epoch of genetic algorithm
-				population.RunEpoch( );
+				population.RunEpoch();
 
 				// display current path
-				ushort[] bestValue = ((PermutationChromosome) population.BestChromosome).Value;
+				var bestValue = ((PermutationChromosome)population.BestChromosome).Value;
 
-				for ( int j = 0; j < citiesCount; j++ )
+				for (var j = 0; j < citiesCount; j++)
 				{
 					path[j, 0] = map[bestValue[j], 0];
 					path[j, 1] = map[bestValue[j], 1];
@@ -543,22 +538,22 @@ namespace TSP
 				path[citiesCount, 0] = map[bestValue[0], 0];
 				path[citiesCount, 1] = map[bestValue[0], 1];
 
-				mapControl.UpdateDataSeries( "path", path );
+				mapControl.UpdateDataSeries("path", path);
 
 				// set current iteration's info
-                SetText( currentIterationBox, i.ToString( ) );
-                SetText( pathLengthBox, fitnessFunction.PathLength( population.BestChromosome ).ToString( ) );
+				SetText(currentIterationBox, i.ToString());
+				SetText(pathLengthBox, fitnessFunction.PathLength(population.BestChromosome).ToString());
 
 				// increase current iteration
 				i++;
 
 				//
-				if ( ( iterations != 0 ) && ( i > iterations ) )
+				if ((iterations != 0) && (i > iterations))
 					break;
 			}
 
 			// enable settings controls
-			EnableControls( true );
+			EnableControls(true);
 		}
 	}
 }

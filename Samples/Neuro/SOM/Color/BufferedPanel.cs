@@ -1,4 +1,3 @@
-using System;
 using System.Windows.Forms;
 
 namespace Color
@@ -9,11 +8,11 @@ namespace Color
 	public class BufferedPanel : System.Windows.Forms.Panel
 	{
 		// Construcor
-		public BufferedPanel( )
+		public BufferedPanel()
 		{
 			// Update control style
-			SetStyle( ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-				ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true );
+			SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
+				ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
 		}
 	}
 }

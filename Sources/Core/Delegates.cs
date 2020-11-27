@@ -8,14 +8,12 @@
 
 namespace AForge
 {
-    using System;
-
-    /// <summary>
-    /// A delegate which is used by events notifying abount sent/received message.
-    /// </summary>
-    /// 
-    /// <param name="sender">Event sender.</param>
-    /// <param name="eventArgs">Event arguments containing details about the transferred message.</param>
-    ///
-    public delegate void MessageTransferHandler( object sender, CommunicationBufferEventArgs eventArgs );
+	/// <summary>
+	/// A delegate which is used by events notifying abount sent/received message.
+	/// </summary>
+	/// 
+	/// <param name="sender">Event sender.</param>
+	/// <param name="eventArgs">Event arguments containing details about the transferred message.</param>
+	///
+	public delegate void MessageTransferHandler(object sender, CommunicationBufferEventArgs eventArgs);
 }
