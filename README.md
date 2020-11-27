@@ -14,7 +14,8 @@ How du build:
 I use AForge as submodule, and therefore dont wanna separat buildsettings for it. Build settings inherited from Directory.Build.props in my root folder.
 If you want build AForge as it is here, create file Directory.Build.props beside file AForge.sln, with content:
 
-```<?xml version="1.0" encoding="utf-8" ?>
+```
+<?xml version="1.0" encoding="utf-8" ?>
 <Project>
   <PropertyGroup>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
