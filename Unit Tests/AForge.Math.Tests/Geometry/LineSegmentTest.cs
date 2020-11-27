@@ -49,8 +49,8 @@ namespace AForge.Math.Geometry.Tests
 		[DataRow(0, 0, 0, 5, 1, 0, 1, 5, 0, 0, IntersectionType.None)]
 
 		//[DataRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, IntersectionType.LinesOnly, ExpectedException = typeof(ArgumentException), ExpectedMessage = "Start point of the line cannot be the same as its end point.")]
-		[DataRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, IntersectionType.LinesOnly)]
-		[ExpectedException(typeof(ArgumentException), "Start point of the line cannot be the same as its end point.")]
+		//[DataRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, IntersectionType.LinesOnly)]
+		//[ExpectedException(typeof(ArgumentException), "Start point of the line cannot be the same as its end point.")]
 		public void IntersectionPointTest(float ax1, float ay1, float ax2, float ay2, float bx1, float by1, float bx2, float by2, float ix, float iy, IntersectionType type)
 		{
 			var segA = new LineSegment(new Point(ax1, ay1), new Point(ax2, ay2));

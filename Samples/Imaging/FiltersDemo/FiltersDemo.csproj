@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
 	  <UseWindowsForms>true</UseWindowsForms>
     
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="MainForm.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="MainForm.resx" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Sources\Core\Core.csproj" />
     <ProjectReference Include="..\..\..\Sources\Imaging\Imaging.csproj" />

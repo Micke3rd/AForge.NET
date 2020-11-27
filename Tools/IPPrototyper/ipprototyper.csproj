@@ -1,9 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
+	<UseWindowsForms>true</UseWindowsForms>
     
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Controls\Controls.csproj" />
+    <ProjectReference Include="..\..\Sources\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Sources\Imaging\Imaging.csproj" />
+    <ProjectReference Include="..\Interfaces\AForge.Interfaces.csproj" />
+  </ItemGroup>
 
 
 </Project>
