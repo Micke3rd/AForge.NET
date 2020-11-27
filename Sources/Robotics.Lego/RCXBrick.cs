@@ -573,7 +573,7 @@ namespace AForge.Robotics.Lego
         public bool SetMotorPower( Motor motors, byte power )
         {
             return SendCommand( new byte[] { (byte) RCXCommand.SetMotorPower,
-                (byte) motors, 2, Math.Min( power, (byte) 7 ) }, new byte[1], 1 );
+                (byte) motors, 2,System.Math.Min( power, (byte) 7 ) }, new byte[1], 1 );
         }
 
         /// <summary>

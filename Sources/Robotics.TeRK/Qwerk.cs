@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-using TeRKIceLib = TeRK;
+
 
 namespace AForge.Robotics.TeRK
 {
@@ -119,7 +119,7 @@ namespace AForge.Robotics.TeRK
                 
 
                 // get Qwerk object
-                Ice.ObjectPrx obj = iceCommunicator.stringToProxy( "'::TeRK::TerkUser':tcp -h " + hostAddress + " -p 10101" );
+                var obj = iceCommunicator.stringToProxy( "'::TeRK::TerkUser':tcp -h " + hostAddress + " -p 10101" );
                 obj = obj.ice_timeout( TimeOut );
                 qwerk = TeRKIceLib.QwerkPrxHelper.checkedCast( obj );
 

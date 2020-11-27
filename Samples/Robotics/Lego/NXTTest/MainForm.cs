@@ -243,7 +243,7 @@ namespace NXTTest
             // tacho limit
             try
             {
-                motorState.TachoLimit = Math.Max( 0, Math.Min( 100000, int.Parse( tachoLimitBox.Text ) ) );
+                motorState.TachoLimit =System.Math.Max( 0,System.Math.Min( 100000, int.Parse( tachoLimitBox.Text ) ) );
             }
             catch
             {

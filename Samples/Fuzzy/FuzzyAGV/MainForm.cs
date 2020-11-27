@@ -595,7 +595,7 @@ namespace FuzzyAGV
         // Calculating distances
         private int GetDistance( Point p1, Point p2 )
         {
-            return ( Convert.ToInt32( Math.Sqrt( Math.Pow( p1.X - p2.X, 2 ) + Math.Pow( p1.Y - p2.Y, 2 ) ) ) );
+            return ( Convert.ToInt32(System.Math.Sqrt( Math.Pow( p1.X - p2.X, 2 ) + Math.Pow( p1.Y - p2.Y, 2 ) ) ) );
         }
 
         // Finding obstacles
@@ -603,7 +603,7 @@ namespace FuzzyAGV
         {
             Point p = new Point( Start.X, Start.Y );
 
-            double rad = ( ( Angle + 90 + AngleOffset ) * Math.PI ) / 180;
+            double rad = ( ( Angle + 90 + AngleOffset ) * System.Math.PI ) / 180;
             int IncX = 0;
             int IncY = 0;
             int Offset = 0;
@@ -613,8 +613,8 @@ namespace FuzzyAGV
                 if ( ( Map.GetPixel( p.X + IncX, p.Y + IncY ).R == 0 ) && ( Map.GetPixel( p.X + IncX, p.Y + IncY ).G == 0 ) && ( Map.GetPixel( p.X + IncX, p.Y + IncY ).B == 0 ) )
                     break;
                 Offset += Inc;
-                IncX = Convert.ToInt32( Offset * Math.Cos( rad ) );
-                IncY = Convert.ToInt32( Offset * Math.Sin( rad ) );
+                IncX = Convert.ToInt32( Offset * System.Math.Cos( rad ) );
+                IncY = Convert.ToInt32( Offset * System.Math.Sin( rad ) );
             }
             p.X += IncX;
             p.Y += IncY;
@@ -646,13 +646,13 @@ namespace FuzzyAGV
         // Moving the AGV
         private void MoveAGV( )
         {
-            double rad = ( ( Angle + 90 ) * Math.PI ) / 180;
+            double rad = ( ( Angle + 90 ) * System.Math.PI ) / 180;
             int Offset = 0;
             int Inc = -4;
 
             Offset += Inc;
-            int IncX = Convert.ToInt32( Offset * Math.Cos( rad ) );
-            int IncY = Convert.ToInt32( Offset * Math.Sin( rad ) );
+            int IncX = Convert.ToInt32( Offset * System.Math.Cos( rad ) );
+            int IncY = Convert.ToInt32( Offset * System.Math.Sin( rad ) );
 
             // Leaving the track 
             if ( cbTrajeto.Checked )

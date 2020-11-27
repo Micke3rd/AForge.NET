@@ -108,9 +108,9 @@ namespace AForge.Imaging.Filters
             double newYradius = (double) ( newHeight - 1 ) / 2;
 
             // angle's sine and cosine
-            double angleRad = -angle * Math.PI / 180;
-            double angleCos = Math.Cos( angleRad );
-            double angleSin = Math.Sin( angleRad );
+            double angleRad = -angle * System.Math.PI / 180;
+            double angleCos = System.Math.Cos( angleRad );
+            double angleSin = System.Math.Sin( angleRad );
 
             int srcStride = sourceData.Stride;
             int dstOffset = destinationData.Stride -
@@ -193,7 +193,7 @@ namespace AForge.Imaging.Filters
                                     g += k2 * src[oy2 * srcStride + ox2];
                                 }
                             }
-                            *dst = (byte) Math.Max( 0, Math.Min( 255, g ) );
+                            *dst = (byte)System.Math.Max( 0,System.Math.Min( 255, g ) );
                         }
                         cx++;
                     }
@@ -263,9 +263,9 @@ namespace AForge.Imaging.Filters
                                     b += k2 * p[RGB.B];
                                 }
                             }
-                            dst[RGB.R] = (byte) Math.Max( 0, Math.Min( 255, r ) );
-                            dst[RGB.G] = (byte) Math.Max( 0, Math.Min( 255, g ) );
-                            dst[RGB.B] = (byte) Math.Max( 0, Math.Min( 255, b ) );
+                            dst[RGB.R] = (byte)System.Math.Max( 0,System.Math.Min( 255, r ) );
+                            dst[RGB.G] = (byte)System.Math.Max( 0,System.Math.Min( 255, g ) );
+                            dst[RGB.B] = (byte)System.Math.Max( 0,System.Math.Min( 255, b ) );
                         }
                         cx++;
                     }

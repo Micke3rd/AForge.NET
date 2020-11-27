@@ -318,11 +318,11 @@ namespace AForge.Controls
             // drawing area's width and height
             width = ( ( values == null ) || ( vertical == true ) ) ?
                 ClientRectangle.Width - 2 :
-                Math.Min( values.Length, ClientRectangle.Width - 2 );
+               System.Math.Min( values.Length, ClientRectangle.Width - 2 );
 
             height = ( ( values == null ) || ( vertical == false ) ) ?
                 ClientRectangle.Height - 2 :
-                Math.Min( values.Length, ClientRectangle.Height - 2 );
+               System.Math.Min( values.Length, ClientRectangle.Height - 2 );
 
             int x = 1;
             int y = 1;
@@ -333,8 +333,8 @@ namespace AForge.Controls
 
             if ( values != null )
             {
-                int start = Math.Min( this.start, this.stop );
-                int stop  = Math.Max( this.start, this.stop );
+                int start =System.Math.Min( this.start, this.stop );
+                int stop  =System.Math.Max( this.start, this.stop );
 
                 if ( tracking )
                 {
@@ -468,14 +468,14 @@ namespace AForge.Controls
                     // selecting region
                     stop = ( vertical ) ? ( e.Y - y ) : ( e.X - x );
 
-                    stop = Math.Min( stop, ( ( vertical ) ? height : width ) - 1 );
-                    stop = Math.Max( stop, 0 );
+                    stop =System.Math.Min( stop, ( ( vertical ) ? height : width ) - 1 );
+                    stop =System.Math.Max( stop, 0 );
 
                     Invalidate( );
 
                     // notify parent
                     if ( SelectionChanged != null )
-                        SelectionChanged( this, new HistogramEventArgs( Math.Min( start, stop ), Math.Max( start, stop ) ) );
+                        SelectionChanged( this, new HistogramEventArgs(System.Math.Min( start, stop ),System.Math.Max( start, stop ) ) );
                 }
             }
         }

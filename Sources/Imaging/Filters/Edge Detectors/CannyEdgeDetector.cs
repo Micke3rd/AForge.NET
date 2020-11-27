@@ -226,7 +226,7 @@ namespace AForge.Imaging.Filters
                        + 2 * ( src[-srcStride] - src[srcStride] );
 
                     // get gradient value
-                    gradients[x, y] = (float) Math.Sqrt( gx * gx + gy * gy );
+                    gradients[x, y] = (float)System.Math.Sqrt( gx * gx + gy * gy );
                     if ( gradients[x, y] > maxGradient )
                         maxGradient = gradients[x, y];
 

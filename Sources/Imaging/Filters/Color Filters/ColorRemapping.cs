@@ -31,7 +31,7 @@ namespace AForge.Imaging.Filters
     /// byte[] map = new byte[256];
     /// for ( int i = 0; i &lt; 256; i++ )
     /// {
-    ///     map[i] = (byte) Math.Min( 255, Math.Pow( 2, (double) i / 32 ) );
+    ///     map[i] = (byte)System.Math.Min( 255, Math.Pow( 2, (double) i / 32 ) );
     /// }
     /// // create filter
     /// ColorRemapping filter = new ColorRemapping( map, map, map );

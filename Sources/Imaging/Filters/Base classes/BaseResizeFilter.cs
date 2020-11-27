@@ -38,7 +38,7 @@ namespace AForge.Imaging.Filters
         public int NewWidth
         {
             get { return newWidth; }
-            set { newWidth = Math.Max( 1, value ); }
+            set { newWidth =System.Math.Max( 1, value ); }
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace AForge.Imaging.Filters
         public int NewHeight
         {
             get { return newHeight; }
-            set { newHeight = Math.Max( 1, value ); }
+            set { newHeight =System.Math.Max( 1, value ); }
         }
 
         /// <summary>

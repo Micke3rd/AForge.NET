@@ -410,7 +410,7 @@ namespace AForge.Robotics.Lego
             public int Power
             {
                 get { return power; }
-                set { power = Math.Min( Math.Max( -100, value ), 100 ); }
+                set { power =System.Math.Min(System.Math.Max( -100, value ), 100 ); }
             }
             private int power;
 
@@ -420,7 +420,7 @@ namespace AForge.Robotics.Lego
             public int TurnRatio
             {
                 get { return turnRatio; }
-                set { turnRatio = Math.Min( Math.Max( -100, value ), 100 ); }
+                set { turnRatio =System.Math.Min(System.Math.Max( -100, value ), 100 ); }
             }
             private int turnRatio;
 
@@ -462,7 +462,7 @@ namespace AForge.Robotics.Lego
             public int TachoLimit
             {
                 get { return tachoLimit; }
-                set { tachoLimit = Math.Max( 0, value ); }
+                set { tachoLimit =System.Math.Max( 0, value ); }
             }
             private int tachoLimit;
 
@@ -786,7 +786,7 @@ namespace AForge.Robotics.Lego
             command[0] = (byte) NXTCommandType.SystemCommand;
             command[1] = (byte) NXTSystemCommand.SetBrickName;
             // convert string to bytes
-            System.Text.ASCIIEncoding.ASCII.GetBytes( deviceName, 0, Math.Min( deviceName.Length, 14 ), command, 2 );
+            System.Text.ASCIIEncoding.ASCII.GetBytes( deviceName, 0,System.Math.Min( deviceName.Length, 14 ), command, 2 );
 
             return SendCommand( command, new byte[3] );
         }
@@ -1149,7 +1149,7 @@ namespace AForge.Robotics.Lego
             if ( SendCommand( command, reply ) )
             {
                 bytesRead = reply[3];
-                Array.Copy( reply, 4, readValues, 0, Math.Min( readValues.Length, bytesRead ) );
+                Array.Copy( reply, 4, readValues, 0,System.Math.Min( readValues.Length, bytesRead ) );
                 return true;
             }
 

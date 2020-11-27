@@ -677,7 +677,7 @@ namespace TimeSeries
 				// get new window size value
 				try
 				{
-					windowSize = Math.Max( 1, Math.Min( 15, int.Parse( windowSizeBox.Text ) ) );
+					windowSize =System.Math.Max( 1,System.Math.Min( 15, int.Parse( windowSizeBox.Text ) ) );
 				}
 				catch
 				{
@@ -699,7 +699,7 @@ namespace TimeSeries
 				// get new prediction size value
 				try
 				{
-					predictionSize = Math.Max( 1, Math.Min( 10, int.Parse( predictionSizeBox.Text ) ) );
+					predictionSize =System.Math.Max( 1,System.Math.Min( 10, int.Parse( predictionSizeBox.Text ) ) );
 				}
 				catch
 				{
@@ -726,7 +726,7 @@ namespace TimeSeries
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
 			}
 			catch
 			{
@@ -735,7 +735,7 @@ namespace TimeSeries
 			// get momentum
 			try
 			{
-				momentum = Math.Max( 0, Math.Min( 0.5, double.Parse( momentumBox.Text ) ) );
+				momentum =System.Math.Max( 0,System.Math.Min( 0.5, double.Parse( momentumBox.Text ) ) );
 			}
 			catch
 			{
@@ -744,7 +744,7 @@ namespace TimeSeries
 			// get sigmoid's alpha value
 			try
 			{
-				sigmoidAlphaValue = Math.Max( 0.001, Math.Min( 50, double.Parse( alphaBox.Text ) ) );
+				sigmoidAlphaValue =System.Math.Max( 0.001,System.Math.Min( 50, double.Parse( alphaBox.Text ) ) );
 			}
 			catch
 			{
@@ -753,7 +753,7 @@ namespace TimeSeries
 			// iterations
 			try
 			{
-				iterations = Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
 			}
 			catch
 			{

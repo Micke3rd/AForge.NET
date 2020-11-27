@@ -48,7 +48,7 @@ namespace AForge.Neuro.Learning
             get { return learningRate; }
             set
             {
-                learningRate = Math.Max( 0.0, Math.Min( 1.0, value ) );
+                learningRate =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) );
             }
         }
 
@@ -69,7 +69,7 @@ namespace AForge.Neuro.Learning
             get { return learningRadius; }
             set
             {
-                learningRadius = Math.Max( 0, Math.Min( 1.0, value ) );
+                learningRadius =System.Math.Max( 0,System.Math.Min( 1.0, value ) );
                 squaredRadius2 = 2 * learningRadius * learningRadius;
             }
         }
@@ -86,7 +86,7 @@ namespace AForge.Neuro.Learning
 
             // precalculate distances array
             int neurons = network.Layers[0].Neurons.Length;
-            double deltaAlpha = Math.PI * 2.0 / neurons;
+            double deltaAlpha = System.Math.PI * 2.0 / neurons;
             double alpha = deltaAlpha;
 
             distance = new double[neurons];
@@ -95,8 +95,8 @@ namespace AForge.Neuro.Learning
             // calculate all distance values
             for ( int i = 1; i < neurons; i++ )
             {
-                double dx = 0.5 * Math.Cos( alpha ) - 0.5;
-                double dy = 0.5 * Math.Sin( alpha );
+                double dx = 0.5 * System.Math.Cos( alpha ) - 0.5;
+                double dy = 0.5 * System.Math.Sin( alpha );
 
                 distance[i] = dx * dx + dy * dy;
 

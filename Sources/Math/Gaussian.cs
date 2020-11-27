@@ -46,7 +46,7 @@ namespace AForge.Math
             get { return sigma; }
             set
             {
-                sigma = Math.Max( 0.00000001, value );
+                sigma =System.Math.Max( 0.00000001, value );
                 sqrSigma = sigma * sigma;
             }
         }
@@ -85,7 +85,7 @@ namespace AForge.Math
         /// 
         public double Function( double x )
         {
-            return Math.Exp( x * x / ( -2 * sqrSigma ) ) / ( Math.Sqrt( 2 * Math.PI ) * sigma );
+            return Math.Exp( x * x / ( -2 * sqrSigma ) ) / (System.Math.Sqrt( 2 * System.Math.PI ) * sigma );
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace AForge.Math
         /// 
         public double Function2D( double x, double y )
         {
-            return Math.Exp( ( x * x + y * y ) / ( -2 * sqrSigma ) ) / ( 2 * Math.PI * sqrSigma );
+            return Math.Exp( ( x * x + y * y ) / ( -2 * sqrSigma ) ) / ( 2 * System.Math.PI * sqrSigma );
         }
 
         /// <summary>

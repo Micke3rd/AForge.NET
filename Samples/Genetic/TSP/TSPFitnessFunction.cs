@@ -61,7 +61,7 @@ namespace TSP
 			// calculate distance between the last and the first city
 			double	dx = map[curr, 0] - map[prev, 0];
 			double	dy = map[curr, 1] - map[prev, 1];
-			double	pathLength = Math.Sqrt( dx * dx + dy * dy );
+			double	pathLength =System.Math.Sqrt( dx * dx + dy * dy );
 
 			// calculate the path length from the first city to the last
 			for ( int i = 1, n = path.Length; i < n; i++ )
@@ -72,7 +72,7 @@ namespace TSP
 				// calculate distance
 				dx = map[curr, 0] - map[prev, 0];
 				dy = map[curr, 1] - map[prev, 1];
-				pathLength += Math.Sqrt( dx * dx + dy * dy );
+				pathLength +=System.Math.Sqrt( dx * dx + dy * dy );
 
 				// put current city as previous
 				prev = curr;

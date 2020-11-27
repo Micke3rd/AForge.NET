@@ -124,7 +124,7 @@ namespace TSP
 					double dx2 = map[next2, 0] - map[prev, 0];
 					double dy2 = map[next2, 1] - map[prev, 1];
 
-					prev = ( Math.Sqrt( dx1 * dx1 + dy1 * dy1 ) < Math.Sqrt( dx2 * dx2 + dy2 * dy2 ) ) ? next1 : next2; 
+					prev = (System.Math.Sqrt( dx1 * dx1 + dy1 * dy1 ) <System.Math.Sqrt( dx2 * dx2 + dy2 * dy2 ) ) ? next1 : next2; 
 				}
 				else if ( !( valid1 || valid2 ) )
 				{

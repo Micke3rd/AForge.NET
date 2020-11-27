@@ -235,7 +235,7 @@ namespace TimeSeries
 			// max initial tree level
 			try
 			{
-				maxInitialTreeLevel = Math.Max( 1, Math.Min( 7, int.Parse( maxInitialLevelBox.Text ) ) );
+				maxInitialTreeLevel =System.Math.Max( 1,System.Math.Min( 7, int.Parse( maxInitialLevelBox.Text ) ) );
 			}
 			catch
 			{
@@ -244,7 +244,7 @@ namespace TimeSeries
 			// max tree level
 			try
 			{
-				maxTreeLevel = Math.Max( 2, Math.Min( 9, int.Parse( maxLevelBox.Text ) ) );
+				maxTreeLevel =System.Math.Max( 2,System.Math.Min( 9, int.Parse( maxLevelBox.Text ) ) );
 			}
 			catch
 			{
@@ -253,7 +253,7 @@ namespace TimeSeries
 			// head length
 			try
 			{
-				headLength = Math.Max( 3, Math.Min( 50, int.Parse( headLengthBox.Text ) ) );
+				headLength =System.Math.Max( 3,System.Math.Min( 50, int.Parse( headLengthBox.Text ) ) );
 			}
 			catch
 			{

@@ -322,7 +322,7 @@ namespace AForge.Genetic
             // calculate maximum target length
             int maxTargetLength = headLength - targetPoint;
             // select randomly transposon length
-            int transposonLength = rand.Next( Math.Min( maxTargetLength, maxSourceLength ) ) + 1;
+            int transposonLength = rand.Next(System.Math.Min( maxTargetLength, maxSourceLength ) ) + 1;
             // genes copy
             IGPGene[] genesCopy = new IGPGene[transposonLength];
 

@@ -76,7 +76,7 @@ namespace AForge.Neuro.Learning
             get { return learningRate; }
             set
             {
-                learningRate = Math.Max( 0.0, Math.Min( 1.0, value ) );
+                learningRate =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) );
             }
         }
 
@@ -100,7 +100,7 @@ namespace AForge.Neuro.Learning
             get { return learningRadius; }
             set
             {
-                learningRadius = Math.Max( 0, value );
+                learningRadius =System.Math.Max( 0, value );
                 squaredRadius2 = 2 * learningRadius * learningRadius;
             }
         }
@@ -120,7 +120,7 @@ namespace AForge.Neuro.Learning
         {
             // network's dimension was not specified, let's try to guess
             int neuronsCount = network.Layers[0].Neurons.Length;
-            int width = (int) Math.Sqrt( neuronsCount );
+            int width = (int)System.Math.Sqrt( neuronsCount );
 
             if ( width * width != neuronsCount )
             {

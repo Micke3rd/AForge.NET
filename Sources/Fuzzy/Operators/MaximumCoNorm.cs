@@ -56,7 +56,7 @@ namespace AForge.Fuzzy
         /// 
         public float Evaluate( float membershipA, float membershipB )
         {
-            return Math.Max( membershipA, membershipB );
+            return System.Math.Max( membershipA, membershipB );
         }
     }
 }

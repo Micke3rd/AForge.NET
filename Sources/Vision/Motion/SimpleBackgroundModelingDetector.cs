@@ -132,7 +132,7 @@ namespace AForge.Vision.Motion
             {
                 lock ( sync )
                 {
-                    differenceThreshold = Math.Max( 1, Math.Min( 255, value ) );
+                    differenceThreshold =System.Math.Max( 1,System.Math.Min( 255, value ) );
                     differenceThresholdNeg = -differenceThreshold;
                 }
             }
@@ -264,7 +264,7 @@ namespace AForge.Vision.Motion
         public int FramesPerBackgroundUpdate
         {
             get { return framesPerBackgroundUpdate; }
-            set { framesPerBackgroundUpdate = Math.Max( 1, Math.Min( 50, value ) ); }
+            set { framesPerBackgroundUpdate =System.Math.Max( 1,System.Math.Min( 50, value ) ); }
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace AForge.Vision.Motion
         public int MillisecondsPerBackgroundUpdate
         {
             get { return millisecondsPerBackgroundUpdate; }
-            set { millisecondsPerBackgroundUpdate = Math.Max( 0, Math.Min( 5000, value ) ); }
+            set { millisecondsPerBackgroundUpdate =System.Math.Max( 0,System.Math.Min( 5000, value ) ); }
         }
 
         /// <summary>

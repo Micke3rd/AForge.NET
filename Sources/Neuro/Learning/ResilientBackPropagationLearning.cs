@@ -332,13 +332,13 @@ namespace AForge.Neuro.Learning
 
                         if ( S > 0 )
                         {
-                            neuronWeightUpdates[k] = Math.Min( neuronWeightUpdates[k] * etaPlus, deltaMax );
+                            neuronWeightUpdates[k] =System.Math.Min( neuronWeightUpdates[k] * etaPlus, deltaMax );
                             neuron.Weights[k] -= Math.Sign( neuronWeightDerivatives[k] ) * neuronWeightUpdates[k];
                             neuronPreviousWeightDerivatives[k] = neuronWeightDerivatives[k];
                         }
                         else if ( S < 0 )
                         {
-                            neuronWeightUpdates[k] = Math.Max( neuronWeightUpdates[k] * etaMinus, deltaMin );
+                            neuronWeightUpdates[k] =System.Math.Max( neuronWeightUpdates[k] * etaMinus, deltaMin );
                             neuronPreviousWeightDerivatives[k] = 0;
                         }
                         else
@@ -353,13 +353,13 @@ namespace AForge.Neuro.Learning
 
                     if ( S > 0 )
                     {
-                        layerThresholdUpdates[j] = Math.Min( layerThresholdUpdates[j] * etaPlus, deltaMax );
+                        layerThresholdUpdates[j] =System.Math.Min( layerThresholdUpdates[j] * etaPlus, deltaMax );
                         neuron.Threshold -= Math.Sign( layerThresholdDerivatives[j] ) * layerThresholdUpdates[j];
                         layerPreviousThresholdDerivatives[j] = layerThresholdDerivatives[j];
                     }
                     else if ( S < 0 )
                     {
-                        layerThresholdUpdates[j] = Math.Max( layerThresholdUpdates[j] * etaMinus, deltaMin );
+                        layerThresholdUpdates[j] =System.Math.Max( layerThresholdUpdates[j] * etaMinus, deltaMin );
                         layerThresholdDerivatives[j] = 0;
                     }
                     else

@@ -601,7 +601,7 @@ namespace SOMOrganizing
 			// get network size
 			try
 			{
-				networkSize = Math.Max( 5, Math.Min( 50, int.Parse( sizeBox.Text ) ) );
+				networkSize =System.Math.Max( 5,System.Math.Min( 50, int.Parse( sizeBox.Text ) ) );
 			}
 			catch
 			{
@@ -610,7 +610,7 @@ namespace SOMOrganizing
 			// get iterations count
 			try
 			{
-				iterations = Math.Max( 10, Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
+				iterations =System.Math.Max( 10,System.Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
 			}
 			catch
 			{
@@ -619,7 +619,7 @@ namespace SOMOrganizing
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
 			}
 			catch
 			{
@@ -628,7 +628,7 @@ namespace SOMOrganizing
 			// get radius
 			try
 			{
-				learningRadius = Math.Max( 1, Math.Min( 30, int.Parse( radiusBox.Text ) ) );
+				learningRadius =System.Math.Max( 1,System.Math.Min( 30, int.Parse( radiusBox.Text ) ) );
 			}
 			catch
 			{
@@ -667,7 +667,7 @@ namespace SOMOrganizing
 		void SearchSolution( )
 		{
 			// set random generators range
-			Neuron.RandRange = new Range( 0, Math.Max( pointsPanel.ClientRectangle.Width, pointsPanel.ClientRectangle.Height ) );
+			Neuron.RandRange = new Range( 0,System.Math.Max( pointsPanel.ClientRectangle.Width, pointsPanel.ClientRectangle.Height ) );
 
 			// create network
 			DistanceNetwork network = new DistanceNetwork( 2, networkSize * networkSize );

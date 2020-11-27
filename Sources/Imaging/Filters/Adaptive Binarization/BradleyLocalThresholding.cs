@@ -63,7 +63,7 @@ namespace AForge.Imaging.Filters
         public int WindowSize
         {
             get { return windowSize; }
-            set { windowSize = Math.Max( 3, value | 1 ); }
+            set { windowSize =System.Math.Max( 3, value | 1 ); }
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace AForge.Imaging.Filters
         public float PixelBrightnessDifferenceLimit
         {
             get { return pixelBrightnessDifferenceLimit; }
-            set { pixelBrightnessDifferenceLimit = Math.Max( 0.0f, Math.Min( 1.0f, value ) ); }
+            set { pixelBrightnessDifferenceLimit =System.Math.Max( 0.0f,System.Math.Min( 1.0f, value ) ); }
         }
 
         /// <summary>

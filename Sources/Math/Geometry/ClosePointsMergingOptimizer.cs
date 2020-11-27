@@ -53,7 +53,7 @@ namespace AForge.Math.Geometry
         public float MaxDistanceToMerge
         {
             get { return maxDistanceToMerge; }
-            set { maxDistanceToMerge = Math.Max( 0, value ); }
+            set { maxDistanceToMerge =System.Math.Max( 0, value ); }
         }
 
         /// <summary>

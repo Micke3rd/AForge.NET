@@ -172,7 +172,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                spatialFactor = Math.Max( 1, value );
+                spatialFactor =System.Math.Max( 1, value );
                 spatialPropertiesChanged = true;
             }
         }
@@ -193,7 +193,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                spatialPower = Math.Max( 1, value );
+                spatialPower =System.Math.Max( 1, value );
                 spatialPropertiesChanged = true;
             }
         }
@@ -214,7 +214,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                colorFactor = Math.Max( 1, value );
+                colorFactor =System.Math.Max( 1, value );
                 colorPropertiesChanged = true;
             }
         }
@@ -235,7 +235,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                colorPower = Math.Max( 1, value );
+                colorPower =System.Math.Max( 1, value );
                 colorPropertiesChanged = true;
             }
         }

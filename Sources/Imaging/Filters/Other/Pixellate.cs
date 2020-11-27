@@ -67,7 +67,7 @@ namespace AForge.Imaging.Filters
         public int PixelWidth
         {
             get { return pixelWidth; }
-            set { pixelWidth = Math.Max( 2, Math.Min( 32, value ) ); }
+            set { pixelWidth =System.Math.Max( 2,System.Math.Min( 32, value ) ); }
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace AForge.Imaging.Filters
         public int PixelHeight
         {
             get { return pixelHeight; }
-            set { pixelHeight = Math.Max( 2, Math.Min( 32, value ) ); }
+            set { pixelHeight =System.Math.Max( 2,System.Math.Min( 32, value ) ); }
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace AForge.Imaging.Filters
         /// 
         public int PixelSize
         {
-            set { pixelWidth = pixelHeight = Math.Max( 2, Math.Min( 32, value ) ); }
+            set { pixelWidth = pixelHeight =System.Math.Max( 2,System.Math.Min( 32, value ) ); }
         }
 
         /// <summary>

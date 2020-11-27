@@ -47,7 +47,7 @@ namespace AForge.MachineLearning
         public double Temperature
         {
             get { return temperature; }
-            set { temperature = Math.Max( 0, value ); }
+            set { temperature =System.Math.Max( 0, value ); }
         }
 
         /// <summary>

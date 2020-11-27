@@ -155,7 +155,7 @@ namespace AForge.Imaging.Filters
             {
                 if ( !automaticSizeCalculaton )
                 {
-                    newWidth = Math.Max( 1, value );
+                    newWidth =System.Math.Max( 1, value );
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace AForge.Imaging.Filters
             {
                 if ( !automaticSizeCalculaton )
                 {
-                    newHeight = Math.Max( 1, value );
+                    newHeight =System.Math.Max( 1, value );
                 }
             }
         }
@@ -274,9 +274,9 @@ namespace AForge.Imaging.Filters
             if ( sourceQuadrilateral == null )
                 throw new NullReferenceException( "Source quadrilateral was not set." );
 
-            newWidth  = (int) Math.Max( sourceQuadrilateral[0].DistanceTo( sourceQuadrilateral[1] ),
+            newWidth  = (int)System.Math.Max( sourceQuadrilateral[0].DistanceTo( sourceQuadrilateral[1] ),
                                         sourceQuadrilateral[2].DistanceTo( sourceQuadrilateral[3] ) );
-            newHeight = (int) Math.Max( sourceQuadrilateral[1].DistanceTo( sourceQuadrilateral[2] ),
+            newHeight = (int)System.Math.Max( sourceQuadrilateral[1].DistanceTo( sourceQuadrilateral[2] ),
                                         sourceQuadrilateral[3].DistanceTo( sourceQuadrilateral[0] ) );
         }
 

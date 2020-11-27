@@ -219,9 +219,9 @@ namespace AForge.Math
         /// <para>Sample usage:</para>
         /// <code>
         /// // assume we have a rotation matrix created like this
-        /// float yaw   = 10.0f / 180 * Math.PI;
-        /// float pitch = 30.0f / 180 * Math.PI;
-        /// float roll  = 45.0f / 180 * Math.PI;
+        /// float yaw   = 10.0f / 180 * System.Math.PI;
+        /// float pitch = 30.0f / 180 * System.Math.PI;
+        /// float roll  = 45.0f / 180 * System.Math.PI;
         /// 
         /// Matrix4x4 rotationMatrix = Matrix3x3.CreateFromYawPitchRoll( yaw, pitch, roll );
         /// // ...
@@ -238,9 +238,9 @@ namespace AForge.Math
         /// 
         public void ExtractYawPitchRoll( out float yaw, out float pitch, out float roll )
         {
-            yaw   = (float) Math.Atan2( V02, V22 );
+            yaw   = (float) System.Math.Atan2( V02, V22 );
             pitch = (float) Math.Asin( -V12 );
-            roll  = (float) Math.Atan2( V10, V11 );
+            roll  = (float) System.Math.Atan2( V10, V11 );
         }
 
         /// <summary>

@@ -138,7 +138,7 @@ namespace AForge.Video
         public int FrameInterval
         {
             get { return frameInterval; }
-            set { frameInterval = Math.Max( 0, value ); }
+            set { frameInterval =System.Math.Max( 0, value ); }
         }
 
         /// <summary>

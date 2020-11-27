@@ -17,6 +17,7 @@ using System.Threading;
 using AForge;
 using AForge.Genetic;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace Optimization1D
 {
@@ -540,7 +541,7 @@ namespace Optimization1D
 			// get population size
 			try
 			{
-				populationSize = Math.Max( 10, Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
 			}
 			catch
 			{
@@ -549,7 +550,7 @@ namespace Optimization1D
 			// get chromosome length
 			try
 			{
-				chromosomeLength = Math.Max( 8, Math.Min( 64, int.Parse( chromosomeLengthBox.Text ) ) );
+				chromosomeLength =System.Math.Max( 8,System.Math.Min( 64, int.Parse( chromosomeLengthBox.Text ) ) );
 			}
 			catch
 			{
@@ -558,7 +559,7 @@ namespace Optimization1D
 			// iterations
 			try
 			{
-				iterations = Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
 			}
 			catch
 			{
@@ -658,7 +659,7 @@ namespace Optimization1D
 
 		public override double OptimizationFunction( double x )
 		{
-			return Math.Cos( x / 23 ) * Math.Sin( x / 50 ) + 2;
+			return System.Math.Cos( x / 23 ) * System.Math.Sin( x / 50 ) + 2;
 		}
 	}
 }

@@ -69,7 +69,7 @@ namespace AForge
             {
                 lock ( sync )
                 {
-                    threadsCount = Math.Max( 1, value );
+                    threadsCount =System.Math.Max( 1, value );
                 }
             }
         }

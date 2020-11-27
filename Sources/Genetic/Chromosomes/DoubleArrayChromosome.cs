@@ -123,7 +123,7 @@ namespace AForge.Genetic
         public double MutationBalancer
         {
             get { return mutationBalancer; }
-            set { mutationBalancer = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { mutationBalancer =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace AForge.Genetic
         public double CrossoverBalancer
         {
             get { return crossoverBalancer; }
-            set { crossoverBalancer = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { crossoverBalancer =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace AForge.Genetic
             this.chromosomeGenerator = chromosomeGenerator;
             this.mutationMultiplierGenerator = mutationMultiplierGenerator;
             this.mutationAdditionGenerator = mutationAdditionGenerator;
-            this.length = Math.Max( 2, Math.Min( MaxLength, length ) ); ;
+            this.length =System.Math.Max( 2,System.Math.Min( MaxLength, length ) ); ;
 
             // allocate array
             val = new double[length];

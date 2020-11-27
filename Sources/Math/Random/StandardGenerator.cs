@@ -102,7 +102,7 @@ namespace AForge.Math.Random
             }
             while ( w >= 1.0f );
 
-            w = (float) Math.Sqrt( ( -2.0f * Math.Log( w ) ) / w );
+            w = (float)System.Math.Sqrt( ( -2.0f * Math.Log( w ) ) / w );
 
             // get two standard random numbers
             firstValue  = x1 * w;

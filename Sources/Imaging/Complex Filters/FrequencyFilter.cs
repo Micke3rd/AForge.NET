@@ -116,7 +116,7 @@ namespace AForge.Imaging.ComplexFilters
                 for ( int j = 0; j < width; j++ )
                 {
                     int x = j - hw;
-                    int d = (int) Math.Sqrt( x * x + y * y );
+                    int d = (int)System.Math.Sqrt( x * x + y * y );
 
                     // filter values outside the range
                     if ( ( d > max ) || ( d < min ) )

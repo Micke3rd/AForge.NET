@@ -118,7 +118,7 @@ namespace AForge.Imaging.Filters
         public int Iterations
         {
             get { return iterations; }
-            set { iterations = Math.Max( 1, Math.Min( 255, value ) ); }
+            set { iterations =System.Math.Max( 1,System.Math.Min( 255, value ) ); }
         }
 
         /// <summary>

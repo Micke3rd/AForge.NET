@@ -190,16 +190,16 @@ namespace AForge.Imaging.Filters
             int height = image.Height;
 
             // start (X, Y) point of filling region
-            int startX = Math.Max( 0, region.X );
-            int startY = Math.Max( 0, region.Y );
+            int startX =System.Math.Max( 0, region.X );
+            int startY =System.Math.Max( 0, region.Y );
 
             // check if there is nothing to do
             if ( ( startX >= width ) || ( startY >= height ) )
                 return;
 
             // stop (X, Y) point of filling region
-            int stopX = Math.Min( width, region.Right );
-            int stopY = Math.Min( height, region.Bottom );
+            int stopX =System.Math.Min( width, region.Right );
+            int stopY =System.Math.Min( height, region.Bottom );
 
             // check if there is nothing to do
             if ( ( stopX <= startX ) || ( stopY <= startY ) )

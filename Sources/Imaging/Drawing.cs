@@ -79,10 +79,10 @@ namespace AForge.Imaging
                 return;
             }
 
-            int startX  = Math.Max( 0, rectX1 );
-            int stopX   = Math.Min( imageWidth - 1, rectX2 );
-            int startY  = Math.Max( 0, rectY1 );
-            int stopY   = Math.Min( imageHeight - 1, rectY2 );
+            int startX  =System.Math.Max( 0, rectX1 );
+            int stopX   =System.Math.Min( imageWidth - 1, rectX2 );
+            int startY  =System.Math.Max( 0, rectY1 );
+            int stopY   =System.Math.Min( imageHeight - 1, rectY2 );
 
             // do the job
             byte* ptr = (byte*) image.ImageData.ToPointer( ) + startY * stride + startX * pixelSize;

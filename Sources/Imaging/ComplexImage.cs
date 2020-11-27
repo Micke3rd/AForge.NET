@@ -241,7 +241,7 @@ namespace AForge.Imaging
                 ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed );
 
             int offset = dstData.Stride - width;
-            double scale = ( fourierTransformed ) ? Math.Sqrt( width * height ) : 1;
+            double scale = ( fourierTransformed ) ?System.Math.Sqrt( width * height ) : 1;
 
             // do the job
             unsafe

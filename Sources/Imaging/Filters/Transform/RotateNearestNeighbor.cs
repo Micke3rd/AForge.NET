@@ -126,9 +126,9 @@ namespace AForge.Imaging.Filters
             double newYradius = (double) ( newHeight - 1 ) / 2;
 
             // angle's sine and cosine
-            double angleRad = -angle * Math.PI / 180;
-            double angleCos = Math.Cos( angleRad );
-            double angleSin = Math.Sin( angleRad );
+            double angleRad = -angle * System.Math.PI / 180;
+            double angleCos = System.Math.Cos( angleRad );
+            double angleSin = System.Math.Sin( angleRad );
 
             int srcStride = sourceData.Stride;
             int dstOffset = destinationData.Stride -
@@ -235,9 +235,9 @@ namespace AForge.Imaging.Filters
             double halfNewHeight = (double) newHeight / 2;
 
             // angle's sine and cosine
-            double angleRad = -angle * Math.PI / 180;
-            double angleCos = Math.Cos( angleRad );
-            double angleSin = Math.Sin( angleRad );
+            double angleRad = -angle * System.Math.PI / 180;
+            double angleCos = System.Math.Cos( angleRad );
+            double angleSin = System.Math.Sin( angleRad );
 
             int srcStride = sourceData.Stride;
             int dstStride = destinationData.Stride;

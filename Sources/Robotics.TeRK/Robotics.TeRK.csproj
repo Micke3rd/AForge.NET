@@ -5,6 +5,9 @@
     
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Qwerk.Video.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Video\Video.csproj" />
   </ItemGroup>

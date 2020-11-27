@@ -501,7 +501,7 @@ namespace AForge.Video.Ximea
                         ImageLockMode.ReadWrite, pixelFormat );
 
                     int dstStride = bitmapData.Stride;
-                    int lineSize  = Math.Min( stride, dstStride );
+                    int lineSize  =System.Math.Min( stride, dstStride );
 
                     unsafe
                     {

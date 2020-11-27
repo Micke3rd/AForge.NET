@@ -33,7 +33,7 @@ namespace AForge.Genetic
     ///
     /// 	public override double OptimizationFunction( double x )
     ///		{
-    ///			return Math.Cos( x / 23 ) * Math.Sin( x / 50 ) + 2;
+    ///			return System.Math.Cos( x / 23 ) * System.Math.Sin( x / 50 ) + 2;
     ///		}
     /// }
     /// ...

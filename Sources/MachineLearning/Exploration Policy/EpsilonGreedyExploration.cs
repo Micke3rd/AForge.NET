@@ -46,7 +46,7 @@ namespace AForge.MachineLearning
         public double Epsilon
         {
             get { return epsilon; }
-            set { epsilon = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { epsilon =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>

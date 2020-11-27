@@ -54,7 +54,7 @@ namespace AForge.Math.Geometry
         public float MaxDistanceToRemove
         {
             get { return maxDistanceToRemove; }
-            set { maxDistanceToRemove = Math.Max( 0, value ); }
+            set { maxDistanceToRemove =System.Math.Max( 0, value ); }
         }
 
         /// <summary>

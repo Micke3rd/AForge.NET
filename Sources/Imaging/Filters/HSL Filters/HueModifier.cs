@@ -61,7 +61,7 @@ namespace AForge.Imaging.Filters
         public int Hue
         {
             get { return hue; }
-            set { hue = Math.Max( 0, Math.Min( 359, value ) ); }
+            set { hue =System.Math.Max( 0,System.Math.Min( 359, value ) ); }
         }
 
         /// <summary>

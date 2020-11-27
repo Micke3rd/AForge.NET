@@ -6,6 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Sources\Controls\Controls.csproj" />
+    <ProjectReference Include="..\..\..\Sources\Video.DirectShow\Video.DirectShow.csproj" />
+    <ProjectReference Include="..\..\..\Sources\Video.VFW\Video.VFW.csproj" />
+    <ProjectReference Include="..\..\..\Sources\Vision\Vision.csproj" />
   </ItemGroup>
 
 

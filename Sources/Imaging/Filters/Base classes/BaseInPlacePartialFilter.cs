@@ -200,7 +200,7 @@ namespace AForge.Imaging.Filters
             // but since this a public a method and users may provide any evil, we to need check it
             int dstStride = destinationImage.Stride;
             int srcStride = sourceImage.Stride;
-            int lineSize  = Math.Min( srcStride, dstStride );
+            int lineSize  =System.Math.Min( srcStride, dstStride );
 
             unsafe
             {

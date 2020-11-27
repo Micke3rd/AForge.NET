@@ -128,7 +128,7 @@ namespace AForge.Math
                 total += hits;
             }
 
-            return ( total == 0 ) ? 0 : Math.Sqrt( stddev / total );
+            return ( total == 0 ) ? 0 :System.Math.Sqrt( stddev / total );
         }
 
         /// <summary>

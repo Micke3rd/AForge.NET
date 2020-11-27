@@ -756,7 +756,7 @@ namespace TimeSeries
 				// get new window size value
 				try
 				{
-					windowSize = Math.Max( 1, Math.Min( 15, int.Parse( windowSizeBox.Text ) ) );
+					windowSize =System.Math.Max( 1,System.Math.Min( 15, int.Parse( windowSizeBox.Text ) ) );
 				}
 				catch
 				{
@@ -778,7 +778,7 @@ namespace TimeSeries
 				// get new prediction size value
 				try
 				{
-					predictionSize = Math.Max( 1, Math.Min( 10, int.Parse( predictionSizeBox.Text ) ) );
+					predictionSize =System.Math.Max( 1,System.Math.Min( 10, int.Parse( predictionSizeBox.Text ) ) );
 				}
 				catch
 				{
@@ -815,7 +815,7 @@ namespace TimeSeries
 			// get population size
 			try
 			{
-				populationSize = Math.Max( 10, Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
 			}
 			catch
 			{
@@ -824,7 +824,7 @@ namespace TimeSeries
 			// iterations
 			try
 			{
-				iterations = Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
 			}
 			catch
 			{

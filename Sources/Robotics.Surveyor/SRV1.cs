@@ -1096,7 +1096,7 @@ namespace AForge.Robotics.Surveyor
                         // read response
                         if ( cr.ResponseBuffer != null )
                         {
-                            int bytesToRead = Math.Min( readSize, cr.ResponseBuffer.Length );
+                            int bytesToRead =System.Math.Min( readSize, cr.ResponseBuffer.Length );
 
                             // receive first portion
                             cr.BytesRead = socket.Receive( cr.ResponseBuffer, 0, bytesToRead, SocketFlags.None );
@@ -1124,7 +1124,7 @@ namespace AForge.Robotics.Surveyor
                                 while ( !stopEvent.WaitOne( 0, false ) )
                                 {
                                     int read = socket.Receive( cr.ResponseBuffer, cr.BytesRead,
-                                        Math.Min( readSize, bytesToRead ), SocketFlags.None );
+                                       System.Math.Min( readSize, bytesToRead ), SocketFlags.None );
 
                                     cr.BytesRead += read;
                                     bytesToRead  -= read;
@@ -1167,7 +1167,7 @@ namespace AForge.Robotics.Surveyor
                                             break;
 
                                         // read more
-                                        bytesToRead = Math.Min( readSize, cr.ResponseBuffer.Length - cr.BytesRead );
+                                        bytesToRead =System.Math.Min( readSize, cr.ResponseBuffer.Length - cr.BytesRead );
 
                                         cr.BytesRead += socket.Receive( cr.ResponseBuffer, cr.BytesRead,
                                             bytesToRead, SocketFlags.None );
@@ -1185,7 +1185,7 @@ namespace AForge.Robotics.Surveyor
 
 
                             // System.Diagnostics.Debug.WriteLine( "<< (" + cr.BytesRead + ") " +
-                            //     System.Text.ASCIIEncoding.ASCII.GetString( cr.ResponseBuffer, 0, Math.Min( 5, cr.BytesRead ) ) );
+                            //     System.Text.ASCIIEncoding.ASCII.GetString( cr.ResponseBuffer, 0,System.Math.Min( 5, cr.BytesRead ) ) );
                         }
                         else
                         {
@@ -1233,7 +1233,7 @@ namespace AForge.Robotics.Surveyor
                 if ( socket.Available == 0 )
                 {
                     // System.Diagnostics.Debug.WriteLine( "<< (" + read + ") " +
-                    //     System.Text.ASCIIEncoding.ASCII.GetString( buffer, 0, Math.Min( 100, read ) ) );
+                    //     System.Text.ASCIIEncoding.ASCII.GetString( buffer, 0,System.Math.Min( 100, read ) ) );
 
                     break;
                 }

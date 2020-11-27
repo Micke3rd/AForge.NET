@@ -48,7 +48,7 @@ namespace AForge.Math.Geometry
         public float MaxAngleToKeep
         {
             get { return maxAngleToKeep; }
-            set { maxAngleToKeep = Math.Min( 180, Math.Max( 140, value ) ); }
+            set { maxAngleToKeep =System.Math.Min( 180,System.Math.Max( 140, value ) ); }
         }
 
         /// <summary>

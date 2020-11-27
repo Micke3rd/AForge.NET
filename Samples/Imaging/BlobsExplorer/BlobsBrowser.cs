@@ -168,10 +168,10 @@ namespace BlobsExplorer
             Graphics  g = e.Graphics;
             Rectangle rect = this.ClientRectangle;
 
-            Pen borderPen = new Pen( Color.FromArgb( 64, 64, 64 ), 1 );
-            Pen highlightPen = new Pen( Color.Red );
-            Pen highlightPenBold = new Pen( Color.FromArgb( 0, 255, 0 ), 3 );
-            Pen rectPen = new Pen( Color.Blue );
+            Pen borderPen = new Pen(System.Drawing.Color.FromArgb( 64, 64, 64 ), 1 );
+            Pen highlightPen = new Pen(System.Drawing.Color.Red );
+            Pen highlightPenBold = new Pen(System.Drawing.Color.FromArgb( 0, 255, 0 ), 3 );
+            Pen rectPen = new Pen(System.Drawing.Color.Blue );
 
             // draw rectangle
             g.DrawRectangle( borderPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1 );
@@ -210,7 +210,7 @@ namespace BlobsExplorer
             }
             else
             {
-                g.FillRectangle( new SolidBrush( Color.FromArgb( 128, 128, 128 ) ),
+                g.FillRectangle( new SolidBrush(System.Drawing.Color.FromArgb( 128, 128, 128 ) ),
                     rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2 );
             }
         }

@@ -429,7 +429,7 @@ namespace XORProblem
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
 			}
 			catch
 			{
@@ -438,7 +438,7 @@ namespace XORProblem
 			// get momentum
 			try
 			{
-				momentum = Math.Max( 0, Math.Min( 0.5, double.Parse( momentumBox.Text ) ) );
+				momentum =System.Math.Max( 0,System.Math.Min( 0.5, double.Parse( momentumBox.Text ) ) );
 			}
 			catch
 			{
@@ -447,7 +447,7 @@ namespace XORProblem
 			// get sigmoid's alpha value
 			try
 			{
-				sigmoidAlphaValue = Math.Max( 0.01, Math.Min( 100, double.Parse( alphaBox.Text ) ) );
+				sigmoidAlphaValue =System.Math.Max( 0.01,System.Math.Min( 100, double.Parse( alphaBox.Text ) ) );
 			}
 			catch
 			{
@@ -456,7 +456,7 @@ namespace XORProblem
 			// get learning error limit
 			try
 			{
-				learningErrorLimit = Math.Max( 0, double.Parse( errorLimitBox.Text ) );
+				learningErrorLimit =System.Math.Max( 0, double.Parse( errorLimitBox.Text ) );
 			}
 			catch
 			{

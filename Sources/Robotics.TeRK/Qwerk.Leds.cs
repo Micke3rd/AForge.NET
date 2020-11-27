@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-using TeRKIceLib = TeRK;
+//
 
 namespace AForge.Robotics.TeRK
 {
@@ -98,7 +98,7 @@ namespace AForge.Robotics.TeRK
                 {
                     try
                     {
-                        Ice.ObjectPrx obj = qwerk.iceCommunicator.stringToProxy( "'::TeRK::LEDController':tcp -h " + hostAddress + " -p 10101" );
+                        var obj = qwerk.iceCommunicator.stringToProxy( "'::TeRK::LEDController':tcp -h " + hostAddress + " -p 10101" );
                         obj = obj.ice_timeout( Qwerk.TimeOut );
                         ledController = TeRKIceLib.LEDControllerPrxHelper.checkedCast( obj );
                     }

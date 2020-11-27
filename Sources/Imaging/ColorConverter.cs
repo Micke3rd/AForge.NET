@@ -203,8 +203,8 @@ namespace AForge.Imaging
             float g = ( rgb.Green / 255.0f );
             float b = ( rgb.Blue  / 255.0f );
 
-            float min = Math.Min( Math.Min( r, g ), b );
-            float max = Math.Max( Math.Max( r, g ), b );
+            float min =System.Math.Min(System.Math.Min( r, g ), b );
+            float max =System.Math.Max(System.Math.Max( r, g ), b );
             float delta = max - min;
 
             // get luminance value
@@ -378,9 +378,9 @@ namespace AForge.Imaging
         /// 
         public YCbCr( float y, float cb, float cr )
         {
-            this.Y  = Math.Max(  0.0f, Math.Min( 1.0f, y ) );
-            this.Cb = Math.Max( -0.5f, Math.Min( 0.5f, cb ) );
-            this.Cr = Math.Max( -0.5f, Math.Min( 0.5f, cr ) );
+            this.Y  =System.Math.Max(  0.0f,System.Math.Min( 1.0f, y ) );
+            this.Cb =System.Math.Max( -0.5f,System.Math.Min( 0.5f, cb ) );
+            this.Cr =System.Math.Max( -0.5f,System.Math.Min( 0.5f, cr ) );
         }
 
         /// <summary>
@@ -426,9 +426,9 @@ namespace AForge.Imaging
         public static void ToRGB( YCbCr ycbcr, RGB rgb )
         {
             // don't warry about zeros. compiler will remove them
-            float r = Math.Max( 0.0f, Math.Min( 1.0f, (float) ( ycbcr.Y + 0.0000 * ycbcr.Cb + 1.4022 * ycbcr.Cr ) ) );
-            float g = Math.Max( 0.0f, Math.Min( 1.0f, (float) ( ycbcr.Y - 0.3456 * ycbcr.Cb - 0.7145 * ycbcr.Cr ) ) );
-            float b = Math.Max( 0.0f, Math.Min( 1.0f, (float) ( ycbcr.Y + 1.7710 * ycbcr.Cb + 0.0000 * ycbcr.Cr ) ) );
+            float r =System.Math.Max( 0.0f,System.Math.Min( 1.0f, (float) ( ycbcr.Y + 0.0000 * ycbcr.Cb + 1.4022 * ycbcr.Cr ) ) );
+            float g =System.Math.Max( 0.0f,System.Math.Min( 1.0f, (float) ( ycbcr.Y - 0.3456 * ycbcr.Cb - 0.7145 * ycbcr.Cr ) ) );
+            float b =System.Math.Max( 0.0f,System.Math.Min( 1.0f, (float) ( ycbcr.Y + 1.7710 * ycbcr.Cb + 0.0000 * ycbcr.Cr ) ) );
 
             rgb.Red   = (byte) ( r * 255 );
             rgb.Green = (byte) ( g * 255 );

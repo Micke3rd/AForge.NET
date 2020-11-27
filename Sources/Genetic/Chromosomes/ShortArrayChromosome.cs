@@ -105,8 +105,8 @@ namespace AForge.Genetic
         public ShortArrayChromosome( int length, int maxValue )
         {
             // save parameters
-            this.length   = Math.Max( 2, Math.Min( MaxLength, length ) );
-            this.maxValue = Math.Max( 1, Math.Min( ushort.MaxValue, maxValue ) );
+            this.length   =System.Math.Max( 2,System.Math.Min( MaxLength, length ) );
+            this.maxValue =System.Math.Max( 1,System.Math.Min( ushort.MaxValue, maxValue ) );
 
             // allocate array
             val = new ushort[this.length];

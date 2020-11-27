@@ -369,13 +369,13 @@ namespace Color
 
 						// red
 						ptr[2] = ptr[2 + 3] = ptr[2 + stride] = ptr[2 + 3 + stride]	=
-							(byte) Math.Max( 0, Math.Min( 255, neuron.Weights[0] ) );
+							(byte)System.Math.Max( 0,System.Math.Min( 255, neuron.Weights[0] ) );
 						// green
 						ptr[1] = ptr[1 + 3] = ptr[1 + stride] = ptr[1 + 3 + stride]	=
-                            (byte) Math.Max( 0, Math.Min( 255, neuron.Weights[1] ) );
+                            (byte)System.Math.Max( 0,System.Math.Min( 255, neuron.Weights[1] ) );
 						// blue
 						ptr[0] = ptr[0 + 3] = ptr[0 + stride] = ptr[0 + 3 + stride]	=
-                            (byte) Math.Max( 0, Math.Min( 255, neuron.Weights[2] ) );
+                            (byte)System.Math.Max( 0,System.Math.Min( 255, neuron.Weights[2] ) );
 					}
 
 					ptr += offset;
@@ -437,7 +437,7 @@ namespace Color
 			// get iterations count
 			try
 			{
-				iterations = Math.Max( 10, Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
+				iterations =System.Math.Max( 10,System.Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
 			}
 			catch
 			{
@@ -446,7 +446,7 @@ namespace Color
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
 			}
 			catch
 			{
@@ -455,7 +455,7 @@ namespace Color
 			// get radius
 			try
 			{
-				radius = Math.Max( 5, Math.Min( 75, int.Parse( radiusBox.Text ) ) );
+				radius =System.Math.Max( 5,System.Math.Min( 75, int.Parse( radiusBox.Text ) ) );
 			}
 			catch
 			{

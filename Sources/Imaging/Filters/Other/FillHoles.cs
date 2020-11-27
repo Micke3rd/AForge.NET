@@ -80,7 +80,7 @@ namespace AForge.Imaging.Filters
         public int MaxHoleWidth
         {
             get { return maxHoleWidth; }
-            set { maxHoleWidth = Math.Max( value, 0 ); }
+            set { maxHoleWidth =System.Math.Max( value, 0 ); }
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace AForge.Imaging.Filters
         public int MaxHoleHeight
         {
             get { return maxHoleHeight; }
-            set { maxHoleHeight = Math.Max( value, 0 ); }
+            set { maxHoleHeight =System.Math.Max( value, 0 ); }
         }
 
         /// <summary>

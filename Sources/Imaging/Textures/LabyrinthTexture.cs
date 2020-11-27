@@ -70,7 +70,7 @@ namespace AForge.Imaging.Textures
                 for ( int x = 0; x < width; x++ )
                 {
                     texture[y, x] =
-                        Math.Min( 1.0f,
+                       System.Math.Min( 1.0f,
                             (float) Math.Abs( noise.Function2D( x + r, y + r ) )
                         );
 

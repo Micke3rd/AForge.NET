@@ -89,8 +89,8 @@ namespace AForge.Neuro
         /// 
         protected Network( int inputsCount, int layersCount )
         {
-            this.inputsCount = Math.Max( 1, inputsCount );
-            this.layersCount = Math.Max( 1, layersCount );
+            this.inputsCount =System.Math.Max( 1, inputsCount );
+            this.layersCount =System.Math.Max( 1, layersCount );
             // create collection of layers
             this.layers = new Layer[this.layersCount];
         }

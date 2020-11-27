@@ -64,13 +64,13 @@ namespace AForge.Imaging.Filters
             set
             {
                 // get gamma value
-                gamma = Math.Max( 0.1, Math.Min( 5.0, value ) );
+                gamma =System.Math.Max( 0.1,System.Math.Min( 5.0, value ) );
 
                 // calculate tranformation table
                 double g = 1 / gamma;
                 for ( int i = 0; i < 256; i++ )
                 {
-                    table[i] = (byte) Math.Min( 255, (int) ( Math.Pow( i / 255.0, g ) * 255 + 0.5 ) );
+                    table[i] = (byte)System.Math.Min( 255, (int) ( Math.Pow( i / 255.0, g ) * 255 + 0.5 ) );
                 }
             }
         }

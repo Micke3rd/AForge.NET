@@ -65,7 +65,7 @@ namespace AForge.Imaging.Filters
         public int MaxGapSize
         {
             get { return maxGapSize; }
-            set { maxGapSize = Math.Max( 1, Math.Min( 1000, value ) ); }
+            set { maxGapSize =System.Math.Max( 1,System.Math.Min( 1000, value ) ); }
         }
 
         /// <summary>

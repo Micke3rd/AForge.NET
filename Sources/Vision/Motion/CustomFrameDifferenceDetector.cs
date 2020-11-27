@@ -109,7 +109,7 @@ namespace AForge.Vision.Motion
             {
                 lock ( sync )
                 {
-                    differenceThreshold = Math.Max( 1, Math.Min( 255, value ) );
+                    differenceThreshold =System.Math.Max( 1,System.Math.Min( 255, value ) );
                     differenceThresholdNeg = -differenceThreshold;
                 }
             }

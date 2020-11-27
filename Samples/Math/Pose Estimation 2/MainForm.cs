@@ -471,8 +471,8 @@ namespace PoseEstimation
 
                 if ( e.Button == MouseButtons.Left )
                 {
-                    int x = Math.Max( 0, Math.Min( e.X, imageSize.Width - 1 ) );
-                    int y = Math.Max( 0, Math.Min( e.Y, imageSize.Height - 1 ) );
+                    int x =System.Math.Max( 0,System.Math.Min( e.X, imageSize.Width - 1 ) );
+                    int y =System.Math.Max( 0,System.Math.Min( e.Y, imageSize.Height - 1 ) );
 
                     imagePoints[pointIndexToLocate] = new AForge.Point( x - imageSize.Width / 2, imageSize.Height / 2 - y );
 
@@ -670,9 +670,9 @@ namespace PoseEstimation
 
             rotationMatrix.ExtractYawPitchRoll( out estimatedYaw, out estimatedPitch, out estimatedRoll );
 
-            estimatedYaw   *= (float) ( 180.0 / Math.PI );
-            estimatedPitch *= (float) ( 180.0 / Math.PI );
-            estimatedRoll  *= (float) ( 180.0 / Math.PI );
+            estimatedYaw   *= (float) ( 180.0 / System.Math.PI );
+            estimatedPitch *= (float) ( 180.0 / System.Math.PI );
+            estimatedRoll  *= (float) ( 180.0 / System.Math.PI );
 
             estimationLabel.Text = string.Format( "Rotation: (yaw(y)={0}, pitch(x)={1}, roll(z)={2})",
                 estimatedYaw, estimatedPitch, estimatedRoll );

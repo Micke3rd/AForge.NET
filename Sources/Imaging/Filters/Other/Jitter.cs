@@ -74,7 +74,7 @@ namespace AForge.Imaging.Filters
         public int Radius
         {
             get { return radius; }
-            set { radius = Math.Max( 1, Math.Min( 10, value ) ); }
+            set { radius =System.Math.Max( 1,System.Math.Min( 10, value ) ); }
         }
 
         /// <summary>

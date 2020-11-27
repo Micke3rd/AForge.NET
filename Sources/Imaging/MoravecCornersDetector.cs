@@ -70,7 +70,7 @@ namespace AForge.Imaging
                 if ( ( value & 1 ) == 0 )
                     throw new ArgumentException( "The value shoule be odd." );
 
-                windowSize = Math.Max( 3, Math.Min( 15, value ) );
+                windowSize =System.Math.Max( 3,System.Math.Min( 15, value ) );
             }
         }
 

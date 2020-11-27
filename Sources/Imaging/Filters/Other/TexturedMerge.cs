@@ -176,8 +176,8 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                widthToProcess  = Math.Min( width, texture.GetLength( 1 ) );
-                heightToProcess = Math.Min( height, texture.GetLength( 0 ) );
+                widthToProcess  =System.Math.Min( width, texture.GetLength( 1 ) );
+                heightToProcess =System.Math.Min( height, texture.GetLength( 0 ) );
             }
 
             int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
@@ -199,7 +199,7 @@ namespace AForge.Imaging.Filters
 
                     for ( int i = 0; i < pixelSize; i++, ptr++, ovr++ )
                     {
-                        *ptr = (byte) Math.Min( 255.0f, *ptr * t1 + *ovr * t2 );
+                        *ptr = (byte)System.Math.Min( 255.0f, *ptr * t1 + *ovr * t2 );
                     }
                 }
                 ptr += srcOffset;

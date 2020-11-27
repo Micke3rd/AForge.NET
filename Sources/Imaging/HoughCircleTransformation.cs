@@ -167,7 +167,7 @@ namespace AForge.Imaging
         public int LocalPeakRadius
         {
             get { return localPeakRadius; }
-            set { localPeakRadius = Math.Max( 1, Math.Min( 10, value ) ); }
+            set { localPeakRadius =System.Math.Max( 1,System.Math.Min( 10, value ) ); }
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace AForge.Imaging
         public HoughCircle[] GetMostIntensiveCircles( int count )
         {
             // lines count
-            int n = Math.Min( count, circles.Count );
+            int n =System.Math.Min( count, circles.Count );
 
             // result array
             HoughCircle[] dst = new HoughCircle[n];

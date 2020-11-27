@@ -62,7 +62,7 @@ namespace AForge.Imaging.Filters
         public double NoiseAmount
         {
             get { return noiseAmount; }
-            set { noiseAmount = Math.Max( 0, Math.Min( 100, value ) ); }
+            set { noiseAmount =System.Math.Max( 0,System.Math.Min( 100, value ) ); }
         }
 
         /// <summary>

@@ -59,7 +59,7 @@ namespace AForge.Genetic
         public static int MaxInitialLevel
         {
             get { return maxInitialLevel; }
-            set { maxInitialLevel = Math.Max( 1, Math.Min( 25, value ) ); }
+            set { maxInitialLevel =System.Math.Max( 1,System.Math.Min( 25, value ) ); }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace AForge.Genetic
         public static int MaxLevel
         {
             get { return maxLevel; }
-            set { maxLevel = Math.Max( 1, Math.Min( 50, value ) ); }
+            set { maxLevel =System.Math.Max( 1,System.Math.Min( 50, value ) ); }
         }
 
         /// <summary>

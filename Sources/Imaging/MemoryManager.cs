@@ -76,7 +76,7 @@ namespace AForge.Imaging
             {
                 lock ( memoryBlocks )
                 {
-                    maximumCacheSize = Math.Max( 0, Math.Min( 10, value ) );
+                    maximumCacheSize =System.Math.Max( 0,System.Math.Min( 10, value ) );
                 }
             }
         }

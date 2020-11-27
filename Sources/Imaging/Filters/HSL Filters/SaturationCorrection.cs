@@ -53,7 +53,7 @@ namespace AForge.Imaging.Filters
         public float AdjustValue
         {
             get { return adjustValue; }
-            set { adjustValue = Math.Max( -1.0f, Math.Min( 1.0f, value ) ); }
+            set { adjustValue =System.Math.Max( -1.0f,System.Math.Min( 1.0f, value ) ); }
         }
 
         // format translation dictionary

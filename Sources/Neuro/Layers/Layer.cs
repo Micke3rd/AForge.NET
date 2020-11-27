@@ -85,8 +85,8 @@ namespace AForge.Neuro
         /// 
         protected Layer( int neuronsCount, int inputsCount )
         {
-            this.inputsCount = Math.Max( 1, inputsCount );
-            this.neuronsCount = Math.Max( 1, neuronsCount );
+            this.inputsCount =System.Math.Max( 1, inputsCount );
+            this.neuronsCount =System.Math.Max( 1, neuronsCount );
             // create collection of neurons
             neurons = new Neuron[this.neuronsCount];
         }

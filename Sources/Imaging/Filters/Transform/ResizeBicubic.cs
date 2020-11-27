@@ -149,7 +149,7 @@ namespace AForge.Imaging.Filters
                                 g += k2 * src[oy2 * srcStride + ox2];
                             }
                         }
-                        *dst = (byte) Math.Max( 0, Math.Min( 255, g ) );
+                        *dst = (byte)System.Math.Max( 0,System.Math.Min( 255, g ) );
                     }
                     dst += dstOffset;
                 }
@@ -205,9 +205,9 @@ namespace AForge.Imaging.Filters
                             }
                         }
 
-                        dst[RGB.R] = (byte) Math.Max( 0, Math.Min( 255, r ) );
-                        dst[RGB.G] = (byte) Math.Max( 0, Math.Min( 255, g ) );
-                        dst[RGB.B] = (byte) Math.Max( 0, Math.Min( 255, b ) );
+                        dst[RGB.R] = (byte)System.Math.Max( 0,System.Math.Min( 255, r ) );
+                        dst[RGB.G] = (byte)System.Math.Max( 0,System.Math.Min( 255, g ) );
+                        dst[RGB.B] = (byte)System.Math.Max( 0,System.Math.Min( 255, b ) );
                     }
                     dst += dstOffset;
                 }

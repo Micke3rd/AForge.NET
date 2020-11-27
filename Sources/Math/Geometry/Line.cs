@@ -186,9 +186,9 @@ namespace AForge.Math.Geometry
                 throw new ArgumentOutOfRangeException( "radius", radius, "Must be non-negative" );
             }
 
-            theta *= (float) ( Math.PI / 180 );
+            theta *= (float) ( System.Math.PI / 180 );
 
-            float sine = (float) Math.Sin( theta ), cosine = (float) Math.Cos( theta );
+            float sine = (float) System.Math.Sin( theta ), cosine = (float) System.Math.Cos( theta );
             Point pt1 = new Point( radius * cosine, radius * sine );
 
             // -1/tan, to get the slope of the line, and not the slope of the normal
@@ -206,7 +206,7 @@ namespace AForge.Math.Geometry
 
         private Line( Point point, float theta )
         {
-            theta *= (float) ( Math.PI / 180 );
+            theta *= (float) ( System.Math.PI / 180 );
 
             k = (float) ( -1.0f / Math.Tan( theta ) );
 
@@ -253,16 +253,16 @@ namespace AForge.Math.Geometry
 
                 if ( isVertical1 )
                 {
-                    angle = (float) ( Math.PI / 2 - Math.Atan( k2 ) * Math.Sign( k2 ) );
+                    angle = (float) ( System.Math.PI / 2 - Math.Atan( k2 ) * Math.Sign( k2 ) );
                 }
                 else
                 {
-                    angle = (float) ( Math.PI / 2 - Math.Atan( k ) * Math.Sign( k ) );
+                    angle = (float) ( System.Math.PI / 2 - Math.Atan( k ) * Math.Sign( k ) );
                 }
             }
 
             // convert radians to degrees
-            angle *= (float) ( 180.0 / Math.PI );
+            angle *= (float) ( 180.0 / System.Math.PI );
 
             if ( angle < 0 )
             {
@@ -358,7 +358,7 @@ namespace AForge.Math.Geometry
 
             if ( !IsVertical )
             {
-                float div = (float) Math.Sqrt( k * k + 1 );
+                float div = (float)System.Math.Sqrt( k * k + 1 );
                 distance = Math.Abs( ( k * point.X + b - point.Y ) / div );
             }
             else

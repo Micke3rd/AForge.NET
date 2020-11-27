@@ -9,6 +9,11 @@
     <ProjectReference Include="..\..\Sources\Controls\Controls.csproj" />
     <ProjectReference Include="..\..\Sources\Math\Math.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
+      <HintPath>libs\VST21019_Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 
 </Project>

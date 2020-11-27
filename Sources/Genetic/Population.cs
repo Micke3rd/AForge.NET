@@ -62,7 +62,7 @@ namespace AForge.Genetic
             get { return crossoverRate; }
             set
             {
-                crossoverRate = Math.Max( 0.1, Math.Min( 1.0, value ) );
+                crossoverRate =System.Math.Max( 0.1,System.Math.Min( 1.0, value ) );
             }
         }
 
@@ -80,7 +80,7 @@ namespace AForge.Genetic
             get { return mutationRate; }
             set
             {
-                mutationRate = Math.Max( 0.1, Math.Min( 1.0, value ) );
+                mutationRate =System.Math.Max( 0.1,System.Math.Min( 1.0, value ) );
             }
         }
 
@@ -101,7 +101,7 @@ namespace AForge.Genetic
             get { return randomSelectionPortion; }
             set
             {
-                randomSelectionPortion = Math.Max( 0, Math.Min( 0.9, value ) );
+                randomSelectionPortion =System.Math.Max( 0,System.Math.Min( 0.9, value ) );
             }
         }
 

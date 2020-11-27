@@ -111,7 +111,7 @@ namespace AForge.Math.Geometry
         public float MinAcceptableDistortion
         {
             get { return minAcceptableDistortion; }
-            set { minAcceptableDistortion = Math.Max( 0, value ); }
+            set { minAcceptableDistortion =System.Math.Max( 0, value ); }
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace AForge.Math.Geometry
         public float RelativeDistortionLimit
         {
             get { return relativeDistortionLimit; }
-            set { relativeDistortionLimit = Math.Max( 0, Math.Min( 1, value ) ); }
+            set { relativeDistortionLimit =System.Math.Max( 0,System.Math.Min( 1, value ) ); }
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace AForge.Math.Geometry
         public float AngleError
         {
             get { return angleError; }
-            set { angleError = Math.Max( 0, Math.Min( 20, value ) ); }
+            set { angleError =System.Math.Max( 0,System.Math.Min( 20, value ) ); }
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace AForge.Math.Geometry
         public float LengthError
         {
             get { return lengthError; }
-            set { lengthError = Math.Max( 0, Math.Min( 1, value ) ); }
+            set { lengthError =System.Math.Max( 0,System.Math.Min( 1, value ) ); }
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace AForge.Math.Geometry
             }
             meanDistance /= edgePoints.Count;
 
-            float maxDitance = Math.Max( minAcceptableDistortion,
+            float maxDitance =System.Math.Max( minAcceptableDistortion,
                 ( (float) cloudSize.X + cloudSize.Y ) / 2 * relativeDistortionLimit );
 
             return ( meanDistance <= maxDitance );
@@ -507,7 +507,7 @@ namespace AForge.Math.Geometry
                 {
                     k[i] = (float) ( nextPoint.Y - currentPoint.Y ) / ( nextPoint.X - currentPoint.X );
                     b[i] = currentPoint.Y - k[i] * currentPoint.X;
-                    div[i] = (float) Math.Sqrt( k[i] * k[i] + 1 );
+                    div[i] = (float)System.Math.Sqrt( k[i] * k[i] + 1 );
                 }
             }
 
@@ -544,7 +544,7 @@ namespace AForge.Math.Geometry
             PointsCloud.GetBoundingRectangle( corners, out minXY, out maxXY );
             IntPoint rectSize = maxXY - minXY;
 
-            float maxDitance = Math.Max( minAcceptableDistortion,
+            float maxDitance =System.Math.Max( minAcceptableDistortion,
                 ( (float) rectSize.X + rectSize.Y ) / 2 * relativeDistortionLimit );
 
             return ( meanDistance <= maxDitance );

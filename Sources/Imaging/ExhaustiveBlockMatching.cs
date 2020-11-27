@@ -135,7 +135,7 @@ namespace AForge.Imaging
         public float SimilarityThreshold
         {
             get { return similarityThreshold; }
-            set { similarityThreshold = Math.Min( 1, Math.Max( 0, value ) ); }
+            set { similarityThreshold =System.Math.Min( 1,System.Math.Max( 0, value ) ); }
         }
 
         /// <summary>

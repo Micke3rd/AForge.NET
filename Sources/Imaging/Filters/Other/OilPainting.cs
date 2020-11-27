@@ -73,7 +73,7 @@ namespace AForge.Imaging.Filters
         public int BrushSize
         {
             get { return brushSize; }
-            set { brushSize = Math.Max( 3, Math.Min( 21, value | 1 ) ); }
+            set { brushSize =System.Math.Max( 3,System.Math.Min( 21, value | 1 ) ); }
         }
 
         /// <summary>

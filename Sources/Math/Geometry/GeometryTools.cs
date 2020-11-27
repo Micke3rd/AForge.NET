@@ -34,7 +34,7 @@ namespace AForge.Math.Geometry
             float x2 = vector2end.X - startPoint.X;
             float y2 = vector2end.Y - startPoint.Y;
 
-            return (float) ( Math.Acos( ( x1 * x2 + y1 * y2 ) / ( Math.Sqrt( x1 * x1 + y1 * y1 ) * Math.Sqrt( x2 * x2 + y2 * y2 ) ) ) * 180.0 / Math.PI );
+            return (float) ( Math.Acos( ( x1 * x2 + y1 * y2 ) / (System.Math.Sqrt( x1 * x1 + y1 * y1 ) *System.Math.Sqrt( x2 * x2 + y2 * y2 ) ) ) * 180.0 / System.Math.PI );
         }
 
         /// <summary>

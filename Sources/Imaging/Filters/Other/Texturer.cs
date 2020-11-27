@@ -89,7 +89,7 @@ namespace AForge.Imaging.Filters
         public double FilterLevel
         {
             get { return filterLevel; }
-            set { filterLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { filterLevel =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace AForge.Imaging.Filters
         public double PreserveLevel
         {
             get { return preserveLevel; }
-            set { preserveLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { preserveLevel =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>
@@ -231,8 +231,8 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                widthToProcess  = Math.Min( width, texture.GetLength( 1 ) );
-                heightToProcess = Math.Min( height, texture.GetLength( 0 ) );
+                widthToProcess  =System.Math.Min( width, texture.GetLength( 1 ) );
+                heightToProcess =System.Math.Min( height, texture.GetLength( 0 ) );
             }
 
             int offset = image.Stride - widthToProcess * pixelSize;
@@ -252,7 +252,7 @@ namespace AForge.Imaging.Filters
                     // process each pixel
                     for ( int i = 0; i < pixelSize; i++, ptr++ )
                     {
-                        *ptr = (byte) Math.Min( 255.0f, ( preserveLevel * ( *ptr ) ) + ( filterLevel * ( *ptr ) ) * t );
+                        *ptr = (byte)System.Math.Min( 255.0f, ( preserveLevel * ( *ptr ) ) + ( filterLevel * ( *ptr ) ) * t );
                     }
                 }
                 ptr += offset;

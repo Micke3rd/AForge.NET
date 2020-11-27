@@ -144,7 +144,7 @@ namespace Animat
             // explortion rate
             try
             {
-                explorationRate = Math.Max( 0.0, Math.Min( 1.0, double.Parse( explorationRateBox.Text ) ) );
+                explorationRate =System.Math.Max( 0.0,System.Math.Min( 1.0, double.Parse( explorationRateBox.Text ) ) );
             }
             catch
             {
@@ -153,7 +153,7 @@ namespace Animat
             // learning rate
             try
             {
-                learningRate = Math.Max( 0.0, Math.Min( 1.0, double.Parse( learningRateBox.Text ) ) );
+                learningRate =System.Math.Max( 0.0,System.Math.Min( 1.0, double.Parse( learningRateBox.Text ) ) );
             }
             catch
             {
@@ -162,7 +162,7 @@ namespace Animat
             // learning iterations
             try
             {
-                learningIterations = Math.Max( 10, Math.Min( 100000, int.Parse( iterationsBox.Text ) ) );
+                learningIterations =System.Math.Max( 10,System.Math.Min( 100000, int.Parse( iterationsBox.Text ) ) );
             }
             catch
             {
@@ -172,7 +172,7 @@ namespace Animat
             // move reward
             try
             {
-                moveReward = Math.Max( -100, Math.Min( 100, double.Parse( moveRewardBox.Text ) ) );
+                moveReward =System.Math.Max( -100,System.Math.Min( 100, double.Parse( moveRewardBox.Text ) ) );
             }
             catch
             {
@@ -181,7 +181,7 @@ namespace Animat
             // wall reward
             try
             {
-                wallReward = Math.Max( -100, Math.Min( 100, double.Parse( wallRewardBox.Text ) ) );
+                wallReward =System.Math.Max( -100,System.Math.Min( 100, double.Parse( wallRewardBox.Text ) ) );
             }
             catch
             {
@@ -190,7 +190,7 @@ namespace Animat
             // goal reward
             try
             {
-                goalReward = Math.Max( -100, Math.Min( 100, double.Parse( goalRewardBox.Text ) ) );
+                goalReward =System.Math.Max( -100,System.Math.Min( 100, double.Parse( goalRewardBox.Text ) ) );
             }
             catch
             {

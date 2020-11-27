@@ -149,7 +149,7 @@ namespace AForge.Vision.Motion
             get { return gridWidth; }
             set
             {
-                gridWidth = Math.Min( 64, Math.Max( 2, value ) );
+                gridWidth =System.Math.Min( 64,System.Math.Max( 2, value ) );
                 motionGrid = new float[gridHeight, gridWidth];
             }
         }
@@ -168,7 +168,7 @@ namespace AForge.Vision.Motion
             get { return gridHeight; }
             set
             {
-                gridHeight = Math.Min( 64, Math.Max( 2, value ) );
+                gridHeight =System.Math.Min( 64,System.Math.Max( 2, value ) );
                 motionGrid = new float[gridHeight, gridWidth];
             }
         }
@@ -210,8 +210,8 @@ namespace AForge.Vision.Motion
         ///
         public GridMotionAreaProcessing( int gridWidth, int gridHeight, bool highlightMotionGrid, float motionAmountToHighlight )
         {
-            this.gridWidth  = Math.Min( 64, Math.Max( 2, gridWidth ) );
-            this.gridHeight = Math.Min( 64, Math.Max( 2, gridHeight ) );
+            this.gridWidth  =System.Math.Min( 64,System.Math.Max( 2, gridWidth ) );
+            this.gridHeight =System.Math.Min( 64,System.Math.Max( 2, gridHeight ) );
 
             motionGrid = new float[gridHeight, gridWidth];
 

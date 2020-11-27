@@ -422,7 +422,7 @@ namespace AForge.Imaging
                         ImageLockMode.ReadWrite, pixelFormat );
 
                     int dstStride = dstData.Stride;
-                    int lineSize  = Math.Min( stride, dstStride );
+                    int lineSize  =System.Math.Min( stride, dstStride );
 
                     unsafe
                     {

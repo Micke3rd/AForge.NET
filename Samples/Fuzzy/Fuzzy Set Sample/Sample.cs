@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using AForge.Fuzzy;
 using AForge.Controls;
 using AForge;
+using Range = AForge.Range;
 
 namespace FuzzySetSample
 {

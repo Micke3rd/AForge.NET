@@ -37,7 +37,7 @@ namespace AForge.Math
     /// 	for ( int x = 0; x &lt; width; x++ )
     /// 	{
     /// 		texture[y, x] = 
-    /// 			Math.Max( 0.0f, Math.Min( 1.0f,
+    /// 			Math.Max( 0.0f,System.Math.Min( 1.0f,
     /// 				(float) noise.Function2D( x, y ) * 0.5f + 0.5f
     /// 			) );
     /// 	}
@@ -263,7 +263,7 @@ namespace AForge.Math
         /// </summary>
         private double CosineInterpolate( double x1, double x2, double a )
         {
-            double f = ( 1 - Math.Cos( a * Math.PI ) ) * 0.5;
+            double f = ( 1 - System.Math.Cos( a * System.Math.PI ) ) * 0.5;
 
             return x1 * ( 1 - f ) + x2 * f;
         }

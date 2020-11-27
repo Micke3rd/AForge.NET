@@ -92,7 +92,7 @@ namespace HoughTransform
                         }
 
                         // convert degrees to radians
-                        t = ( t / 180 ) * Math.PI;
+                        t = ( t / 180 ) * System.Math.PI;
 
                         // get image centers (all coordinate are measured relative
                         // to center)
@@ -108,8 +108,8 @@ namespace HoughTransform
                             x1 = w2;  // most right point
 
                             // calculate corresponding y values
-                            y0 = ( -Math.Cos( t ) * x0 + r ) / Math.Sin( t );
-                            y1 = ( -Math.Cos( t ) * x1 + r ) / Math.Sin( t );
+                            y0 = ( -Math.Cos( t ) * x0 + r ) / System.Math.Sin( t );
+                            y1 = ( -Math.Cos( t ) * x1 + r ) / System.Math.Sin( t );
                         }
                         else
                         {

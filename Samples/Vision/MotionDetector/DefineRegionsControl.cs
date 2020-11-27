@@ -257,10 +257,10 @@ namespace MotionDetectorSample
             Point t1 = point1;
             Point t2 = point2;
 
-            point1.X = Math.Min( t1.X, t2.X );
-            point1.Y = Math.Min( t1.Y, t2.Y );
-            point2.X = Math.Max( t1.X, t2.X );
-            point2.Y = Math.Max( t1.Y, t2.Y );
+            point1.X =System.Math.Min( t1.X, t2.X );
+            point1.Y =System.Math.Min( t1.Y, t2.Y );
+            point2.X =System.Math.Max( t1.X, t2.X );
+            point2.Y =System.Math.Max( t1.Y, t2.Y );
         }
 
         // Ensure the point is in client area

@@ -229,7 +229,7 @@ namespace AForge.Imaging.Filters
                     {
                         if ( *bg != 0 )
                         {
-                            *src = (byte) Math.Min( mean * *src / *bg, 255 );
+                            *src = (byte)System.Math.Min( mean * *src / *bg, 255 );
                         }
                     }
                     src += offset;
@@ -250,17 +250,17 @@ namespace AForge.Imaging.Filters
                         // red
                         if ( bg[RGB.R] != 0 )
                         {
-                            src[RGB.R] = (byte) Math.Min( meanR * src[RGB.R] / bg[RGB.R], 255 );
+                            src[RGB.R] = (byte)System.Math.Min( meanR * src[RGB.R] / bg[RGB.R], 255 );
                         }
                         // green
                         if ( bg[RGB.G] != 0 )
                         {
-                            src[RGB.G] = (byte) Math.Min( meanG * src[RGB.G] / bg[RGB.G], 255 );
+                            src[RGB.G] = (byte)System.Math.Min( meanG * src[RGB.G] / bg[RGB.G], 255 );
                         }
                         // blue
                         if ( bg[RGB.B] != 0 )
                         {
-                            src[RGB.B] = (byte) Math.Min( meanB * src[RGB.B] / bg[RGB.B], 255 );
+                            src[RGB.B] = (byte)System.Math.Min( meanB * src[RGB.B] / bg[RGB.B], 255 );
                         }
                     }
                     src += offset;

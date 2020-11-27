@@ -53,7 +53,7 @@ namespace AForge.Imaging
     ///     }
     ///     
     ///     // convert degrees to radians
-    ///     t = ( t / 180 ) * Math.PI;
+    ///     t = ( t / 180 ) * System.Math.PI;
     ///     
     ///     // get image centers (all coordinate are measured relative
     ///     // to center)
@@ -69,8 +69,8 @@ namespace AForge.Imaging
     ///         x1 = w2;  // most right point
     ///     
     ///         // calculate corresponding y values
-    ///         y0 = ( -Math.Cos( t ) * x0 + r ) / Math.Sin( t );
-    ///         y1 = ( -Math.Cos( t ) * x1 + r ) / Math.Sin( t );
+    ///         y0 = ( -Math.Cos( t ) * x0 + r ) / System.Math.Sin( t );
+    ///         y1 = ( -Math.Cos( t ) * x1 + r ) / System.Math.Sin( t );
     ///     }
     ///     else
     ///     {
@@ -279,9 +279,9 @@ namespace AForge.Imaging
             get { return stepsPerDegree; }
             set
             {
-                stepsPerDegree = Math.Max( 1, Math.Min( 10, value ) );
+                stepsPerDegree =System.Math.Max( 1,System.Math.Min( 10, value ) );
                 houghHeight = 180 * stepsPerDegree;
-                thetaStep = Math.PI / houghHeight;
+                thetaStep = System.Math.PI / houghHeight;
 
                 // precalculate Sine and Cosine values
                 sinMap = new double[houghHeight];
@@ -289,8 +289,8 @@ namespace AForge.Imaging
 
                 for ( int i = 0; i < houghHeight; i++ )
                 {
-                    sinMap[i] = Math.Sin( i * thetaStep );
-                    cosMap[i] = Math.Cos( i * thetaStep );
+                    sinMap[i] = System.Math.Sin( i * thetaStep );
+                    cosMap[i] = System.Math.Cos( i * thetaStep );
                 }
             }
         }
@@ -322,7 +322,7 @@ namespace AForge.Imaging
         public int LocalPeakRadius
         {
             get { return localPeakRadius; }
-            set { localPeakRadius = Math.Max( 1, Math.Min( 10, value ) ); }
+            set { localPeakRadius =System.Math.Max( 1,System.Math.Min( 10, value ) ); }
         }
 
         /// <summary>
@@ -478,7 +478,7 @@ namespace AForge.Imaging
             int offset = image.Stride - rect.Width;
 
             // calculate Hough map's width
-            int halfHoughWidth = (int) Math.Sqrt( halfWidth * halfWidth + halfHeight * halfHeight );
+            int halfHoughWidth = (int)System.Math.Sqrt( halfWidth * halfWidth + halfHeight * halfHeight );
             int houghWidth = halfHoughWidth * 2;
 
             houghMap = new short[houghHeight, houghWidth];
@@ -593,7 +593,7 @@ namespace AForge.Imaging
         public HoughLine[] GetMostIntensiveLines( int count )
         {
             // lines count
-            int n = Math.Min( count, lines.Count );
+            int n =System.Math.Min( count, lines.Count );
 
             // result array
             HoughLine[] dst = new HoughLine[n];

@@ -46,8 +46,8 @@ namespace AForge.Imaging.Filters
     /// 
     public class TransformToPolar : BaseTransformationFilter
     {
-        private const double Pi2 = Math.PI * 2;
-        private const double PiHalf = Math.PI / 2;
+        private const double Pi2 = System.Math.PI * 2;
+        private const double PiHalf = System.Math.PI / 2;
 
         private double circleDepth = 1.0;
 
@@ -68,7 +68,7 @@ namespace AForge.Imaging.Filters
         public double CirlceDepth
         {
             get { return circleDepth; }
-            set { circleDepth = Math.Max( 0, Math.Min( 1, value ) ); }
+            set { circleDepth =System.Math.Max( 0,System.Math.Min( 1, value ) ); }
         }
 
         private double offsetAngle = 0;
@@ -87,7 +87,7 @@ namespace AForge.Imaging.Filters
         public double OffsetAngle
         {
             get { return offsetAngle; }
-            set { offsetAngle = Math.Max( -360, Math.Min( 360, value ) ); }
+            set { offsetAngle =System.Math.Max( -360,System.Math.Min( 360, value ) ); }
         }
 
         private bool mapBackwards = false;
@@ -171,8 +171,8 @@ namespace AForge.Imaging.Filters
             set
             {
                 newSize = new Size(
-                    Math.Max( 1, Math.Min( 10000, value.Width ) ),
-                    Math.Max( 1, Math.Min( 10000, value.Height ) ) );
+                   System.Math.Max( 1,System.Math.Min( 10000, value.Width ) ),
+                   System.Math.Max( 1,System.Math.Min( 10000, value.Height ) ) );
             }
         }
 
@@ -265,10 +265,10 @@ namespace AForge.Imaging.Filters
             radius -= radius * circleDisform;
 
             // angle of the diagonal
-            double diagonalAngle = Math.Atan2( cy, cx );
+            double diagonalAngle = System.Math.Atan2( cy, cx );
 
             // offset angle in radians
-            double offsetAngleR = offsetAngle / 180 * Math.PI;
+            double offsetAngleR = offsetAngle / 180 * System.Math.PI;
             if ( offsetAngleR < 0 )
             {
                 offsetAngleR = Pi2 - offsetAngleR;
@@ -306,20 +306,20 @@ namespace AForge.Imaging.Filters
                 {
                     double dx = x - cx;
                     // distance from the center
-                    double distance = Math.Sqrt( dx * dx + dydy );
+                    double distance =System.Math.Sqrt( dx * dx + dydy );
                     // angle of the line connecting center and the current pixel
-                    double angle = Math.Atan2( dy, dx );
+                    double angle = System.Math.Atan2( dy, dx );
 
                     // calculate minimum angle between X axis and the
                     // line connecting center and the current pixel
                     double oxAngle = ( angle > 0 ) ? angle : -angle;
                     if ( oxAngle > PiHalf )
                     {
-                        oxAngle = Math.PI - oxAngle;
+                        oxAngle = System.Math.PI - oxAngle;
                     }
 
                     // calculate maximm distance from center for this angle - distance to image's edge
-                    double maxDistance = ( oxAngle > diagonalAngle ) ? ( cy / Math.Sin( oxAngle ) ) : ( cx / Math.Cos( oxAngle ) );
+                    double maxDistance = ( oxAngle > diagonalAngle ) ? ( cy / System.Math.Sin( oxAngle ) ) : ( cx / System.Math.Cos( oxAngle ) );
 
                     // calculate maximum allowed distance within wich we need to map Y axis of the source image
                     double maxAllowedDistance = radius + maxDistance * circleDisform;

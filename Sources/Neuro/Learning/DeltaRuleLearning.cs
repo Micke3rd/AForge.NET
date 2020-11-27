@@ -44,7 +44,7 @@ namespace AForge.Neuro.Learning
             get { return learningRate; }
             set
             {
-                learningRate = Math.Max( 0.0, Math.Min( 1.0, value ) );
+                learningRate =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) );
             }
         }
 

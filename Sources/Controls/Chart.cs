@@ -15,6 +15,7 @@ namespace AForge.Controls
     using System.Data;
     using System.Windows.Forms;
     using AForge;
+    using Range = Range;
 
     /// <summary>
     /// Chart control.
@@ -31,7 +32,7 @@ namespace AForge.Controls
     /// for ( int i = 0; i &lt; 10; i++ )
     /// {
     ///     testValues[i, 0] = i; // X values
-    ///     testValues[i, 1] = Math.Sin( i / 18.0 * Math.PI ); // Y values
+    ///     testValues[i, 1] = System.Math.Sin( i / 18.0 * System.Math.PI ); // Y values
     /// }
     /// // add new data series to the chart
     /// chart.AddDataSeries( "Test", Color.DarkGreen, Chart.SeriesType.ConnectedDots, 3 );

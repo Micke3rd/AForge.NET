@@ -63,7 +63,7 @@ namespace AForge.Imaging.Filters
         public int HorizontalWavesCount
         {
             get { return xWavesCount; }
-            set { xWavesCount = Math.Max( 1, Math.Min( 10000, value ) ); }
+            set { xWavesCount =System.Math.Max( 1,System.Math.Min( 10000, value ) ); }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AForge.Imaging.Filters
         public int VerticalWavesCount
         {
             get { return yWavesCount; }
-            set { yWavesCount = Math.Max( 1, Math.Min( 10000, value ) ); }
+            set { yWavesCount =System.Math.Max( 1,System.Math.Min( 10000, value ) ); }
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace AForge.Imaging.Filters
         public int HorizontalWavesAmplitude
         {
             get { return xWavesAmplitude; }
-            set { xWavesAmplitude = Math.Max( 0, Math.Min( 10000, value ) ); }
+            set { xWavesAmplitude =System.Math.Max( 0,System.Math.Min( 10000, value ) ); }
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace AForge.Imaging.Filters
         public int VerticalWavesAmplitude
         {
             get { return yWavesAmplitude; }
-            set { yWavesAmplitude = Math.Max( 0, Math.Min( 10000, value ) ); }
+            set { yWavesAmplitude =System.Math.Max( 0,System.Math.Min( 10000, value ) ); }
         }
 
         /// <summary>
@@ -157,19 +157,19 @@ namespace AForge.Imaging.Filters
             byte* dst = (byte*) destination.ImageData.ToPointer( );
             byte* p1, p2, p3, p4;
 
-            double xFactor = 2 * Math.PI * xWavesCount / width;
-            double yFactor = 2 * Math.PI * yWavesCount / height;
+            double xFactor = 2 * System.Math.PI * xWavesCount / width;
+            double yFactor = 2 * System.Math.PI * yWavesCount / height;
 
             // for each line
             for ( int y = 0; y < height; y++ )
             {
-                double yPart = Math.Sin( yFactor * y ) * yWavesAmplitude;
+                double yPart = System.Math.Sin( yFactor * y ) * yWavesAmplitude;
 
                 // for each pixel
                 for ( int x = 0; x < width; x++ )
                 {
                     ox = x + yPart;
-                    oy = y + Math.Cos( xFactor * x ) * xWavesAmplitude;
+                    oy = y + System.Math.Cos( xFactor * x ) * xWavesAmplitude;
 
                     // check if the source pixel is inside of image
                     if ( ( ox >= 0 ) && ( oy >= 0 ) && ( ox < width ) && ( oy < height ) )

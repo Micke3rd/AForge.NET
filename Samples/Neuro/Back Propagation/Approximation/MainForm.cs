@@ -20,6 +20,7 @@ using AForge;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace Approximation
 {
@@ -570,7 +571,7 @@ namespace Approximation
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
 			}
 			catch
 			{
@@ -579,7 +580,7 @@ namespace Approximation
 			// get momentum
 			try
 			{
-				momentum = Math.Max( 0, Math.Min( 0.5, double.Parse( momentumBox.Text ) ) );
+				momentum =System.Math.Max( 0,System.Math.Min( 0.5, double.Parse( momentumBox.Text ) ) );
 			}
 			catch
 			{
@@ -588,7 +589,7 @@ namespace Approximation
 			// get sigmoid's alpha value
 			try
 			{
-				sigmoidAlphaValue = Math.Max( 0.001, Math.Min( 50, double.Parse( alphaBox.Text ) ) );
+				sigmoidAlphaValue =System.Math.Max( 0.001,System.Math.Min( 50, double.Parse( alphaBox.Text ) ) );
 			}
 			catch
 			{
@@ -597,7 +598,7 @@ namespace Approximation
 			// get neurons count in first layer
 			try
 			{
-				neuronsInFirstLayer = Math.Max( 5, Math.Min( 50, int.Parse( neuronsBox.Text ) ) );
+				neuronsInFirstLayer =System.Math.Max( 5,System.Math.Min( 50, int.Parse( neuronsBox.Text ) ) );
 			}
 			catch
 			{
@@ -606,7 +607,7 @@ namespace Approximation
 			// iterations
 			try
 			{
-				iterations = Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
 			}
 			catch
 			{

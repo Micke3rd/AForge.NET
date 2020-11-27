@@ -142,7 +142,7 @@ namespace AForge.Imaging.Filters
                 // for each pixel
                 for ( int x = startX; x < stopX; x++, src++, dst++ )
                 {
-                    g = Math.Min( 255,
+                    g =System.Math.Min( 255,
                         Math.Abs( src[-srcStride - 1] + src[-srcStride + 1]
                                 - src[ srcStride - 1] - src[ srcStride + 1]
                                 + 2 * ( src[-srcStride] - src[srcStride] ) )

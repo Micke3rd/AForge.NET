@@ -70,10 +70,10 @@ namespace AForge.Imaging.Textures
                 for ( int x = 0; x < width; x++ )
                 {
                     texture[y, x] =
-                        Math.Max( 0.0f, Math.Min( 1.0f,
+                       System.Math.Max( 0.0f,System.Math.Min( 1.0f,
                             (
-                                (float) Math.Sin( x + noise.Function2D( x + r, y + r ) ) +
-                                (float) Math.Sin( y + noise.Function2D( x + r, y + r ) )
+                                (float) System.Math.Sin( x + noise.Function2D( x + r, y + r ) ) +
+                                (float) System.Math.Sin( y + noise.Function2D( x + r, y + r ) )
                             ) * 0.25f + 0.5f
                         ) );
 

@@ -77,7 +77,7 @@ namespace AForge.Imaging.Filters
         public int KernelSize
         {
             get { return size; }
-            set { size = Math.Max( 3, Math.Min( 25, value | 1 ) ); }
+            set { size =System.Math.Max( 3,System.Math.Min( 25, value | 1 ) ); }
         }
 
         /// <summary>

@@ -67,7 +67,7 @@ namespace AForge.Imaging.Filters
         public double SourcePercent
         {
             get { return sourcePercent; }
-            set { sourcePercent = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { sourcePercent =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
 

@@ -212,7 +212,7 @@ namespace AForge.Robotics.TeRK
                         // prepare video source string
                         source = "'::TeRK::VideoStreamerServer':tcp -h " + hostAddress + " -p 10101";
 
-                        Ice.ObjectPrx obj = qwerk.iceCommunicator.stringToProxy( source );
+                        var obj = qwerk.iceCommunicator.stringToProxy( source );
                         obj = obj.ice_timeout( Qwerk.TimeOut );
                         videoStreamer = TeRKIceLib.VideoStreamerServerPrxHelper.checkedCast( obj );
                     }
@@ -353,7 +353,7 @@ namespace AForge.Robotics.TeRK
                             // get download start time
                             start = DateTime.Now;
 
-                            TeRKIceLib.Image qwerkImage = videoStreamer.getFrame( 0 );
+                            var qwerkImage = videoStreamer.getFrame( 0 );
 
                             // increase frames' and bytes' counters
                             framesReceived++;

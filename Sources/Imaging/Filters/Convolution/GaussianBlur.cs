@@ -69,7 +69,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 // get new sigma value
-                sigma = Math.Max( 0.5, Math.Min( 5.0, value ) );
+                sigma =System.Math.Max( 0.5,System.Math.Min( 5.0, value ) );
                 // create filter
                 CreateFilter( );
             }
@@ -89,7 +89,7 @@ namespace AForge.Imaging.Filters
             get { return size; }
             set
             {
-                size = Math.Max( 3, Math.Min( 21, value | 1 ) );
+                size =System.Math.Max( 3,System.Math.Min( 21, value | 1 ) );
                 CreateFilter( );
             }
         }

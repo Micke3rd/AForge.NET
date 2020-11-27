@@ -57,7 +57,7 @@ namespace AForge.Math.Metrics
                 distance += diff * diff;
             }
 
-            return Math.Sqrt( distance );
+            return System.Math.Sqrt( distance );
         }
     }
 }

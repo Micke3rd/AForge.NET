@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-using TeRKIceLib = TeRK;
+
 
 namespace AForge.Robotics.TeRK
 {
@@ -83,7 +83,7 @@ namespace AForge.Robotics.TeRK
                 {
                     try
                     {
-                        Ice.ObjectPrx obj = qwerk.iceCommunicator.stringToProxy( "'::TeRK::ServoController':tcp -h " + hostAddress + " -p 10101" );
+                        var obj = qwerk.iceCommunicator.stringToProxy( "'::TeRK::ServoController':tcp -h " + hostAddress + " -p 10101" );
                         obj = obj.ice_timeout( Qwerk.TimeOut );
                         servoController = TeRKIceLib.ServoControllerPrxHelper.checkedCast( obj );
                     }

@@ -199,8 +199,8 @@ namespace AForge.Imaging.Filters
             if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
             {
                 byte startColor = *( (byte*) CoordsToPointerGray( startingPoint.X, startingPoint.Y ) );
-                minG = (byte) ( Math.Max(   0, startColor - tolerance.G ) );
-                maxG = (byte) ( Math.Min( 255, startColor + tolerance.G ) );
+                minG = (byte) (System.Math.Max(   0, startColor - tolerance.G ) );
+                maxG = (byte) (System.Math.Min( 255, startColor + tolerance.G ) );
 
                 LinearFloodFill4Gray( startingPoint );
             }
@@ -208,12 +208,12 @@ namespace AForge.Imaging.Filters
             {
                 byte* startColor = (byte*) CoordsToPointerRGB( startingPoint.X, startingPoint.Y );
 
-                minR = (byte) ( Math.Max(   0, startColor[RGB.R] - tolerance.R ) );
-                maxR = (byte) ( Math.Min( 255, startColor[RGB.R] + tolerance.R ) );
-                minG = (byte) ( Math.Max(   0, startColor[RGB.G] - tolerance.G ) );
-                maxG = (byte) ( Math.Min( 255, startColor[RGB.G] + tolerance.G ) );
-                minB = (byte) ( Math.Max(   0, startColor[RGB.B] - tolerance.B ) );
-                maxB = (byte) ( Math.Min( 255, startColor[RGB.B] + tolerance.B ) );
+                minR = (byte) (System.Math.Max(   0, startColor[RGB.R] - tolerance.R ) );
+                maxR = (byte) (System.Math.Min( 255, startColor[RGB.R] + tolerance.R ) );
+                minG = (byte) (System.Math.Max(   0, startColor[RGB.G] - tolerance.G ) );
+                maxG = (byte) (System.Math.Min( 255, startColor[RGB.G] + tolerance.G ) );
+                minB = (byte) (System.Math.Max(   0, startColor[RGB.B] - tolerance.B ) );
+                maxB = (byte) (System.Math.Min( 255, startColor[RGB.B] + tolerance.B ) );
 
                 LinearFloodFill4RGB( startingPoint );
             }

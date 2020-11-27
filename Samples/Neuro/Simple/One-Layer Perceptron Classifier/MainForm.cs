@@ -19,6 +19,7 @@ using AForge;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace Classifier
 {
@@ -591,7 +592,7 @@ namespace Classifier
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1, double.Parse( learningRateBox.Text ) ) );
 			}
 			catch
 			{

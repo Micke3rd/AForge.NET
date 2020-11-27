@@ -57,7 +57,7 @@ namespace AForge.Fuzzy
         /// 
         public float Evaluate( float membershipA, float membershipB )
         {
-            return Math.Min( membershipA, membershipB );
+            return System.Math.Min( membershipA, membershipB );
         }
     }
 }

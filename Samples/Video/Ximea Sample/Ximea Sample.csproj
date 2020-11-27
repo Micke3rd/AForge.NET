@@ -5,6 +5,7 @@
     
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Controls\Controls.csproj" />
     <ProjectReference Include="..\..\..\Sources\Video.Ximea\Video.Ximea.csproj" />
     <ProjectReference Include="..\..\..\Sources\Video\Video.csproj" />
   </ItemGroup>

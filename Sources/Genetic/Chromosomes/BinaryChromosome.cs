@@ -87,7 +87,7 @@ namespace AForge.Genetic
         /// 
         public BinaryChromosome( int length )
         {
-            this.length = Math.Max( 2, Math.Min( MaxLength, length ) );
+            this.length =System.Math.Max( 2,System.Math.Min( MaxLength, length ) );
             // randomize the chromosome
             Generate( );
         }

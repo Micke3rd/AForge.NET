@@ -144,8 +144,8 @@ namespace AForge.Imaging.Filters
             int width  = source.Width;
             int height = source.Height;
 
-            int widthToProcess  = Math.Min( width,  warpMap.GetLength( 1 ) );
-            int heightToProcess = Math.Min( height, warpMap.GetLength( 0 ) );
+            int widthToProcess  =System.Math.Min( width,  warpMap.GetLength( 1 ) );
+            int heightToProcess =System.Math.Min( height, warpMap.GetLength( 0 ) );
 
             int srcStride = source.Stride;
             int dstStride = destination.Stride;

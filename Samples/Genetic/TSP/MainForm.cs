@@ -17,6 +17,7 @@ using System.Threading;
 using AForge;
 using AForge.Genetic;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace TSP
 {
@@ -445,7 +446,7 @@ namespace TSP
 			// get cities count
 			try
 			{
-				citiesCount = Math.Max( 5, Math.Min( 50, int.Parse( citiesCountBox.Text ) ) );
+				citiesCount =System.Math.Max( 5,System.Math.Min( 50, int.Parse( citiesCountBox.Text ) ) );
 			}
 			catch
 			{
@@ -463,7 +464,7 @@ namespace TSP
 			// get population size
 			try
 			{
-				populationSize = Math.Max( 10, Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
+				populationSize =System.Math.Max( 10,System.Math.Min( 100, int.Parse( populationSizeBox.Text ) ) );
 			}
 			catch
 			{
@@ -472,7 +473,7 @@ namespace TSP
 			// iterations
 			try
 			{
-				iterations = Math.Max( 0, int.Parse( iterationsBox.Text ) );
+				iterations =System.Math.Max( 0, int.Parse( iterationsBox.Text ) );
 			}
 			catch
 			{

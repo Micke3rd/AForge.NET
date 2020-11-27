@@ -18,6 +18,7 @@ using AForge;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
 using AForge.Controls;
+using Range = AForge.Range;
 
 namespace TSP
 {
@@ -402,7 +403,7 @@ namespace TSP
 			// get cities count
 			try
 			{
-				citiesCount = Math.Max( 5, Math.Min( 50, int.Parse( citiesCountBox.Text ) ) );
+				citiesCount =System.Math.Max( 5,System.Math.Min( 50, int.Parse( citiesCountBox.Text ) ) );
 			}
 			catch
 			{
@@ -444,7 +445,7 @@ namespace TSP
 			// get network size
 			try
 			{
-				neurons = Math.Max( 5, Math.Min( 50, int.Parse( neuronsBox.Text ) ) );
+				neurons =System.Math.Max( 5,System.Math.Min( 50, int.Parse( neuronsBox.Text ) ) );
 			}
 			catch
 			{
@@ -453,7 +454,7 @@ namespace TSP
 			// get iterations count
 			try
 			{
-				iterations = Math.Max( 10, Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
+				iterations =System.Math.Max( 10,System.Math.Min( 1000000, int.Parse( iterationsBox.Text ) ) );
 			}
 			catch
 			{
@@ -462,7 +463,7 @@ namespace TSP
 			// get learning rate
 			try
 			{
-				learningRate = Math.Max( 0.00001, Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
+				learningRate =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( rateBox.Text ) ) );
 			}
 			catch
 			{
@@ -471,7 +472,7 @@ namespace TSP
 			// get learning radius
 			try
 			{
-				learningRadius = Math.Max( 0.00001, Math.Min( 1.0, double.Parse( radiusBox.Text ) ) );
+				learningRadius =System.Math.Max( 0.00001,System.Math.Min( 1.0, double.Parse( radiusBox.Text ) ) );
 			}
 			catch
 			{

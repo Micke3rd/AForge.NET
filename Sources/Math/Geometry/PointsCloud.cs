@@ -213,7 +213,7 @@ namespace AForge.Math.Geometry
                 float k = (float) ( linePoint2.Y - linePoint1.Y ) / ( linePoint2.X - linePoint1.X );
                 float b = linePoint1.Y - k * linePoint1.X;
 
-                float div = (float) Math.Sqrt( k * k + 1 );
+                float div = (float)System.Math.Sqrt( k * k + 1 );
                 float distance = 0;
 
                 foreach ( IntPoint point in cloud )
@@ -308,7 +308,7 @@ namespace AForge.Math.Geometry
                 float k = (float) ( linePoint2.Y - linePoint1.Y ) / ( linePoint2.X - linePoint1.X );
                 float b = linePoint1.Y - k * linePoint1.X;
 
-                float div = (float) Math.Sqrt( k * k + 1 );
+                float div = (float)System.Math.Sqrt( k * k + 1 );
                 float pointDistance = 0;
 
                 foreach ( IntPoint point in cloud )
@@ -378,7 +378,7 @@ namespace AForge.Math.Geometry
         public static float QuadrilateralRelativeDistortionLimit
         {
             get { return quadrilateralRelativeDistortionLimit; }
-            set { quadrilateralRelativeDistortionLimit = Math.Max( 0.0f, Math.Min( 0.25f, value ) ); }
+            set { quadrilateralRelativeDistortionLimit =System.Math.Max( 0.0f,System.Math.Min( 0.25f, value ) ); }
         }
         private static float quadrilateralRelativeDistortionLimit = 0.1f;
 

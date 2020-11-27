@@ -116,9 +116,9 @@ namespace AForge.Imaging.Filters
                 return new Size( sourceData.Width, sourceData.Height );
 
             // angle's sine and cosine
-            double angleRad = -angle * Math.PI / 180;
-            double angleCos = Math.Cos( angleRad );
-            double angleSin = Math.Sin( angleRad );
+            double angleRad = -angle * System.Math.PI / 180;
+            double angleCos = System.Math.Cos( angleRad );
+            double angleSin = System.Math.Sin( angleRad );
 
             // calculate half size
             double halfWidth  = (double) sourceData.Width / 2;
@@ -138,8 +138,8 @@ namespace AForge.Imaging.Filters
             double cy4 = 0;
 
             // recalculate image size
-            halfWidth  = Math.Max( Math.Max( cx1, cx2 ), Math.Max( cx3, cx4 ) ) - Math.Min( Math.Min( cx1, cx2 ), Math.Min( cx3, cx4 ) );
-            halfHeight = Math.Max( Math.Max( cy1, cy2 ), Math.Max( cy3, cy4 ) ) - Math.Min( Math.Min( cy1, cy2 ), Math.Min( cy3, cy4 ) );
+            halfWidth  =System.Math.Max(System.Math.Max( cx1, cx2 ),System.Math.Max( cx3, cx4 ) ) -System.Math.Min(System.Math.Min( cx1, cx2 ),System.Math.Min( cx3, cx4 ) );
+            halfHeight =System.Math.Max(System.Math.Max( cy1, cy2 ),System.Math.Max( cy3, cy4 ) ) -System.Math.Min(System.Math.Min( cy1, cy2 ),System.Math.Min( cy3, cy4 ) );
 
             return new Size( (int) ( halfWidth * 2 + 0.5 ), (int) ( halfHeight * 2 + 0.5 ) );
         }

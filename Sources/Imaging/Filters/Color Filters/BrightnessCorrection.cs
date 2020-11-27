@@ -64,7 +64,7 @@ namespace AForge.Imaging.Filters
             get { return adjustValue; }
             set
             {
-                adjustValue = Math.Max( -255, Math.Min( 255, value ) );
+                adjustValue =System.Math.Max( -255,System.Math.Min( 255, value ) );
 
                 if ( adjustValue > 0 )
                 {

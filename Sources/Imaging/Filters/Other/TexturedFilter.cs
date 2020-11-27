@@ -105,7 +105,7 @@ namespace AForge.Imaging.Filters
         public double FilterLevel
         {
             get { return filterLevel; }
-            set { filterLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { filterLevel =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace AForge.Imaging.Filters
         public double PreserveLevel
         {
             get { return preserveLevel; }
-            set { preserveLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { preserveLevel =System.Math.Max( 0.0,System.Math.Min( 1.0, value ) ); }
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace AForge.Imaging.Filters
 
                             for ( int i = 0; i < 3; i++, src1++, src2++, dst++ )
                             {
-                                *dst = (byte) Math.Min( 255.0f,
+                                *dst = (byte)System.Math.Min( 255.0f,
                                     filterLevel * ( t1 * ( *src1 ) + t2 * ( *src2 ) ) +
                                     preserveLevel * ( *src2 ) );
                             }
@@ -430,7 +430,7 @@ namespace AForge.Imaging.Filters
 
                             for ( int i = 0; i < 3; i++, src1++, src2++, dst++ )
                             {
-                                *dst = (byte) Math.Min( 255.0f, t1 * *src1 + t2 * *src2 );
+                                *dst = (byte)System.Math.Min( 255.0f, t1 * *src1 + t2 * *src2 );
                             }
                         }
                         src1 += src1Offset;

@@ -65,7 +65,7 @@ namespace AForge.Math.Metrics
             }
 
             double numerator = productSum - ( ( pSum * qSum ) / (double) n );
-            double denominator = Math.Sqrt( ( pSumSq - ( pSum * pSum ) / (double) n ) * ( qSumSq - ( qSum * qSum ) / (double) n ) );
+            double denominator =System.Math.Sqrt( ( pSumSq - ( pSum * pSum ) / (double) n ) * ( qSumSq - ( qSum * qSum ) / (double) n ) );
 
             return ( denominator == 0 ) ? 0 : numerator / denominator;
         }

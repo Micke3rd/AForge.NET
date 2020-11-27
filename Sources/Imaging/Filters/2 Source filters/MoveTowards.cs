@@ -78,7 +78,7 @@ namespace AForge.Imaging.Filters
         public int StepSize
         {
             get { return stepSize; }
-            set { stepSize = Math.Max( 1, Math.Min( 65535, value ) ); }
+            set { stepSize =System.Math.Max( 1,System.Math.Min( 65535, value ) ); }
         }
 
         /// <summary>

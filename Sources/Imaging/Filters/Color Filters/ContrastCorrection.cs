@@ -68,7 +68,7 @@ namespace AForge.Imaging.Filters
             get { return factor; }
             set
             {
-                factor = Math.Max( -127, Math.Min( 127, value ) );
+                factor =System.Math.Max( -127,System.Math.Min( 127, value ) );
 
 
                 if ( factor > 0 )

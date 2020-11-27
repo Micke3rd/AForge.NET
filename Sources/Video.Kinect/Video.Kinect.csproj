@@ -4,6 +4,12 @@
     <OutputType>Library</OutputType>
     
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Imaging\Imaging.csproj" />
 		<ProjectReference Include="..\Video\Video.csproj" />
