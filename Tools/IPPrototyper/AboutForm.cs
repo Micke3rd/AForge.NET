@@ -6,31 +6,25 @@
 // andrew.kirillov@aforgenet.com
 //
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace IPPrototyper
 {
     internal partial class AboutForm : Form
     {
-        public AboutForm( )
+        public AboutForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             // initialize links
-            emailLabel.Links.Add( 0, emailLabel.Text.Length, "mailto:" + emailLabel.Text );
-            aforgeFrameworkLabel.Links.Add( 0, aforgeFrameworkLabel.Text.Length, aforgeFrameworkLabel.Text );
+            emailLabel.Links.Add(0, emailLabel.Text.Length, "mailto:"+emailLabel.Text);
+            aforgeFrameworkLabel.Links.Add(0, aforgeFrameworkLabel.Text.Length, aforgeFrameworkLabel.Text);
         }
 
         // Link clicked
-        private void LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start( e.Link.LinkData.ToString( ) );
+            System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }
     }
 }

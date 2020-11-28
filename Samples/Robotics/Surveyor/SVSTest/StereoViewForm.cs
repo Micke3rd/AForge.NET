@@ -13,126 +13,126 @@ using System.Windows.Forms;
 
 namespace SVSTest
 {
-	public partial class StereoViewForm : Form
-	{
-		private ManualResetEvent leftFrameIsAvailable;
-		private ManualResetEvent rightFrameIsAvailable;
+    public partial class StereoViewForm : Form
+    {
+        private ManualResetEvent leftFrameIsAvailable;
+        private ManualResetEvent rightFrameIsAvailable;
 
-		private Thread backgroundThread;
+        private Thread backgroundThread;
 
-		private Bitmap leftFrame;
-		private Bitmap rightFrame;
+        private Bitmap leftFrame;
+        private Bitmap rightFrame;
 
-		private StereoAnaglyph stereoFilter = new StereoAnaglyph();
+        private StereoAnaglyph stereoFilter = new StereoAnaglyph();
 
-		private bool needToExit = false;
+        private bool needToExit = false;
 
-		public StereoViewForm()
-		{
-			InitializeComponent();
+        public StereoViewForm()
+        {
+            InitializeComponent();
 
-			leftFrameIsAvailable = new ManualResetEvent(false);
-			rightFrameIsAvailable = new ManualResetEvent(false);
+            leftFrameIsAvailable=new ManualResetEvent(false);
+            rightFrameIsAvailable=new ManualResetEvent(false);
 
-			backgroundThread = new Thread(new ThreadStart(stereoThread));
-			backgroundThread.Start();
-		}
+            backgroundThread=new Thread(new ThreadStart(stereoThread));
+            backgroundThread.Start();
+        }
 
-		// Closing the form
-		private void StereoViewForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			needToExit = true;
+        // Closing the form
+        private void StereoViewForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            needToExit=true;
 
-			leftFrameIsAvailable.Set();
-			rightFrameIsAvailable.Set();
+            leftFrameIsAvailable.Set();
+            rightFrameIsAvailable.Set();
 
-			backgroundThread.Join();
-		}
+            backgroundThread.Join();
+        }
 
-		// New left frame has arrived
-		public void OnNewLeftFrame(object sender, ref Bitmap image)
-		{
-			lock (this)
-			{
-				if (leftFrame != null)
-					leftFrame.Dispose();
+        // New left frame has arrived
+        public void OnNewLeftFrame(object sender, ref Bitmap image)
+        {
+            lock (this)
+            {
+                if (leftFrame!=null)
+                    leftFrame.Dispose();
 
-				leftFrame = AForge.Imaging.Image.Clone(image);
+                leftFrame=AForge.Imaging.Image.Clone(image);
 
-				leftFrameIsAvailable.Set();
-			}
-		}
+                leftFrameIsAvailable.Set();
+            }
+        }
 
-		// New right frame has arrived
-		public void OnNewRightFrame(object sender, ref Bitmap image)
-		{
-			lock (this)
-			{
-				if (rightFrame != null)
-					rightFrame.Dispose();
+        // New right frame has arrived
+        public void OnNewRightFrame(object sender, ref Bitmap image)
+        {
+            lock (this)
+            {
+                if (rightFrame!=null)
+                    rightFrame.Dispose();
 
-				rightFrame = AForge.Imaging.Image.Clone(image);
+                rightFrame=AForge.Imaging.Image.Clone(image);
 
-				rightFrameIsAvailable.Set();
-			}
-		}
+                rightFrameIsAvailable.Set();
+            }
+        }
 
-		private void stereoThread()
-		{
-			while (true)
-			{
-				leftFrameIsAvailable.WaitOne();
-				rightFrameIsAvailable.WaitOne();
+        private void stereoThread()
+        {
+            while (true)
+            {
+                leftFrameIsAvailable.WaitOne();
+                rightFrameIsAvailable.WaitOne();
 
-				if (needToExit)
-					break;
+                if (needToExit)
+                    break;
 
-				if ((leftFrame.Width != pictureBox.Width - 2) ||
-					 (leftFrame.Height != pictureBox.Height - 2))
-				{
-					UpdateWindowSize();
-				}
+                if ((leftFrame.Width!=pictureBox.Width-2)||
+                     (leftFrame.Height!=pictureBox.Height-2))
+                {
+                    UpdateWindowSize();
+                }
 
-				lock (this)
-				{
-					try
-					{
-						var old = pictureBox.Image;
+                lock (this)
+                {
+                    try
+                    {
+                        var old = pictureBox.Image;
 
-						// build stereo anaglyph
-						stereoFilter.OverlayImage = rightFrame;
-						pictureBox.Image = stereoFilter.Apply(leftFrame);
-						pictureBox.Invalidate();
+                        // build stereo anaglyph
+                        stereoFilter.OverlayImage=rightFrame;
+                        pictureBox.Image=stereoFilter.Apply(leftFrame);
+                        pictureBox.Invalidate();
 
-						if (old != null)
-						{
-							old.Dispose();
-						}
-					}
-					catch
-					{
-					}
-				}
+                        if (old!=null)
+                        {
+                            old.Dispose();
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
 
-				leftFrameIsAvailable.Reset();
-				rightFrameIsAvailable.Reset();
-			}
-		}
+                leftFrameIsAvailable.Reset();
+                rightFrameIsAvailable.Reset();
+            }
+        }
 
-		private delegate void UpdateWindowSizeCallback();
+        private delegate void UpdateWindowSizeCallback();
 
-		// Update size of the window, so it shows pictures without rescaling
-		private void UpdateWindowSize()
-		{
-			if (InvokeRequired)
-			{
-				Invoke(new UpdateWindowSizeCallback(UpdateWindowSize));
-			}
-			else
-			{
-				this.Size = new Size(leftFrame.Width + 30, rightFrame.Height + 48);
-				pictureBox.Size = new Size(leftFrame.Width + 2, rightFrame.Height + 2);
-			}
-		}
-	}
+        // Update size of the window, so it shows pictures without rescaling
+        private void UpdateWindowSize()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new UpdateWindowSizeCallback(UpdateWindowSize));
+            }
+            else
+            {
+                this.Size=new Size(leftFrame.Width+30, rightFrame.Height+48);
+                pictureBox.Size=new Size(leftFrame.Width+2, rightFrame.Height+2);
+            }
+        }
+    }
 }

@@ -6,19 +6,15 @@
 // contacts@aforgenet.com
 //
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
-
-using AForge;
 using AForge.Imaging;
 using AForge.Imaging.IPPrototyper;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Windows.Forms;
 
 namespace IPPrototyper
 {
@@ -27,19 +23,19 @@ namespace IPPrototyper
         // selected folder containing images to process
         private string selectedFolder;
         // list of found image processing routines
-        private Dictionary<string, IImageProcessingRoutine> processingRoutines = new Dictionary<string,IImageProcessingRoutine>( );
+        private Dictionary<string, IImageProcessingRoutine> processingRoutines = new Dictionary<string, IImageProcessingRoutine>();
         // currently active image processing routine to use
         private IImageProcessingRoutine ipRoutineToUse = null;
         // image processing log
-        private ImageProcessingLog processingLog = new ImageProcessingLog( );
+        private ImageProcessingLog processingLog = new ImageProcessingLog();
 
         private HistogramForm histogramForm = null;
 
         // list of recently used folders
-        private List<string> recentFolders = new List<string>( );
+        private List<string> recentFolders = new List<string>();
 
         // stopwatch to measure time taken by image processing routine
-        System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch( );
+        System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
 
         #region Configuration Option Names
         private const string mainFormXOption = "MainFormX";
@@ -56,93 +52,93 @@ namespace IPPrototyper
         #endregion
 
 
-        public MainForm( )
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
         }
 
         // On form loading
-        private void MainForm_Load( object sender, EventArgs e )
+        private void MainForm_Load(object sender, EventArgs e)
         {
             // collect available modules in application's directory
-            CollectModules( Path.GetDirectoryName( Application.ExecutablePath ) );
+            CollectModules(Path.GetDirectoryName(Application.ExecutablePath));
             // add modules' name to application's menu
-            foreach ( string routineName in processingRoutines.Keys )
+            foreach (var routineName in processingRoutines.Keys)
             {
-                ToolStripItem item = modulesToolStripMenuItem.DropDownItems.Add( routineName );
+                var item = modulesToolStripMenuItem.DropDownItems.Add(routineName);
 
-                item.Click += new System.EventHandler( this.module_Click );
+                item.Click+=new System.EventHandler(this.module_Click);
 
-                if ( ipRoutineToUse == null )
+                if (ipRoutineToUse==null)
                 {
-                    ipRoutineToUse = processingRoutines[routineName];
+                    ipRoutineToUse=processingRoutines[routineName];
                 }
             }
 
             // load configuratio
-            Configuration config = Configuration.Instance;
+            var config = Configuration.Instance;
 
-            if ( config.Load( ) )
+            if (config.Load())
             {
                 try
                 {
-                    bool windowPositionIsValid = false;
+                    var windowPositionIsValid = false;
                     // get window location/size
-                    Size windowSize = new Size(
-                        int.Parse( config.GetConfigurationOption( mainFormWidthOption ) ),
-                        int.Parse( config.GetConfigurationOption( mainFormHeightOption ) ) );
-                    System.Drawing.Point windowTopLeft = new System.Drawing.Point(
-                        int.Parse( config.GetConfigurationOption( mainFormXOption ) ),
-                        int.Parse( config.GetConfigurationOption( mainFormYOption ) ) );
-                    System.Drawing.Point windowTopRight = new System.Drawing.Point(
-                        windowTopLeft.X + windowSize.Width, windowTopLeft.Y );
+                    var windowSize = new Size(
+                        int.Parse(config.GetConfigurationOption(mainFormWidthOption)),
+                        int.Parse(config.GetConfigurationOption(mainFormHeightOption)));
+                    var windowTopLeft = new System.Drawing.Point(
+                        int.Parse(config.GetConfigurationOption(mainFormXOption)),
+                        int.Parse(config.GetConfigurationOption(mainFormYOption)));
+                    var windowTopRight = new System.Drawing.Point(
+                        windowTopLeft.X+windowSize.Width, windowTopLeft.Y);
 
                     // check if window location is within of the displays
-                    foreach ( Screen screen in Screen.AllScreens )
+                    foreach (var screen in Screen.AllScreens)
                     {
-                        if ( ( screen.WorkingArea.Contains( windowTopLeft ) ) ||
-                             ( screen.WorkingArea.Contains( windowTopRight ) ) )
+                        if ((screen.WorkingArea.Contains(windowTopLeft))||
+                             (screen.WorkingArea.Contains(windowTopRight)))
                         {
-                            windowPositionIsValid = true;
+                            windowPositionIsValid=true;
                             break;
                         }
                     }
 
-                    if ( windowPositionIsValid )
+                    if (windowPositionIsValid)
                     {
-                        Location = windowTopLeft;
-                        Size = windowSize;
+                        Location=windowTopLeft;
+                        Size=windowSize;
 
-                        WindowState = (FormWindowState) Enum.Parse( typeof( FormWindowState ),
-                            config.GetConfigurationOption( mainFormStateOption ) );
+                        WindowState=(FormWindowState)Enum.Parse(typeof(FormWindowState),
+                            config.GetConfigurationOption(mainFormStateOption));
 
-                        mainSplitContainer.SplitterDistance = int.Parse( config.GetConfigurationOption( splitter1Option ) );
-                        splitContainer1.SplitterDistance = int.Parse( config.GetConfigurationOption( splitter2Option ) );
-                        splitContainer2.SplitterDistance = int.Parse( config.GetConfigurationOption( splitter3Option ) );
+                        mainSplitContainer.SplitterDistance=int.Parse(config.GetConfigurationOption(splitter1Option));
+                        splitContainer1.SplitterDistance=int.Parse(config.GetConfigurationOption(splitter2Option));
+                        splitContainer2.SplitterDistance=int.Parse(config.GetConfigurationOption(splitter3Option));
                     }
 
                     // get size mode of picture box
-                    SetPictureBoxSizeMode( (PictureBoxSizeMode) Enum.Parse( typeof( PictureBoxSizeMode ),
-                        config.GetConfigurationOption( pictureSizeModeOption ) ) );
+                    SetPictureBoxSizeMode((PictureBoxSizeMode)Enum.Parse(typeof(PictureBoxSizeMode),
+                        config.GetConfigurationOption(pictureSizeModeOption)));
 
                     // get recent folders
-                    for ( int i = 0; i < 7; i++ )
+                    for (var i = 0; i<7; i++)
                     {
-                        string rf = config.GetConfigurationOption( recentFolderOption + i );
+                        var rf = config.GetConfigurationOption(recentFolderOption+i);
 
-                        if ( rf != null )
-                            recentFolders.Add( rf );
+                        if (rf!=null)
+                            recentFolders.Add(rf);
                     }
 
-                    RebuildRecentFoldersList( );
+                    RebuildRecentFoldersList();
 
-                    bool openLast = bool.Parse( config.GetConfigurationOption( openLastOption ) );
-                    openLastFolderOnStartToolStripMenuItem.Checked = openLast;
+                    var openLast = bool.Parse(config.GetConfigurationOption(openLastOption));
+                    openLastFolderOnStartToolStripMenuItem.Checked=openLast;
 
-                    if ( ( openLast ) && ( recentFolders.Count > 0 ) )
+                    if ((openLast)&&(recentFolders.Count>0))
                     {
-                        OpenFolder( recentFolders[0] );
+                        OpenFolder(recentFolders[0]);
                     }
                 }
                 catch
@@ -152,522 +148,522 @@ namespace IPPrototyper
         }
 
         // Rebuild menu with the list of recently used folders
-        private void RebuildRecentFoldersList( )
+        private void RebuildRecentFoldersList()
         {
             // unsubscribe from events
-            foreach ( ToolStripItem item in recentFoldersToolStripMenuItem.DropDownItems )
+            foreach (ToolStripItem item in recentFoldersToolStripMenuItem.DropDownItems)
             {
-                item.Click -= new EventHandler( recentFolder_Click );
+                item.Click-=new EventHandler(recentFolder_Click);
             }
 
             // remove all current items
-            recentFoldersToolStripMenuItem.DropDownItems.Clear( );
+            recentFoldersToolStripMenuItem.DropDownItems.Clear();
 
             // add new items
-            foreach ( string folderName in recentFolders )
+            foreach (var folderName in recentFolders)
             {
-                ToolStripItem item = recentFoldersToolStripMenuItem.DropDownItems.Add( folderName );
+                var item = recentFoldersToolStripMenuItem.DropDownItems.Add(folderName);
 
-                item.Click += new EventHandler( recentFolder_Click );
+                item.Click+=new EventHandler(recentFolder_Click);
             }
         }
 
         // On form closing
-        private void MainForm_FormClosing( object sender, FormClosingEventArgs e )
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Configuration config = Configuration.Instance;
+            var config = Configuration.Instance;
 
             // save window location/size
-            if ( WindowState != FormWindowState.Minimized )
+            if (WindowState!=FormWindowState.Minimized)
             {
-                if ( WindowState != FormWindowState.Maximized )
+                if (WindowState!=FormWindowState.Maximized)
                 {
-                    config.SetConfigurationOption( mainFormXOption, Location.X.ToString( ) );
-                    config.SetConfigurationOption( mainFormYOption, Location.Y.ToString( ) );
-                    config.SetConfigurationOption( mainFormWidthOption, Width.ToString( ) );
-                    config.SetConfigurationOption( mainFormHeightOption, Height.ToString( ) );
+                    config.SetConfigurationOption(mainFormXOption, Location.X.ToString());
+                    config.SetConfigurationOption(mainFormYOption, Location.Y.ToString());
+                    config.SetConfigurationOption(mainFormWidthOption, Width.ToString());
+                    config.SetConfigurationOption(mainFormHeightOption, Height.ToString());
                 }
-                config.SetConfigurationOption( mainFormStateOption, WindowState.ToString( ) );
+                config.SetConfigurationOption(mainFormStateOption, WindowState.ToString());
 
-                config.SetConfigurationOption( splitter1Option, mainSplitContainer.SplitterDistance.ToString( ) );
-                config.SetConfigurationOption( splitter2Option, splitContainer1.SplitterDistance.ToString( ) );
-                config.SetConfigurationOption( splitter3Option, splitContainer2.SplitterDistance.ToString( ) );
+                config.SetConfigurationOption(splitter1Option, mainSplitContainer.SplitterDistance.ToString());
+                config.SetConfigurationOption(splitter2Option, splitContainer1.SplitterDistance.ToString());
+                config.SetConfigurationOption(splitter3Option, splitContainer2.SplitterDistance.ToString());
             }
 
             // save size mode of picture box
-            config.SetConfigurationOption( pictureSizeModeOption, pictureBox.SizeMode.ToString( ) );
+            config.SetConfigurationOption(pictureSizeModeOption, pictureBox.SizeMode.ToString());
 
             // save recent folders
-            for ( int i = 0, n = recentFolders.Count; i < n; i++ )
+            for (int i = 0, n = recentFolders.Count; i<n; i++)
             {
-                config.SetConfigurationOption( recentFolderOption + i, recentFolders[i] );
+                config.SetConfigurationOption(recentFolderOption+i, recentFolders[i]);
             }
-            config.SetConfigurationOption( openLastOption, openLastFolderOnStartToolStripMenuItem.Checked.ToString( ) );
+            config.SetConfigurationOption(openLastOption, openLastFolderOnStartToolStripMenuItem.Checked.ToString());
 
             try
             {
-                config.Save( );
+                config.Save();
             }
-            catch ( IOException ex )
+            catch (IOException ex)
             {
-                MessageBox.Show( "Failed saving confguration file.\r\n\r\n" + ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                MessageBox.Show("Failed saving confguration file.\r\n\r\n"+ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         // Add folder to the list of recently used folders
-        public void AddRecentFolder( string folderName )
+        public void AddRecentFolder(string folderName)
         {
-            int index = recentFolders.IndexOf( folderName );
+            var index = recentFolders.IndexOf(folderName);
 
-            if ( index != 0 )
+            if (index!=0)
             {
-                if ( index != -1 )
+                if (index!=-1)
                 {
                     // remove previous entry
-                    recentFolders.RemoveAt( index );
+                    recentFolders.RemoveAt(index);
                 }
 
                 // put this folder as the most recent
-                recentFolders.Insert( 0, folderName );
+                recentFolders.Insert(0, folderName);
 
-                if ( recentFolders.Count > 7 )
+                if (recentFolders.Count>7)
                 {
-                    recentFolders.RemoveAt( 7 );
+                    recentFolders.RemoveAt(7);
                 }
             }
         }
 
         // Remove specified folder from the list of recently used folders
-        public void RemoveRecentFolder( string folderName )
+        public void RemoveRecentFolder(string folderName)
         {
-            recentFolders.Remove( folderName );
+            recentFolders.Remove(folderName);
         }
 
         // Update check style of modules' items
-        private void modulesToolStripMenuItem_DropDownOpening( object sender, EventArgs e )
+        private void modulesToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            foreach ( ToolStripMenuItem item in modulesToolStripMenuItem.DropDownItems )
+            foreach (ToolStripMenuItem item in modulesToolStripMenuItem.DropDownItems)
             {
-                item.Checked = ( ( ipRoutineToUse != null ) && ( ipRoutineToUse.Name == item.Text ) );
+                item.Checked=((ipRoutineToUse!=null)&&(ipRoutineToUse.Name==item.Text));
             }
         }
 
         // Item is clicked in modules' menu
-        private void module_Click( object sender, EventArgs e )
+        private void module_Click(object sender, EventArgs e)
         {
-            ipRoutineToUse = processingRoutines[( (ToolStripMenuItem) sender ).Text];
-            ProcessSelectedImage( );
+            ipRoutineToUse=processingRoutines[((ToolStripMenuItem)sender).Text];
+            ProcessSelectedImage();
         }
 
         // Exit from application
-        private void exitToolStripMenuItem_Click( object sender, EventArgs e )
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close( );
+            this.Close();
         }
 
         // Collect information about available modules
-        private void CollectModules( string path )
+        private void CollectModules(string path)
         {
             // create directory info
-            DirectoryInfo dir = new DirectoryInfo( path );
+            var dir = new DirectoryInfo(path);
 
             // get all dll files from the directory
-            FileInfo[] files = dir.GetFiles( "*.dll" );
+            var files = dir.GetFiles("*.dll");
 
             // walk through all files
-            foreach ( FileInfo f in files )
+            foreach (var f in files)
             {
-                CollectImageProcessingRoutines( Path.Combine( path, f.Name ) );
+                CollectImageProcessingRoutines(Path.Combine(path, f.Name));
             }
         }
 
         // Collect available image processing routines in the specified assembly
-        private void CollectImageProcessingRoutines( string fname )
+        private void CollectImageProcessingRoutines(string fname)
         {
-            Type typeIImageProcessingRoutine = typeof( IImageProcessingRoutine );
+            var typeIImageProcessingRoutine = typeof(IImageProcessingRoutine);
             Assembly assembly = null;
 
             try
             {
                 // try to load assembly
-                assembly = Assembly.LoadFrom( fname );
+                assembly=Assembly.LoadFrom(fname);
 
                 // get types of the assembly
-                Type[] types = assembly.GetTypes( );
+                var types = assembly.GetTypes();
 
                 // check all types
-                foreach ( Type type in types )
+                foreach (var type in types)
                 {
                     // get interfaces ot the type
-                    Type[] interfaces = type.GetInterfaces( );
+                    var interfaces = type.GetInterfaces();
 
                     // check, if the type is inherited from IImageProcessingRoutine
-                    if ( Array.IndexOf( interfaces, typeIImageProcessingRoutine ) != -1 )
+                    if (Array.IndexOf(interfaces, typeIImageProcessingRoutine)!=-1)
                     {
-                        IImageProcessingRoutine	ipRoutine = null;
+                        IImageProcessingRoutine ipRoutine = null;
 
                         try
                         {
                             // create an instance of the type
-                            ipRoutine = (IImageProcessingRoutine) Activator.CreateInstance( type );
+                            ipRoutine=(IImageProcessingRoutine)Activator.CreateInstance(type);
                             // add routine to collection
-                            if ( !processingRoutines.ContainsKey( ipRoutine.Name ) )
-                                processingRoutines.Add( ipRoutine.Name, ipRoutine );
+                            if (!processingRoutines.ContainsKey(ipRoutine.Name))
+                                processingRoutines.Add(ipRoutine.Name, ipRoutine);
                         }
-                        catch ( Exception )
+                        catch (Exception)
                         {
                             // something failed during instance creatinion
                         }
                     }
                 }
             }
-            catch ( Exception )
+            catch (Exception)
             {
             }
         }
 
         // Open folder
-        private void openFolderToolStripMenuItem_Click( object sender, EventArgs e )
+        private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ( folderBrowserDialog.ShowDialog( ) == DialogResult.OK )
+            if (folderBrowserDialog.ShowDialog()==DialogResult.OK)
             {
-                if ( OpenFolder( folderBrowserDialog.SelectedPath ) )
+                if (OpenFolder(folderBrowserDialog.SelectedPath))
                 {
                     // remember this folder
-                    AddRecentFolder( selectedFolder );
-                    RebuildRecentFoldersList( );
+                    AddRecentFolder(selectedFolder);
+                    RebuildRecentFoldersList();
                 }
             }
         }
 
         // Item is clicked in recent folders list
-        private void recentFolder_Click( object sender, EventArgs e )
+        private void recentFolder_Click(object sender, EventArgs e)
         {
-            string folderName = ( (ToolStripMenuItem) sender ).Text;
+            var folderName = ((ToolStripMenuItem)sender).Text;
 
-            if ( OpenFolder( folderName ) )
+            if (OpenFolder(folderName))
             {
                 // move the folder up in the list
-                AddRecentFolder( folderName );
+                AddRecentFolder(folderName);
             }
             else
             {
                 // remove failing folder
-                RemoveRecentFolder( folderName );
+                RemoveRecentFolder(folderName);
             }
-            RebuildRecentFoldersList( );
+            RebuildRecentFoldersList();
         }
 
         // Open specified folder
-        private bool OpenFolder( string folderName )
+        private bool OpenFolder(string folderName)
         {
-            bool success = false;
+            var success = false;
 
             try
             {
-                DirectoryInfo dirInfo = new DirectoryInfo( folderName );
-                FileInfo[] fileInfos = dirInfo.GetFiles( );
+                var dirInfo = new DirectoryInfo(folderName);
+                var fileInfos = dirInfo.GetFiles();
 
-                filesListView.Items.Clear( );
+                filesListView.Items.Clear();
 
                 // collect all image files
-                foreach ( FileInfo fi in fileInfos )
+                foreach (var fi in fileInfos)
                 {
-                    string ext = fi.Extension.ToLower( );
+                    var ext = fi.Extension.ToLower();
 
                     // check for supported extension
                     if (
-                        ( ext == ".jpg" ) || ( ext == ".jpeg" ) ||
-                        ( ext == ".bmp" ) || ( ext == ".png" ) )
+                        (ext==".jpg")||(ext==".jpeg")||
+                        (ext==".bmp")||(ext==".png"))
                     {
-                        filesListView.Items.Add( fi.Name );
+                        filesListView.Items.Add(fi.Name);
                     }
                 }
 
-                logListView.Items.Clear( );
-                filesListView.Focus( );
-                ProcessSelectedImage( );
+                logListView.Items.Clear();
+                filesListView.Focus();
+                ProcessSelectedImage();
 
-                selectedFolder = folderName;
-                success = true;
+                selectedFolder=folderName;
+                success=true;
             }
             catch
             {
-                MessageBox.Show( "Failed opening the folder:\n" + folderName, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                MessageBox.Show("Failed opening the folder:\n"+folderName, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            UpdateImageCountStatus( );
+            UpdateImageCountStatus();
 
             return success;
         }
 
         // Selection has changed in files list view control
-        private void filesListView_SelectedIndexChanged( object sender, EventArgs e )
+        private void filesListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ProcessSelectedImage( );
+            ProcessSelectedImage();
         }
 
         // Process currently selected image
-        private void ProcessSelectedImage( )
+        private void ProcessSelectedImage()
         {
-            if ( filesListView.SelectedItems.Count == 1 )
+            if (filesListView.SelectedItems.Count==1)
             {
                 Bitmap image = null;
 
                 try
                 {
-                    image = (Bitmap) Bitmap.FromFile( Path.Combine( selectedFolder, filesListView.SelectedItems[0].Text ) );
+                    image=(Bitmap)Bitmap.FromFile(Path.Combine(selectedFolder, filesListView.SelectedItems[0].Text));
                 }
                 catch
                 {
                 }
 
-                if ( image != null )
+                if (image!=null)
                 {
-                    ProcessImage( image );
-                    ShowLogMessages( );
-                    UpdateLogView( );
+                    ProcessImage(image);
+                    ShowLogMessages();
+                    UpdateLogView();
                     return;
                 }
                 else
                 {
-                    MessageBox.Show( "Failed loading file: " + filesListView.SelectedItems[0].Text,
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
-                    filesListView.Items.Remove( filesListView.SelectedItems[0] );
-                    UpdateImageCountStatus( );
+                    MessageBox.Show("Failed loading file: "+filesListView.SelectedItems[0].Text,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    filesListView.Items.Remove(filesListView.SelectedItems[0]);
+                    UpdateImageCountStatus();
                 }
             }
 
-            pictureBox.Image = null;
-            logBox.Text = string.Empty;
+            pictureBox.Image=null;
+            logBox.Text=string.Empty;
         }
 
         // Process specified image
-        private void ProcessImage( Bitmap image )
+        private void ProcessImage(Bitmap image)
         {
-            processingLog.Clear( );
-            processingLog.AddImage( "Source", image );
+            processingLog.Clear();
+            processingLog.AddImage("Source", image);
 
-            if ( ipRoutineToUse != null )
+            if (ipRoutineToUse!=null)
             {
-                stopWatch.Reset( );
-                stopWatch.Start( );
+                stopWatch.Reset();
+                stopWatch.Start();
 
                 // process image with selected image processing routine
-                ipRoutineToUse.Process( image, processingLog );
+                ipRoutineToUse.Process(image, processingLog);
 
-                stopWatch.Stop( );
+                stopWatch.Stop();
 
-                UpdateProcessingTimeStatus( stopWatch.ElapsedMilliseconds );
+                UpdateProcessingTimeStatus(stopWatch.ElapsedMilliseconds);
             }
         }
 
         // Update log view
-        private void UpdateLogView( )
+        private void UpdateLogView()
         {
-            string currentSelection = string.Empty;
-            int newSelectionIndex = 0;
-            int i = 0;
+            var currentSelection = string.Empty;
+            var newSelectionIndex = 0;
+            var i = 0;
 
-            if ( logListView.SelectedIndices.Count > 0 )
+            if (logListView.SelectedIndices.Count>0)
             {
-                currentSelection = logListView.Items[logListView.SelectedIndices[0]].Text;
+                currentSelection=logListView.Items[logListView.SelectedIndices[0]].Text;
             }
 
-            logListView.Items.Clear( );
+            logListView.Items.Clear();
 
-            foreach ( KeyValuePair<string, Bitmap> kvp in processingLog.Images )
+            foreach (var kvp in processingLog.Images)
             {
-                logListView.Items.Add( kvp.Key );
+                logListView.Items.Add(kvp.Key);
 
-                if ( kvp.Key == currentSelection )
-                    newSelectionIndex = i;
+                if (kvp.Key==currentSelection)
+                    newSelectionIndex=i;
 
                 i++;
             }
 
-            logListView.SelectedIndices.Add( newSelectionIndex );
-            logListView.EnsureVisible( newSelectionIndex );
+            logListView.SelectedIndices.Add(newSelectionIndex);
+            logListView.EnsureVisible(newSelectionIndex);
         }
 
         // Display log messages
-        private void ShowLogMessages( )
+        private void ShowLogMessages()
         {
-            StringBuilder sb = new StringBuilder( );
+            var sb = new StringBuilder();
 
-            foreach ( string message in processingLog.Messages )
+            foreach (var message in processingLog.Messages)
             {
-                sb.Append( message );
-                sb.Append( "\r\n" );
+                sb.Append(message);
+                sb.Append("\r\n");
             }
 
-            logBox.Text = sb.ToString( );
+            logBox.Text=sb.ToString();
         }
 
         // Selection has changed in log list view - update image
-        private void logListView_SelectedIndexChanged( object sender, EventArgs e )
+        private void logListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ( logListView.SelectedIndices.Count == 1 )
+            if (logListView.SelectedIndices.Count==1)
             {
-                string stepName = logListView.SelectedItems[0].Text;
+                var stepName = logListView.SelectedItems[0].Text;
 
-                Bitmap oldImage = (Bitmap) pictureBox.Image;
-                pictureBox.Image = (Bitmap) processingLog.Images[stepName].Clone( );
+                var oldImage = (Bitmap)pictureBox.Image;
+                pictureBox.Image=(Bitmap)processingLog.Images[stepName].Clone();
 
-                if ( oldImage != null )
+                if (oldImage!=null)
                 {
-                    oldImage.Dispose( );
+                    oldImage.Dispose();
                 }
 
-                ShowCurrentImageHistogram( );
-                UpdateImageSizeStatus( );
+                ShowCurrentImageHistogram();
+                UpdateImageSizeStatus();
             }
         }
 
         // Update status of menu items in Settings->Image view
-        private void imageviewToolStripMenuItem_DropDownOpening( object sender, EventArgs e )
+        private void imageviewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            normalToolStripMenuItem.Checked   = ( pictureBox.SizeMode == PictureBoxSizeMode.Normal );
-            centerToolStripMenuItem.Checked   = ( pictureBox.SizeMode == PictureBoxSizeMode.CenterImage );
-            stretchToolStripMenuItem.Checked  = ( pictureBox.SizeMode == PictureBoxSizeMode.StretchImage );
-            autoSizeToolStripMenuItem.Checked = ( pictureBox.SizeMode == PictureBoxSizeMode.AutoSize );
+            normalToolStripMenuItem.Checked=(pictureBox.SizeMode==PictureBoxSizeMode.Normal);
+            centerToolStripMenuItem.Checked=(pictureBox.SizeMode==PictureBoxSizeMode.CenterImage);
+            stretchToolStripMenuItem.Checked=(pictureBox.SizeMode==PictureBoxSizeMode.StretchImage);
+            autoSizeToolStripMenuItem.Checked=(pictureBox.SizeMode==PictureBoxSizeMode.AutoSize);
         }
 
         // Set Normal view for images
-        private void normalToolStripMenuItem_Click( object sender, EventArgs e )
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetPictureBoxSizeMode( PictureBoxSizeMode.Normal );
+            SetPictureBoxSizeMode(PictureBoxSizeMode.Normal);
         }
 
         // Set Centred view for images
-        private void centerToolStripMenuItem_Click( object sender, EventArgs e )
+        private void centerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetPictureBoxSizeMode( PictureBoxSizeMode.CenterImage );
+            SetPictureBoxSizeMode(PictureBoxSizeMode.CenterImage);
         }
 
         // Set Stretched view for images
-        private void stretchToolStripMenuItem_Click( object sender, EventArgs e )
+        private void stretchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetPictureBoxSizeMode( PictureBoxSizeMode.StretchImage );
+            SetPictureBoxSizeMode(PictureBoxSizeMode.StretchImage);
         }
 
         // Set Auto Size view for image
-        private void autoSizeToolStripMenuItem_Click( object sender, EventArgs e )
+        private void autoSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetPictureBoxSizeMode( PictureBoxSizeMode.AutoSize );
+            SetPictureBoxSizeMode(PictureBoxSizeMode.AutoSize);
         }
 
         // Set size mode for picture box
-        private void SetPictureBoxSizeMode( PictureBoxSizeMode sizeMode )
+        private void SetPictureBoxSizeMode(PictureBoxSizeMode sizeMode)
         {
-            if ( sizeMode == PictureBoxSizeMode.AutoSize )
+            if (sizeMode==PictureBoxSizeMode.AutoSize)
             {
-                pictureBox.Dock = DockStyle.None;
-                pictureBox.Location = new System.Drawing.Point( 0, 0 );
-                splitContainer2.Panel1.AutoScroll = true;
+                pictureBox.Dock=DockStyle.None;
+                pictureBox.Location=new System.Drawing.Point(0, 0);
+                splitContainer2.Panel1.AutoScroll=true;
             }
             else
             {
-                pictureBox.Dock = DockStyle.Fill;
-                splitContainer2.Panel1.AutoScroll = false;
+                pictureBox.Dock=DockStyle.Fill;
+                splitContainer2.Panel1.AutoScroll=false;
             }
 
-            pictureBox.SizeMode = sizeMode;
+            pictureBox.SizeMode=sizeMode;
         }
 
         // Switch option for openning last folder on application load
-        private void openLastFolderOnStartToolStripMenuItem_Click( object sender, EventArgs e )
+        private void openLastFolderOnStartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openLastFolderOnStartToolStripMenuItem.Checked = !openLastFolderOnStartToolStripMenuItem.Checked;
+            openLastFolderOnStartToolStripMenuItem.Checked=!openLastFolderOnStartToolStripMenuItem.Checked;
         }
 
         // Show about form
-        private void aboutToolStripMenuItem_Click( object sender, EventArgs e )
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AboutForm form = new AboutForm( );
+            var form = new AboutForm();
 
-            form.ShowDialog( );
+            form.ShowDialog();
         }
 
         // Copy current image to clipboard
-        private void copyImageClipboardToolStripMenuItem_Click( object sender, EventArgs e )
+        private void copyImageClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ( pictureBox.Image != null )
+            if (pictureBox.Image!=null)
             {
-                Clipboard.SetImage( pictureBox.Image );
+                Clipboard.SetImage(pictureBox.Image);
             }
         }
 
         // Update status of "copy to clipboard" menu item
-        private void toolsToolStripMenuItem_DropDownOpening( object sender, EventArgs e )
+        private void toolsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            copyImageClipboardToolStripMenuItem.Enabled = ( pictureBox.Image != null );
+            copyImageClipboardToolStripMenuItem.Enabled=(pictureBox.Image!=null);
         }
 
         // Show histogram window
-        private void showhistogramToolStripMenuItem_Click( object sender, EventArgs e )
+        private void showhistogramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ( histogramForm == null )
+            if (histogramForm==null)
             {
-                histogramForm = new HistogramForm( );
-                histogramForm.FormClosing += delegate( object eventSender, FormClosingEventArgs eventArgs )
-                {
-                    histogramForm = null;
-                };
+                histogramForm=new HistogramForm();
+                histogramForm.FormClosing+=delegate (object eventSender, FormClosingEventArgs eventArgs)
+              {
+                  histogramForm=null;
+              };
             }
 
-            histogramForm.Show( );
-            ShowCurrentImageHistogram( );
+            histogramForm.Show();
+            ShowCurrentImageHistogram();
         }
 
         // Show histomgram for 
-        private void ShowCurrentImageHistogram( )
+        private void ShowCurrentImageHistogram()
         {
-            if ( ( pictureBox.Image != null ) && ( histogramForm != null ) )
+            if ((pictureBox.Image!=null)&&(histogramForm!=null))
             {
-                histogramForm.SetImageStatistics( new ImageStatistics( (Bitmap) pictureBox.Image ) );
+                histogramForm.SetImageStatistics(new ImageStatistics((Bitmap)pictureBox.Image));
             }
         }
 
         // Update status label displaying number of available images
-        private void UpdateImageCountStatus( )
+        private void UpdateImageCountStatus()
         {
-            imagesCountLabel.Text = "Images: " + filesListView.Items.Count.ToString( );
+            imagesCountLabel.Text="Images: "+filesListView.Items.Count.ToString();
         }
 
         // Update staus label displaying processing time of last routine
-        private void UpdateProcessingTimeStatus( long msTime )
+        private void UpdateProcessingTimeStatus(long msTime)
         {
-            double sTime = (double) msTime / 1000;
+            var sTime = (double)msTime/1000;
 
-            processingTimeLabel.Text = string.Format( "Processing time: {0}s", sTime.ToString( "F3" ) );
+            processingTimeLabel.Text=string.Format("Processing time: {0}s", sTime.ToString("F3"));
         }
 
         // Update status label displaying size of selected image
-        private void UpdateImageSizeStatus( )
+        private void UpdateImageSizeStatus()
         {
-            if ( pictureBox.Image != null )
+            if (pictureBox.Image!=null)
             {
-                imageSizeLabel.Text = string.Format( "Image size: {0}x{1}",
-                    pictureBox.Image.Width, pictureBox.Image.Height );
+                imageSizeLabel.Text=string.Format("Image size: {0}x{1}",
+                    pictureBox.Image.Width, pictureBox.Image.Height);
             }
             else
             {
-                imageSizeLabel.Text = string.Empty;
+                imageSizeLabel.Text=string.Empty;
             }
         }
 
         // Resize columns of file list view and log list view
-        private void mainSplitContainer_Panel1_Resize( object sender, EventArgs e )
+        private void mainSplitContainer_Panel1_Resize(object sender, EventArgs e)
         {
-            if ( fileNameColumn != null )
+            if (fileNameColumn!=null)
             {
-                fileNameColumn.Width = filesListView.Width - 24;
+                fileNameColumn.Width=filesListView.Width-24;
             }
-            if ( processingStepsColumn != null )
+            if (processingStepsColumn!=null)
             {
-                processingStepsColumn.Width = logListView.Width - 24;
+                processingStepsColumn.Width=logListView.Width-24;
             }
         }
     }

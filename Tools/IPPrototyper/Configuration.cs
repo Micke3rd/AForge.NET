@@ -8,9 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace IPPrototyper
@@ -21,7 +20,7 @@ namespace IPPrototyper
         private static Configuration singleton = null;
 
         // list of configuration options
-        private Dictionary<string, string> options = new Dictionary<string, string>( );
+        private Dictionary<string, string> options = new Dictionary<string, string>();
 
         private const string configFolderName = "AForge";
         private const string baseConfigFileName = "ipprototyper.cfg";
@@ -40,12 +39,12 @@ namespace IPPrototyper
         }
 
         // Disable making class instances
-        private Configuration( )
+        private Configuration()
         {
-            configFileName = Path.Combine(
-                Environment.GetFolderPath( Environment.SpecialFolder.LocalApplicationData ),
-                configFolderName );
-            configFileName = Path.Combine( configFileName, baseConfigFileName );
+            configFileName=Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                configFolderName);
+            configFileName=Path.Combine(configFileName, baseConfigFileName);
         }
 
         // Get instance of the configuration storage
@@ -53,76 +52,78 @@ namespace IPPrototyper
         {
             get
             {
-                if ( singleton == null )
+                if (singleton==null)
                 {
-                    singleton = new Configuration( );
+                    singleton=new Configuration();
                 }
                 return singleton;
             }
         }
 
         // Set configuration option's value to store
-        public void SetConfigurationOption( string option, string value )
+        public void SetConfigurationOption(string option, string value)
         {
-            if ( options.ContainsKey( option ) )
+            if (options.ContainsKey(option))
             {
-                options[option] = value;
+                options[option]=value;
             }
             else
             {
-                options.Add( option, value );
+                options.Add(option, value);
             }
         }
 
         // Get value of configuration option
-        public string GetConfigurationOption( string option )
+        public string GetConfigurationOption(string option)
         {
-            return ( options.ContainsKey( option ) ) ? options[option] : null;
+            return (options.ContainsKey(option)) ? options[option] : null;
         }
 
         // Save application's configuration
-        public void Save( )
+        public void Save()
         {
-            lock ( baseConfigFileName )
+            lock (baseConfigFileName)
             {
                 // make sure directory exists
-                Directory.CreateDirectory( Path.GetDirectoryName( configFileName ) );
+                Directory.CreateDirectory(Path.GetDirectoryName(configFileName));
 
                 // open file
-                FileStream fs = new FileStream( configFileName, FileMode.Create );
+                var fs = new FileStream(configFileName, FileMode.Create);
                 // create XML writer
-                XmlTextWriter xmlOut = new XmlTextWriter( fs, Encoding.UTF8 );
+                var xmlOut = new XmlTextWriter(fs, Encoding.UTF8)
+                {
 
-                // use indenting for readability
-                xmlOut.Formatting = Formatting.Indented;
+                    // use indenting for readability
+                    Formatting=Formatting.Indented
+                };
 
                 // start document
-                xmlOut.WriteStartDocument( );
-                xmlOut.WriteComment( "IPPrototyper configuration file" );
+                xmlOut.WriteStartDocument();
+                xmlOut.WriteComment("IPPrototyper configuration file");
 
                 // main node
-                xmlOut.WriteStartElement( mainTag );
+                xmlOut.WriteStartElement(mainTag);
 
                 // save configuration options
-                xmlOut.WriteStartElement( optionsTag );
-                SaveOptions( xmlOut );
-                xmlOut.WriteEndElement( );
+                xmlOut.WriteStartElement(optionsTag);
+                SaveOptions(xmlOut);
+                xmlOut.WriteEndElement();
 
-                xmlOut.WriteEndElement( ); // end of main node
+                xmlOut.WriteEndElement(); // end of main node
                 // close file
-                xmlOut.Close( );
+                xmlOut.Close();
             }
         }
 
         // Load application's configration
-        public bool Load( )
+        public bool Load()
         {
-            isSuccessfullyLoaded = false;
+            isSuccessfullyLoaded=false;
 
-            lock ( baseConfigFileName )
+            lock (baseConfigFileName)
             {
                 // check file existance
-                if ( File.Exists( configFileName ) )
+                if (File.Exists(configFileName))
                 {
                     FileStream fs = null;
                     XmlTextReader xmlIn = null;
@@ -130,50 +131,51 @@ namespace IPPrototyper
                     try
                     {
                         // open file
-                        fs = new FileStream( configFileName, FileMode.Open );
+                        fs=new FileStream(configFileName, FileMode.Open);
                         // create XML reader
-                        xmlIn = new XmlTextReader( fs );
-
-                        xmlIn.WhitespaceHandling = WhitespaceHandling.None;
-                        xmlIn.MoveToContent( );
+                        xmlIn=new XmlTextReader(fs)
+                        {
+                            WhitespaceHandling=WhitespaceHandling.None
+                        };
+                        xmlIn.MoveToContent();
 
                         // check main node
-                        if ( xmlIn.Name != mainTag )
-                            throw new ApplicationException( );
+                        if (xmlIn.Name!=mainTag)
+                            throw new ApplicationException();
 
                         // move to next node
-                        xmlIn.Read( );
+                        xmlIn.Read();
 
-                        while ( true )
+                        while (true)
                         {
                             // ignore anything if it is not under main tag
-                            while ( ( xmlIn.Depth > 1 ) || (
-                                    ( xmlIn.Depth == 1 ) && ( xmlIn.NodeType != XmlNodeType.Element ) ) )
+                            while ((xmlIn.Depth>1)||(
+                                    (xmlIn.Depth==1)&&(xmlIn.NodeType!=XmlNodeType.Element)))
                             {
-                                xmlIn.Read( );
+                                xmlIn.Read();
                             }
 
                             // break if end element is reached
-                            if ( xmlIn.Depth == 0 )
+                            if (xmlIn.Depth==0)
                                 break;
 
-                            int tagStartLineNummber = xmlIn.LineNumber;
+                            var tagStartLineNummber = xmlIn.LineNumber;
 
-                            switch ( xmlIn.Name )
+                            switch (xmlIn.Name)
                             {
                                 case optionsTag:
-                                    LoadOptions( xmlIn );
+                                    LoadOptions(xmlIn);
                                     break;
                             }
 
                             // read to the next node, if loader did not move any further
-                            if ( xmlIn.LineNumber == tagStartLineNummber )
+                            if (xmlIn.LineNumber==tagStartLineNummber)
                             {
-                                xmlIn.Read( );
+                                xmlIn.Read();
                             }
                         }
 
-                        isSuccessfullyLoaded = true;
+                        isSuccessfullyLoaded=true;
                         // ignore the rest
                     }
                     catch
@@ -181,8 +183,8 @@ namespace IPPrototyper
                     }
                     finally
                     {
-                        if ( xmlIn != null )
-                            xmlIn.Close( );
+                        if (xmlIn!=null)
+                            xmlIn.Close();
                     }
                 }
             }
@@ -191,43 +193,43 @@ namespace IPPrototyper
         }
 
         // Save configuration options
-        private void SaveOptions( XmlTextWriter xmlOut )
+        private void SaveOptions(XmlTextWriter xmlOut)
         {
-            foreach ( KeyValuePair<string, string> kvp in options )
+            foreach (var kvp in options)
             {
-                xmlOut.WriteStartElement( kvp.Key );
-                xmlOut.WriteString( kvp.Value );
-                xmlOut.WriteEndElement( );
+                xmlOut.WriteStartElement(kvp.Key);
+                xmlOut.WriteString(kvp.Value);
+                xmlOut.WriteEndElement();
             }
         }
 
         // Load configuration options
-        private void LoadOptions( XmlTextReader xmlIn )
+        private void LoadOptions(XmlTextReader xmlIn)
         {
-            options.Clear( );
+            options.Clear();
             // read to the first node
-            xmlIn.Read( );
+            xmlIn.Read();
 
-            int startingDept = xmlIn.Depth;
+            var startingDept = xmlIn.Depth;
 
-            while ( ( xmlIn.NodeType == XmlNodeType.Element ) && ( xmlIn.Depth == startingDept ) )
+            while ((xmlIn.NodeType==XmlNodeType.Element)&&(xmlIn.Depth==startingDept))
             {
-                string option = xmlIn.Name;
+                var option = xmlIn.Name;
                 string value = null;
 
-                if ( !xmlIn.IsEmptyElement )
+                if (!xmlIn.IsEmptyElement)
                 {
                     // read to the content
-                    xmlIn.Read( );
+                    xmlIn.Read();
                     // read content as string
-                    value = xmlIn.ReadString( );
+                    value=xmlIn.ReadString();
 
                     // add the value to options list
-                    options.Add( option, value );
+                    options.Add(option, value);
                 }
 
                 // read to the next option
-                xmlIn.Read( );
+                xmlIn.Read();
             }
         }
     }

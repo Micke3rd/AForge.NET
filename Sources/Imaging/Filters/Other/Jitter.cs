@@ -11,176 +11,176 @@
 
 namespace AForge.Imaging.Filters
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Drawing;
-	using System.Drawing.Imaging;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
 
-	/// <summary>
-	/// Jitter filter.
-	/// </summary>
-	/// 
-	/// <remarks><para>The filter moves each pixel of a source image in
-	/// random direction within a window of specified <see cref="Radius">radius</see>.</para>
-	/// 
-	/// <para>The filter accepts 8 bpp grayscale images and 24/32
-	/// color images for processing.</para>
-	/// 
-	/// <para>Sample usage:</para>
-	/// <code>
-	/// // create filter
-	/// Jitter filter = new Jitter( 4 );
-	/// // apply the filter
-	/// filter.ApplyInPlace( image );
-	/// </code>
-	/// 
-	/// <para><b>Initial image:</b></para>
-	/// <img src="img/imaging/sample1.jpg" width="480" height="361" />
-	/// <para><b>Result image:</b></para>
-	/// <img src="img/imaging/jitter.jpg" width="480" height="361" />
-	/// </remarks>
-	/// 
-	public class Jitter : BaseUsingCopyPartialFilter
-	{
-		private int radius = 2;
+    /// <summary>
+    /// Jitter filter.
+    /// </summary>
+    /// 
+    /// <remarks><para>The filter moves each pixel of a source image in
+    /// random direction within a window of specified <see cref="Radius">radius</see>.</para>
+    /// 
+    /// <para>The filter accepts 8 bpp grayscale images and 24/32
+    /// color images for processing.</para>
+    /// 
+    /// <para>Sample usage:</para>
+    /// <code>
+    /// // create filter
+    /// Jitter filter = new Jitter( 4 );
+    /// // apply the filter
+    /// filter.ApplyInPlace( image );
+    /// </code>
+    /// 
+    /// <para><b>Initial image:</b></para>
+    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <para><b>Result image:</b></para>
+    /// <img src="img/imaging/jitter.jpg" width="480" height="361" />
+    /// </remarks>
+    /// 
+    public class Jitter : BaseUsingCopyPartialFilter
+    {
+        private int radius = 2;
 
-		// random number generator
-		private Random rand = new Random();
+        // random number generator
+        private Random rand = new Random();
 
-		// private format translation dictionary
-		private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
+        // private format translation dictionary
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
-		/// <summary>
-		/// Format translations dictionary.
-		/// </summary>
-		/// 
-		/// <remarks><para>See <see cref="IFilterInformation.FormatTranslations"/>
-		/// documentation for additional information.</para></remarks>
-		/// 
-		public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
-		{
-			get { return formatTranslations; }
-		}
+        /// <summary>
+        /// Format translations dictionary.
+        /// </summary>
+        /// 
+        /// <remarks><para>See <see cref="IFilterInformation.FormatTranslations"/>
+        /// documentation for additional information.</para></remarks>
+        /// 
+        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
+        {
+            get { return formatTranslations; }
+        }
 
-		/// <summary>
-		/// Jittering radius, [1, 10]
-		/// </summary>
-		/// 
-		/// <remarks><para>Determines radius in which pixels can move.</para>
-		/// 
-		/// <para>Default value is set to <b>2</b>.</para>
-		/// </remarks>
-		/// 
-		public int Radius
-		{
-			get { return radius; }
-			set { radius = System.Math.Max(1, System.Math.Min(10, value)); }
-		}
+        /// <summary>
+        /// Jittering radius, [1, 10]
+        /// </summary>
+        /// 
+        /// <remarks><para>Determines radius in which pixels can move.</para>
+        /// 
+        /// <para>Default value is set to <b>2</b>.</para>
+        /// </remarks>
+        /// 
+        public int Radius
+        {
+            get { return radius; }
+            set { radius=System.Math.Max(1, System.Math.Min(10, value)); }
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Jitter"/> class.
-		/// </summary>
-		public Jitter()
-		{
-			formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-			formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
-			formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
-			formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Jitter"/> class.
+        /// </summary>
+        public Jitter()
+        {
+            formatTranslations[PixelFormat.Format8bppIndexed]=PixelFormat.Format8bppIndexed;
+            formatTranslations[PixelFormat.Format24bppRgb]=PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb]=PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb]=PixelFormat.Format32bppArgb;
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Jitter"/> class.
-		/// </summary>
-		/// 
-		/// <param name="radius">Jittering radius.</param>
-		/// 
-		public Jitter(int radius) : this()
-		{
-			Radius = radius;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Jitter"/> class.
+        /// </summary>
+        /// 
+        /// <param name="radius">Jittering radius.</param>
+        /// 
+        public Jitter(int radius) : this()
+        {
+            Radius=radius;
+        }
 
-		/// <summary>
-		/// Process the filter on the specified image.
-		/// </summary>
-		/// 
-		/// <param name="source">Source image data.</param>
-		/// <param name="destination">Destination image data.</param>
-		/// <param name="rect">Image rectangle for processing by the filter.</param>
-		/// 
-		protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
-		{
-			var pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8;
+        /// <summary>
+        /// Process the filter on the specified image.
+        /// </summary>
+        /// 
+        /// <param name="source">Source image data.</param>
+        /// <param name="destination">Destination image data.</param>
+        /// <param name="rect">Image rectangle for processing by the filter.</param>
+        /// 
+        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
+        {
+            var pixelSize = Image.GetPixelFormatSize(source.PixelFormat)/8;
 
-			// processing start and stop X,Y positions
-			var startX = rect.Left;
-			var startY = rect.Top;
-			var stopX = startX + rect.Width;
-			var stopY = startY + rect.Height;
+            // processing start and stop X,Y positions
+            var startX = rect.Left;
+            var startY = rect.Top;
+            var stopX = startX+rect.Width;
+            var stopY = startY+rect.Height;
 
-			var srcStride = source.Stride;
-			var dstStride = destination.Stride;
-			var dstOffset = dstStride - rect.Width * pixelSize;
+            var srcStride = source.Stride;
+            var dstStride = destination.Stride;
+            var dstOffset = dstStride-rect.Width*pixelSize;
 
-			// new pixel's position
-			int ox, oy;
+            // new pixel's position
+            int ox, oy;
 
-			// maximum value for random number generator
-			var max = radius * 2 + 1;
+            // maximum value for random number generator
+            var max = radius*2+1;
 
-			var src = (byte*)source.ImageData.ToPointer();
-			var dst = (byte*)destination.ImageData.ToPointer();
-			byte* p;
+            var src = (byte*)source.ImageData.ToPointer();
+            var dst = (byte*)destination.ImageData.ToPointer();
+            byte* p;
 
-			// copy source to destination before
-			if (srcStride == dstStride)
-			{
-				AForge.SystemTools.CopyUnmanagedMemory(dst, src, srcStride * source.Height);
-			}
-			else
-			{
-				var len = source.Width * pixelSize;
+            // copy source to destination before
+            if (srcStride==dstStride)
+            {
+                AForge.SystemTools.CopyUnmanagedMemory(dst, src, srcStride*source.Height);
+            }
+            else
+            {
+                var len = source.Width*pixelSize;
 
-				for (int y = 0, heigh = source.Height; y < heigh; y++)
-				{
-					AForge.SystemTools.CopyUnmanagedMemory(
-						dst + dstStride * y, src + srcStride * y, len);
-				}
-			}
+                for (int y = 0, heigh = source.Height; y<heigh; y++)
+                {
+                    AForge.SystemTools.CopyUnmanagedMemory(
+                        dst+dstStride*y, src+srcStride*y, len);
+                }
+            }
 
-			// allign pointer to the first pixel to process
-			dst += (startY * dstStride + startX * pixelSize);
+            // allign pointer to the first pixel to process
+            dst+=(startY*dstStride+startX*pixelSize);
 
-			// Note:
-			// It is possible to speed-up this filter creating separate
-			// loops for RGB and grayscale images.
+            // Note:
+            // It is possible to speed-up this filter creating separate
+            // loops for RGB and grayscale images.
 
-			// for each line
-			for (var y = startY; y < stopY; y++)
-			{
-				// for each pixel
-				for (var x = startX; x < stopX; x++)
-				{
-					// generate radnom pixel's position
-					ox = x + rand.Next(max) - radius;
-					oy = y + rand.Next(max) - radius;
+            // for each line
+            for (var y = startY; y<stopY; y++)
+            {
+                // for each pixel
+                for (var x = startX; x<stopX; x++)
+                {
+                    // generate radnom pixel's position
+                    ox=x+rand.Next(max)-radius;
+                    oy=y+rand.Next(max)-radius;
 
-					// check if the random pixel is inside our image
-					if ((ox >= startX) && (oy >= startY) && (ox < stopX) && (oy < stopY))
-					{
-						p = src + oy * srcStride + ox * pixelSize;
+                    // check if the random pixel is inside our image
+                    if ((ox>=startX)&&(oy>=startY)&&(ox<stopX)&&(oy<stopY))
+                    {
+                        p=src+oy*srcStride+ox*pixelSize;
 
-						for (var i = 0; i < pixelSize; i++, dst++, p++)
-						{
-							*dst = *p;
-						}
-					}
-					else
-					{
-						dst += pixelSize;
-					}
-				}
-				dst += dstOffset;
-			}
-		}
-	}
+                        for (var i = 0; i<pixelSize; i++, dst++, p++)
+                        {
+                            *dst=*p;
+                        }
+                    }
+                    else
+                    {
+                        dst+=pixelSize;
+                    }
+                }
+                dst+=dstOffset;
+            }
+        }
+    }
 }
