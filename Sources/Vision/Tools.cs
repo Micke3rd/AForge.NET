@@ -8,23 +8,23 @@
 
 namespace AForge.Vision
 {
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
-    using System.Drawing.Imaging;
+	using AForge.Imaging;
+	using AForge.Imaging.Filters;
+	using System.Drawing.Imaging;
 
-    internal static class Tools
-    {
-        // Get grayscale image out of the specified one
-        public static void ConvertToGrayscale(UnmanagedImage source, UnmanagedImage destination)
-        {
-            if (source.PixelFormat!=PixelFormat.Format8bppIndexed)
-            {
-                Grayscale.CommonAlgorithms.BT709.Apply(source, destination);
-            }
-            else
-            {
-                source.Copy(destination);
-            }
-        }
-    }
+	internal static class Tools
+	{
+		// Get grayscale image out of the specified one
+		public static void ConvertToGrayscale(UnmanagedImage source,UnmanagedImage destination)
+		{
+			if (source.PixelFormat != PixelFormat.Format8bppIndexed)
+			{
+				Grayscale.CommonAlgorithms.BT709.Apply(source,destination);
+			}
+			else
+			{
+				source.Copy(destination);
+			}
+		}
+	}
 }

@@ -2,20 +2,20 @@
 
 namespace FuzzyAGV
 {
-    public partial class AboutForm : Form
-    {
-        public AboutForm()
-        {
-            InitializeComponent();
+	public partial class AboutForm: Form
+	{
+		public AboutForm()
+		{
+			InitializeComponent();
 
-            // initialize links
-            emailLabel.Links.Add(0, emailLabel.Text.Length, "mailto:"+emailLabel.Text);
-            aforgeFrameworkLabel.Links.Add(0, aforgeFrameworkLabel.Text.Length, aforgeFrameworkLabel.Text);
-        }
+			// initialize links
+			emailLabel.Links.Add(0,emailLabel.Text.Length,"mailto:" + emailLabel.Text);
+			aforgeFrameworkLabel.Links.Add(0,aforgeFrameworkLabel.Text.Length,aforgeFrameworkLabel.Text);
+		}
 
-        private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-        }
-    }
+		private void LinkClicked(object sender,LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+		}
+	}
 }
