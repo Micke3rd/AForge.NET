@@ -1107,7 +1107,7 @@ namespace AForge.Robotics.Lego
 		{
 			if ((data.Length == 0) || (data.Length > 16))
 			{
-				throw new ArgumentException("Data length must be in the [1..16] range.","data");
+				throw new ArgumentException("Data length must be in the [1..16] range.",nameof(data));
 			}
 
 			var command = new byte[5 + data.Length];

@@ -490,7 +490,7 @@ namespace AForge.Math
 		public Vector4 GetRow(int index)
 		{
 			if ((index < 0) || (index > 3))
-				throw new ArgumentException("Invalid row index was specified.","index");
+				throw new ArgumentException("Invalid row index was specified.",nameof(index));
 
 			return (index == 0) ? new Vector4(V00,V01,V02,V03) :
 				   (index == 1) ? new Vector4(V10,V11,V12,V13) :
@@ -510,7 +510,7 @@ namespace AForge.Math
 		public Vector4 GetColumn(int index)
 		{
 			if ((index < 0) || (index > 3))
-				throw new ArgumentException("Invalid column index was specified.","index");
+				throw new ArgumentException("Invalid column index was specified.",nameof(index));
 
 			return (index == 0) ? new Vector4(V00,V10,V20,V30) :
 				   (index == 1) ? new Vector4(V01,V11,V21,V31) :

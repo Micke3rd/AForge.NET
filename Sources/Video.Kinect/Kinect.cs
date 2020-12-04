@@ -284,7 +284,7 @@ namespace AForge.Video.Kinect
 				// check if value is in valid range
 				if ((angle < -31) || (angle > 31))
 				{
-					throw new ArgumentOutOfRangeException("angle","Motor tilt has to be in the [-31, 31] range.");
+					throw new ArgumentOutOfRangeException(nameof(angle),"Motor tilt has to be in the [-31, 31] range.");
 				}
 
 				var result = KinectNative.freenect_set_tilt_degs(rawDevice,angle);

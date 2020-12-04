@@ -183,7 +183,7 @@ namespace AForge.Math.Geometry
 		{
 			if (radius < 0)
 			{
-				throw new ArgumentOutOfRangeException("radius",radius,"Must be non-negative");
+				throw new ArgumentOutOfRangeException(nameof(radius),radius,"Must be non-negative");
 			}
 
 			theta *= (float)(System.Math.PI / 180);

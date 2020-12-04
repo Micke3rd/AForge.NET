@@ -59,7 +59,7 @@ namespace AForge.Video.DirectShow
 		static internal VideoCapabilities[] FromStreamConfig(IAMStreamConfig videoStreamConfig)
 		{
 			if (videoStreamConfig == null)
-				throw new ArgumentNullException("videoStreamConfig");
+				throw new ArgumentNullException(nameof(videoStreamConfig));
 
 			// ensure this device reports capabilities
 			int count, size;
