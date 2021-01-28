@@ -3,13 +3,9 @@
     
     <OutputType>WinExe</OutputType><UseWindowsForms>true</UseWindowsForms>
     
+  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Sources\Core\Core.csproj" />
     <ProjectReference Include="..\..\..\..\Sources\Neuro\Neuro.csproj" />
