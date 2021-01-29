@@ -544,7 +544,7 @@ namespace AForge.Imaging.Formats
 		}
 
 		// Read image frame from the specified stream (current stream's position is used)
-		private unsafe Bitmap ReadImageFrame(Stream stream,FITSImageInfo imageInfo)
+		private static unsafe Bitmap ReadImageFrame(Stream stream,FITSImageInfo imageInfo)
 		{
 			var width = imageInfo.Width;
 			var height = imageInfo.Height;
@@ -674,7 +674,7 @@ namespace AForge.Imaging.Formats
 		}
 
 		// Extract integer value from string representation of value/comments
-		private int ExtractIntegerValue(string strValue)
+		private static int ExtractIntegerValue(string strValue)
 		{
 			try
 			{
@@ -690,7 +690,7 @@ namespace AForge.Imaging.Formats
 		}
 
 		// Extract string value
-		private string ExtractStringValue(string strValue)
+		private static string ExtractStringValue(string strValue)
 		{
 			// split value from comment
 			var strs = strValue.Split('/');

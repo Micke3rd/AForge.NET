@@ -99,7 +99,7 @@ namespace AForge.Imaging.ColorReduction
 		}
 
 		// Split specified list of cubes into smaller cubes until the list gets the specified size
-		private void SplitCubes(List<MedianCutCube> cubes,int count)
+		private static void SplitCubes(List<MedianCutCube> cubes,int count)
 		{
 			var cubeIndexToSplit = cubes.Count - 1;
 

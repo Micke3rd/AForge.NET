@@ -320,7 +320,7 @@ namespace AForge.Math.Tests
 			var inverse = matrix.Inverse();
 			var identity = matrix * inverse;
 
-			Assert.AreEqual(true,ApproximateEquals(identity,Matrix3x3.Identity));
+			Assert.AreEqual(true, ApproximateEquals(identity,Matrix3x3.Identity));
 		}
 
 		[TestMethod]
@@ -343,7 +343,7 @@ namespace AForge.Math.Tests
 
 			var result = a1 + a2;
 
-			Assert.AreEqual(true,ApproximateEquals(result,expectedResult));
+			Assert.AreEqual(true, ApproximateEquals(result,expectedResult));
 		}
 
 		[TestMethod]
@@ -366,7 +366,7 @@ namespace AForge.Math.Tests
 
 			var result = a1 - a2;
 
-			Assert.AreEqual(true,ApproximateEquals(result,expectedResult));
+			Assert.AreEqual(true, ApproximateEquals(result,expectedResult));
 		}
 
 		[TestMethod]
@@ -389,10 +389,10 @@ namespace AForge.Math.Tests
 
 			var result = a1 * a2;
 
-			Assert.AreEqual(true,ApproximateEquals(result,expectedResult));
+			Assert.AreEqual(true, ApproximateEquals(result,expectedResult));
 		}
 
-		private void CompareMatrixWithArray(Matrix3x3 matrix,float[] array)
+		private static void CompareMatrixWithArray(Matrix3x3 matrix,float[] array)
 		{
 			var matrixArray = matrix.ToArray();
 
@@ -402,7 +402,7 @@ namespace AForge.Math.Tests
 			}
 		}
 
-		private bool ApproximateEquals(Matrix3x3 matrix1,Matrix3x3 matrix2)
+		private static bool ApproximateEquals(Matrix3x3 matrix1,Matrix3x3 matrix2)
 		{
 			// TODO: better algorithm should be put into the framework actually
 			return (

@@ -409,7 +409,7 @@ namespace PoseEstimation
 			}
 		}
 
-		private AForge.Point[] PerformProjection(Vector3[] model,Matrix4x4 transformationMatrix,int viewSize)
+		private static AForge.Point[] PerformProjection(Vector3[] model,Matrix4x4 transformationMatrix,int viewSize)
 		{
 			var projectedPoints = new AForge.Point[model.Length];
 

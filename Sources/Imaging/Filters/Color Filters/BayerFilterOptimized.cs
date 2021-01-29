@@ -134,7 +134,7 @@ namespace AForge.Imaging.Filters
 		}
 
 		#region GRBG pattern
-		private unsafe void ApplyGRBG(UnmanagedImage sourceData,UnmanagedImage destinationData)
+		private static unsafe void ApplyGRBG(UnmanagedImage sourceData,UnmanagedImage destinationData)
 		{
 			var width = sourceData.Width;
 			var height = sourceData.Height;
@@ -353,7 +353,7 @@ namespace AForge.Imaging.Filters
 		#endregion
 
 		#region BGGR pattern
-		private unsafe void ApplyBGGR(UnmanagedImage sourceData,UnmanagedImage destinationData)
+		private static unsafe void ApplyBGGR(UnmanagedImage sourceData,UnmanagedImage destinationData)
 		{
 			var width = sourceData.Width;
 			var height = sourceData.Height;

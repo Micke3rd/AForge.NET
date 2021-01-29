@@ -35,7 +35,7 @@ namespace TSP
 		/// <summary>
 		/// Translate genotype to phenotype 
 		/// </summary>
-		public object Translate(IChromosome chromosome)
+		public static object Translate(IChromosome chromosome)
 		{
 			return chromosome.ToString();
 		}

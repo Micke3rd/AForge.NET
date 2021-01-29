@@ -589,7 +589,7 @@ namespace FuzzyAGV
 		}
 
 		// Calculating distances
-		private int GetDistance(Point p1,Point p2)
+		private static int GetDistance(Point p1,Point p2)
 		{
 			return (Convert.ToInt32(System.Math.Sqrt(Math.Pow(p1.X - p2.X,2) + Math.Pow(p1.Y - p2.Y,2))));
 		}
@@ -619,7 +619,7 @@ namespace FuzzyAGV
 		}
 
 		// Copying bitmaps
-		private Bitmap CopyImage(Bitmap Src)
+		private static Bitmap CopyImage(Bitmap Src)
 		{
 			return new Bitmap(Src);
 		}

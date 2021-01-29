@@ -330,7 +330,7 @@ namespace AForge.Video.Kinect
 							success = true;
 							runningCameras.Add(deviceID);
 
-							device.AddFailureHandler(deviceID,Stop);
+							Kinect.AddFailureHandler(deviceID,Stop);
 						}
 						finally
 						{
@@ -394,7 +394,7 @@ namespace AForge.Video.Kinect
 				{
 					if (device != null)
 					{
-						var deviceFailed = device.IsDeviceFailed(deviceID);
+						var deviceFailed = Kinect.IsDeviceFailed(deviceID);
 
 						if (!deviceFailed)
 						{

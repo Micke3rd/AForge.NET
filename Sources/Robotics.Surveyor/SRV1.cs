@@ -1225,7 +1225,7 @@ namespace AForge.Robotics.Surveyor
 			}
 		}
 
-		private void DiscardIncomingData(Socket socket,ManualResetEvent stopEvent)
+		private static void DiscardIncomingData(Socket socket,ManualResetEvent stopEvent)
 		{
 			var buffer = new byte[100];
 

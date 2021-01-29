@@ -222,7 +222,7 @@ namespace AForge.Imaging
 			return PointsCloud.FindQuadrilateralCorners(points);
 		}
 
-		private void CheckPixelFormat(PixelFormat format)
+		private static void CheckPixelFormat(PixelFormat format)
 		{
 			// check image format
 			if (

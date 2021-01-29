@@ -292,7 +292,7 @@ namespace AForge.Imaging.Filters
 		/// <param name="outRange">Output range.</param>
 		/// <param name="map">Conversion map.</param>
 		/// 
-		private void CalculateMap(IntRange inRange,IntRange outRange,byte[] map)
+		private static void CalculateMap(IntRange inRange,IntRange outRange,byte[] map)
 		{
 			double k = 0, b = 0;
 

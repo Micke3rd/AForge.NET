@@ -248,7 +248,7 @@ namespace MotionDetectorSample
 		}
 
 		// Normalize points, so the first point will keep smaller coordinates
-		private void NormalizePoints(ref Point point1,ref Point point2)
+		private static void NormalizePoints(ref Point point1,ref Point point2)
 		{
 			var t1 = point1;
 			var t2 = point2;

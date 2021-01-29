@@ -164,11 +164,11 @@ namespace AForge.Math.Geometry.Tests
 
 			Assert.AreEqual(true,shapeChecker.IsQuadrilateral(square1,out corners));
 			Assert.AreEqual(4,corners.Count);
-			Assert.AreEqual(true,CompareShape(corners,square1Test));
+			Assert.AreEqual(true, CompareShape(corners,square1Test));
 
 			Assert.AreEqual(true,shapeChecker.IsQuadrilateral(square2,out corners));
 			Assert.AreEqual(4,corners.Count);
-			Assert.AreEqual(true,CompareShape(corners,square2Test));
+			Assert.AreEqual(true, CompareShape(corners,square2Test));
 		}
 
 		[TestMethod]
@@ -232,7 +232,7 @@ namespace AForge.Math.Geometry.Tests
 			Assert.AreEqual(ShapeType.Triangle,shapeChecker.CheckShapeType(rectangledTriangle));
 		}
 
-		private bool CompareShape(List<IntPoint> shape1,List<IntPoint> shape2)
+		private static bool CompareShape(List<IntPoint> shape1,List<IntPoint> shape2)
 		{
 			if (shape1.Count != shape2.Count)
 				return false;
@@ -265,7 +265,7 @@ namespace AForge.Math.Geometry.Tests
 			Assert.AreEqual(expectedSubType,shapeChecker.CheckPolygonSubType(GetListOfPointFromArray(corners)));
 		}
 
-		private List<IntPoint> GetListOfPointFromArray(int[] points)
+		private static List<IntPoint> GetListOfPointFromArray(int[] points)
 		{
 			var list = new List<IntPoint>();
 

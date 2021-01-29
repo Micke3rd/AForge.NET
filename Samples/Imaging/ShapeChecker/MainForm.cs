@@ -162,7 +162,7 @@ namespace ShapeChecker
 							pen = (corners.Count == 4) ? brownPen : greenPen;
 						}
 
-						g.DrawPolygon(pen,ToPointsArray(corners));
+						g.DrawPolygon(pen, ToPointsArray(corners));
 					}
 				}
 			}
@@ -214,7 +214,7 @@ namespace ShapeChecker
 		}
 
 		// Conver list of AForge.NET's points to array of .NET points
-		private System.Drawing.Point[] ToPointsArray(List<IntPoint> points)
+		private static System.Drawing.Point[] ToPointsArray(List<IntPoint> points)
 		{
 			var array = new System.Drawing.Point[points.Count];
 

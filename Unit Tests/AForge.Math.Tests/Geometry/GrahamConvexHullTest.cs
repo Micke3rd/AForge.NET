@@ -112,7 +112,7 @@ namespace AForge.Math.Geometry.Tests
 			}
 		}
 
-		private void ComparePointsLists(List<IntPoint> list1,List<IntPoint> list2)
+		private static void ComparePointsLists(List<IntPoint> list1,List<IntPoint> list2)
 		{
 			Assert.AreEqual(list1.Count,list2.Count);
 

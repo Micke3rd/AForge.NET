@@ -287,7 +287,7 @@ namespace AForge.Imaging.Formats
 		}
 
 		// Load P5 PGM image (grayscale PNM image with binary encoding)
-		private unsafe Bitmap ReadP5Image(Stream stream,int width,int height,int maxValue)
+		private static unsafe Bitmap ReadP5Image(Stream stream,int width,int height,int maxValue)
 		{
 			var scalingFactor = (double)255 / maxValue;
 
@@ -340,7 +340,7 @@ namespace AForge.Imaging.Formats
 		}
 
 		// Load P6 PPM image (color PNM image with binary encoding)
-		private unsafe Bitmap ReadP6Image(Stream stream,int width,int height,int maxValue)
+		private static unsafe Bitmap ReadP6Image(Stream stream,int width,int height,int maxValue)
 		{
 			var scalingFactor = (double)255 / maxValue;
 
@@ -438,7 +438,7 @@ namespace AForge.Imaging.Formats
 		// Read stream until space is found (space, new line, tab or comment). Returns
 		// number of bytes read. Stream's position will point to the next
 		// byte coming after the first found space byte.
-		private int ReadUntilSpace(Stream stream,byte[] buffer,int start)
+		private static int ReadUntilSpace(Stream stream,byte[] buffer,int start)
 		{
 			var nextByte = (byte)stream.ReadByte();
 			var bytesRead = 0;

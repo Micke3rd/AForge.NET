@@ -1381,7 +1381,7 @@ namespace AForge.Video.DirectShow
 		}
 
 		// Check if the filter can provide JPEG encoded images
-		private bool IsJpegEncodingAvailable(IBaseFilter baseFilter)
+		private static bool IsJpegEncodingAvailable(IBaseFilter baseFilter)
 		{
 			var ret = false;
 			IEnumPins pinEnum = null;
@@ -1435,7 +1435,7 @@ namespace AForge.Video.DirectShow
 		}
 
 		// Set resolution for the specified stream configuration
-		private void SetResolution(IAMStreamConfig streamConfig,VideoCapabilities resolution)
+		private static void SetResolution(IAMStreamConfig streamConfig,VideoCapabilities resolution)
 		{
 			if (resolution == null)
 			{
@@ -1599,7 +1599,7 @@ namespace AForge.Video.DirectShow
 		}
 
 		// Get type of input connected to video output of the crossbar
-		private VideoInput GetCurrentCrossbarInput(IAMCrossbar crossbar)
+		private static VideoInput GetCurrentCrossbarInput(IAMCrossbar crossbar)
 		{
 			var videoInput = VideoInput.Default;
 
@@ -1645,7 +1645,7 @@ namespace AForge.Video.DirectShow
 		}
 
 		// Set type of input connected to video output of the crossbar
-		private void SetCurrentCrossbarInput(IAMCrossbar crossbar,VideoInput videoInput)
+		private static void SetCurrentCrossbarInput(IAMCrossbar crossbar,VideoInput videoInput)
 		{
 			if (videoInput.Type != PhysicalConnectorType.Default)
 			{

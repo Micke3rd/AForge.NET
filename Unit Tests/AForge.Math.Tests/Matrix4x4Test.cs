@@ -335,7 +335,7 @@ namespace AForge.Math.Tests
 
 			var result = a1 + a2;
 
-			Assert.AreEqual(true,ApproximateEquals(result,expectedResult));
+			Assert.AreEqual(true, ApproximateEquals(result,expectedResult));
 		}
 
 		[TestMethod]
@@ -366,7 +366,7 @@ namespace AForge.Math.Tests
 
 			var result = a1 - a2;
 
-			Assert.AreEqual(true,ApproximateEquals(result,expectedResult));
+			Assert.AreEqual(true, ApproximateEquals(result,expectedResult));
 		}
 
 		[TestMethod]
@@ -397,10 +397,10 @@ namespace AForge.Math.Tests
 
 			var result = a1 * a2;
 
-			Assert.AreEqual(true,ApproximateEquals(result,expectedResult));
+			Assert.AreEqual(true, ApproximateEquals(result,expectedResult));
 		}
 
-		private void CompareMatrixWithArray(Matrix4x4 matrix,float[] array)
+		private static void CompareMatrixWithArray(Matrix4x4 matrix,float[] array)
 		{
 			var matrixArray = matrix.ToArray();
 
@@ -410,7 +410,7 @@ namespace AForge.Math.Tests
 			}
 		}
 
-		private bool ApproximateEquals(Matrix4x4 matrix1,Matrix4x4 matrix2)
+		private static bool ApproximateEquals(Matrix4x4 matrix1,Matrix4x4 matrix2)
 		{
 			// TODO: better algorithm should be put into the framework actually
 			return (

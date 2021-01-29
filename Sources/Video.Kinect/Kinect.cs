@@ -435,12 +435,12 @@ namespace AForge.Video.Kinect
 			}
 		}
 
-		internal bool IsDeviceFailed(int deviceID)
+		internal static bool IsDeviceFailed(int deviceID)
 		{
 			return ((openDevices.ContainsKey(deviceID)) && (openDevices[deviceID].DeviceFailed));
 		}
 
-		internal void AddFailureHandler(int deviceID,DeviceFailureHandler handler)
+		internal static void AddFailureHandler(int deviceID,DeviceFailureHandler handler)
 		{
 			if (openDevices.ContainsKey(deviceID))
 			{

@@ -162,7 +162,7 @@ namespace AForge.Genetic
 		/// </para>
 		/// </remarks>
 		///
-		public string Translate(IChromosome chromosome)
+		public static string Translate(IChromosome chromosome)
 		{
 			// return polish notation for now ...
 			return chromosome.ToString();

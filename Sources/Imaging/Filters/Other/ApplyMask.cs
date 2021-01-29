@@ -241,7 +241,7 @@ namespace AForge.Imaging.Filters
 			}
 		}
 
-		private unsafe void ProcessImage(UnmanagedImage image,Rectangle rect,byte* mask,int maskLineSize)
+		private static unsafe void ProcessImage(UnmanagedImage image,Rectangle rect,byte* mask,int maskLineSize)
 		{
 			var pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
 

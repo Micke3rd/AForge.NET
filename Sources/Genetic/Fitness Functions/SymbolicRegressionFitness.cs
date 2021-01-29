@@ -128,7 +128,7 @@ namespace AForge.Genetic
 		/// <remarks>The method returns string value, which represents approximation
 		/// expression written in polish postfix notation.</remarks>
 		///
-		public string Translate(IChromosome chromosome)
+		public static string Translate(IChromosome chromosome)
 		{
 			// return polish notation for now ...
 			return chromosome.ToString();

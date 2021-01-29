@@ -155,7 +155,7 @@ namespace AForge.Imaging.Filters
 		/// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported by the routine. It should be
 		/// 8 bpp grayscale (indexed) image.</exception>
 		/// 
-		public int CalculateThreshold(UnmanagedImage image,Rectangle rect)
+		public static int CalculateThreshold(UnmanagedImage image,Rectangle rect)
 		{
 			if (image.PixelFormat != PixelFormat.Format8bppIndexed)
 				throw new UnsupportedImageFormatException("Source pixel format is not supported by the routine.");
